@@ -5,7 +5,10 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
+import { Comment } from './comment.entity';
 import { Movie } from './movie.entity';
+import { Report } from './report.entity';
+import { Review } from './review.entity';
 import { Role } from './role.entity';
 
 export enum Gender {
@@ -50,4 +53,16 @@ export class User {
 
   @OneToMany(() => Movie, (m) => m.requestByUser)
   movieRequest: Movie[];
+
+  @ManyToOne(() => Report, (r) => r.byUser)
+  reports: Report[];
+
+  @ManyToOne(() => Report, (r) => r.targetUser)
+  reported: Report[];
+
+  @OneToMany(() => Review, (r) => r.user)
+  reviews: Review[];
+
+  @OneToMany(() => Comment, (c) => c.user)
+  comments: Comment[];
 }

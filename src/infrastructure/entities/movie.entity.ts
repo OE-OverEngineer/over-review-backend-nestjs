@@ -4,9 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   ManyToMany,
+  OneToMany,
 } from 'typeorm';
 import { Actor } from './actor.entity';
 import { Director } from './director.entity';
+import { Review } from './review.entity';
 import { User } from './user.entity';
 
 @Entity()
@@ -40,4 +42,7 @@ export class Movie {
 
   @Column()
   approve: boolean;
+
+  @OneToMany(() => Review, (r) => r.movie)
+  reviews: Review[];
 }
