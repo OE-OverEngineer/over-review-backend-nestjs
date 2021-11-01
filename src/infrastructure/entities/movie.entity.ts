@@ -1,12 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  ManyToMany,
+} from 'typeorm';
+import { Actor } from './actor.entity';
+import { Director } from './director.entity';
+import { User } from './user.entity';
 
 @Entity()
-export class Todo {
+export class Movie {
   @PrimaryGeneratedColumn({ type: 'integer' })
   id: number;
 
-  @Column()
-  directorId: number;
+  @ManyToOne(() => Director, (d) => d.movies)
+  director: Director;
+
+  @ManyToMany(() => Actor, (a) => a.movies)
+  actors: Actor[];
 
   @Column()
   title: string;
@@ -23,8 +35,8 @@ export class Todo {
   @Column()
   trailerLink: string;
 
-  @Column()
-  requestByUserId: number;
+  @ManyToOne(() => User, (u) => u.movieRequest)
+  requestByUser: User;
 
   @Column()
   approve: boolean;

@@ -1,12 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { Movie } from './movie.entity';
+import { Role } from './role.entity';
+
+export enum Gender {
+  Male,
+  Female,
+}
 
 @Entity()
-export class Todo {
+export class User {
   @PrimaryGeneratedColumn({ type: 'integer' })
   id: number;
 
-  @Column()
-  roleId: number;
+  @ManyToOne(() => Role, (r) => r.users)
+  role: Role;
 
   @Column()
   email: string;
@@ -24,14 +37,17 @@ export class Todo {
   displayName: string;
 
   @Column()
-  avartar: number;
+  avatar: number;
 
   @Column()
   birthDate: Date;
 
-  @Column()
-  gender: 'f' | 'm';
+  @Column({ type: 'enum', enum: Gender })
+  gender: Gender;
 
   @Column()
   banned: boolean;
+
+  @OneToMany(() => Movie, (m) => m.requestByUser)
+  movieRequest: Movie[];
 }
