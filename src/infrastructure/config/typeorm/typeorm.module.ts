@@ -15,7 +15,6 @@ export const getTypeOrmModuleOptions = (
     database: config.getDatabaseName(),
     entities: [__dirname + './../../**/*.entity{.ts,.js}'],
     synchronize: false,
-    schema: process.env.DATABASE_SCHEMA,
     ssl: {
       rejectUnauthorized: false,
     },

@@ -11,11 +11,6 @@ import { Report } from './report.entity';
 import { Review } from './review.entity';
 import { Role } from './role.entity';
 
-export enum Gender {
-  Male,
-  Female,
-}
-
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({ type: 'integer' })
@@ -45,8 +40,8 @@ export class User {
   @Column()
   birthDate: Date;
 
-  @Column({ type: 'enum', enum: Gender })
-  gender: Gender;
+  @Column({ type: 'varchar' })
+  gender: 'Male' | 'Female';
 
   @Column()
   banned: boolean;
