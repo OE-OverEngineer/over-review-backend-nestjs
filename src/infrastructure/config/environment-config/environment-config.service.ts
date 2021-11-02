@@ -11,7 +11,7 @@ export class EnvironmentConfigService implements DatabaseConfig {
   }
 
   getDatabasePort(): number {
-    return this.configService.get<number>('DATABASE_PORT');
+    return Number(this.configService.get<number>('DATABASE_PORT'));
   }
 
   getDatabaseUser(): string {
