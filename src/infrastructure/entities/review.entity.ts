@@ -11,7 +11,7 @@ import { User } from './user.entity';
 
 @Entity()
 export class Review {
-  @PrimaryGeneratedColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => User, (u) => u.reviews)

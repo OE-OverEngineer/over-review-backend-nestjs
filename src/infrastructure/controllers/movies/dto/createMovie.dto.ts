@@ -5,10 +5,13 @@ export class CreateMovieDto {
   title: string;
   @ApiProperty()
   description: string;
+
   @ApiProperty()
   directorID: number;
-  @ApiProperty()
+
+  @ApiProperty({ type: [Number] })
   actorsID: number[];
+
   @ApiProperty()
   startDate: Date;
 

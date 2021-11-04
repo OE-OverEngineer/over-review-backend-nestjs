@@ -3,7 +3,7 @@ import { Movie } from './movie.entity';
 
 @Entity()
 export class Actor {
-  @PrimaryGeneratedColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()

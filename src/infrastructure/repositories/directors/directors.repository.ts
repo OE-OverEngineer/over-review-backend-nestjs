@@ -14,7 +14,7 @@ export class DatabaseDirectorsRepository implements IDirectorRepository {
     private readonly directorEntityRepository: Repository<Director>,
   ) {}
   async insert(dto: CreateDirectorDto): Promise<void> {
-    await this.directorEntityRepository.insert(dto);
+    await this.directorEntityRepository.save(dto);
   }
   async findAll(): Promise<Director[]> {
     return this.directorEntityRepository.find();

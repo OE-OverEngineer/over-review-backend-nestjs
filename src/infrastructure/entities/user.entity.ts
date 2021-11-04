@@ -13,7 +13,7 @@ import { Role } from './role.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => Role, (r) => r.users)

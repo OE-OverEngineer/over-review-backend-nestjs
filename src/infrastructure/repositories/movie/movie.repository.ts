@@ -20,11 +20,14 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   async insert(dto: CreateMovieDto): Promise<void> {
-    await this.movieEntityRepository.insert(dto);
+    const movie: Movie = this.dtoToMovie(dto);
+    await this.movieEntityRepository.save(movie);
   }
 
   async findAll(): Promise<Movie[]> {
-    return this.movieEntityRepository.find();
+    return this.movieEntityRepository.find({
+      relations: ['director', 'actors', 'requestByUser', 'reviews'],
+    });
   }
 
   async findById(id: number): Promise<Movie | undefined> {
@@ -35,7 +38,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
     await this.movieEntityRepository.delete(id);
   }
 
-  private dtoToUser(dto: CreateMovieDto): Movie {
+  private dtoToMovie(dto: CreateMovieDto): Movie {
     const director: Director = new Director();
     director.id = dto.directorID;
     const actors = dto.actorsID.map((id) => {
@@ -47,6 +50,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
       ...dto,
       director: director,
       actors: actors,
+      approve: true,
     };
     return movie;
   }

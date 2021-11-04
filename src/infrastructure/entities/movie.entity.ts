@@ -5,6 +5,7 @@ import {
   ManyToOne,
   ManyToMany,
   OneToMany,
+  JoinTable,
 } from 'typeorm';
 import { Actor } from './actor.entity';
 import { Director } from './director.entity';
@@ -13,7 +14,7 @@ import { User } from './user.entity';
 
 @Entity()
 export class Movie {
-  @PrimaryGeneratedColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn()
   id?: number;
 
   @Column()
@@ -26,6 +27,7 @@ export class Movie {
   director: Director;
 
   @ManyToMany(() => Actor, (a) => a.movies)
+  @JoinTable()
   actors: Actor[];
 
   @Column()
@@ -37,11 +39,11 @@ export class Movie {
   @Column()
   trailerLink: string;
 
+  @Column()
+  approve: boolean;
+
   @ManyToOne(() => User, (u) => u.movieRequest, { nullable: true })
   requestByUser?: User;
-
-  @Column()
-  approve?: boolean;
 
   @OneToMany(() => Review, (r) => r.movie)
   reviews?: Review[];

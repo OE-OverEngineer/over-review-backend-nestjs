@@ -5,7 +5,7 @@ import { User } from './user.entity';
 
 @Entity()
 export class Comment {
-  @PrimaryGeneratedColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => User, (u) => u.comments)
