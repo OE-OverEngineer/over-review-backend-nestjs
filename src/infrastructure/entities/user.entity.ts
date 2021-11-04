@@ -26,7 +26,7 @@ export class User {
   password: string;
 
   @Column()
-  firstName: Date;
+  firstName: string;
 
   @Column()
   lastName: string;
