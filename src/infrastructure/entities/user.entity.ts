@@ -35,15 +35,15 @@ export class User {
   displayName: string;
 
   @Column()
-  avatar: number;
+  avatar: string;
 
   @Column()
-  birthDate: Date;
+  dateOfBirth: Date;
 
   @Column({ type: 'varchar' })
   gender: 'Male' | 'Female';
 
-  @Column()
+  @Column({ default: false })
   banned: boolean;
 
   @OneToMany(() => Movie, (m) => m.requestByUser)

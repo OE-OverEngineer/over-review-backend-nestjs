@@ -12,6 +12,8 @@ export class CreateUserDto {
   @ApiProperty()
   displayName: string;
   @ApiProperty()
+  avatar: string;
+  @ApiProperty()
   dateOfBirth: Date;
   @ApiProperty()
   gender: 'Male' | 'Female';

@@ -11,7 +11,7 @@ export class AuthRepository implements IAuthRepository {
     email: string,
     password: string,
   ): Promise<User | undefined> {
-    //! TODO : Add hash password , this is for simple
+    // TODO : Add hash password , this is for simple
     const user = await this.userRepo.findOne(email);
     if (user && user.password == password) {
       // const { password, ...result } = user;

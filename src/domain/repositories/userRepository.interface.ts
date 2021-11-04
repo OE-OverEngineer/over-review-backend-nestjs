@@ -1,5 +1,5 @@
-import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/create-user.dto';
-import { UpdateUserDto } from 'src/infrastructure/controllers/users/dto/update-user.dto';
+import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
+import { UpdateUserDto } from 'src/infrastructure/controllers/users/dto/updateUser.dto';
 import { User } from 'src/infrastructure/entities/user.entity';
 
 export interface IUsersRepository {

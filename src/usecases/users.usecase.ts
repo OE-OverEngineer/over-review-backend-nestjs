@@ -1,5 +1,5 @@
 import { ILogger } from 'src/domain/logger/logger.interface';
-import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/create-user.dto';
+import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
 import { UsersRepository } from 'src/infrastructure/repositories/users/users.repository';
 
 export class UsersUseCases {
