@@ -8,9 +8,12 @@ import { Report } from '../entities/report.entity';
 import { Review } from '../entities/review.entity';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
+import { DatabaseActorRepository } from './actors/actors.repository';
 import { AuthRepository } from './auth/auth.repository';
 import { LocalStrategy } from './auth/auth.strategy';
-import { UsersRepository } from './users/users.repository';
+import { DatabaseDirectorsRepository } from './directors/directors.repository';
+import { DatabaseMovieRepository } from './movie/movie.repository';
+import { UsersRepository as DatabaseUsersRepository } from './users/users.repository';
 
 @Module({
   imports: [
@@ -25,7 +28,21 @@ import { UsersRepository } from './users/users.repository';
       User,
     ]),
   ],
-  providers: [UsersRepository, AuthRepository, LocalStrategy],
-  exports: [UsersRepository],
+  providers: [
+    AuthRepository,
+    LocalStrategy,
+    DatabaseUsersRepository,
+    DatabaseActorRepository,
+    DatabaseMovieRepository,
+    DatabaseDirectorsRepository,
+  ],
+  exports: [
+    DatabaseUsersRepository,
+    AuthRepository,
+    LocalStrategy,
+    DatabaseActorRepository,
+    DatabaseMovieRepository,
+    DatabaseDirectorsRepository,
+  ],
 })
 export class RepositoriesModule {}

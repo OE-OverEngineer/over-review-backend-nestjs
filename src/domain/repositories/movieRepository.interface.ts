@@ -1,8 +1,11 @@
+import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/createMovie.dto';
+import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
 import { Movie } from '../../infrastructure/entities/movie.entity';
 
 export interface IMovieRepository {
-  insert(movie: Movie): Promise<void>;
-  // findAll(): Promise<MovieModel[]>;
-  // findById(id: number): Promise<MovieModel>;
-  // deleteById(id: number): Promise<void>;
+  insert(dto: CreateMovieDto): Promise<void>;
+  findAll(): Promise<Movie[]>;
+  findById(id: number): Promise<Movie | undefined>;
+  update(id: number, dto: UpdateMovieDto): Promise<void>;
+  deleteById(id: number): Promise<void>;
 }

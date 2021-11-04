@@ -1,18 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateUserDto {
+export class CreateMovieDto {
   @ApiProperty()
   title: string;
   @ApiProperty()
   description: string;
   @ApiProperty()
-  directorID: string;
+  directorID: number;
   @ApiProperty()
-  actorsID: string[];
+  actorsID: number[];
   @ApiProperty()
-  startDate: string;
+  startDate: Date;
+
   @ApiProperty()
-  dateOfBirth: Date;
+  bannerImage: string;
+
   @ApiProperty()
-  gender: 'Male' | 'Female';
+  trailerLink: string;
+
+  @ApiProperty()
+  requestByUserID?: string;
 }

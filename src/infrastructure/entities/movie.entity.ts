@@ -14,19 +14,19 @@ import { User } from './user.entity';
 @Entity()
 export class Movie {
   @PrimaryGeneratedColumn({ type: 'integer' })
-  id: number;
-
-  @ManyToOne(() => Director, (d) => d.movies)
-  director: Director;
-
-  @ManyToMany(() => Actor, (a) => a.movies)
-  actors: Actor[];
+  id?: number;
 
   @Column()
   title: string;
 
   @Column()
   description: string;
+
+  @ManyToOne(() => Director, (d) => d.movies)
+  director: Director;
+
+  @ManyToMany(() => Actor, (a) => a.movies)
+  actors: Actor[];
 
   @Column()
   startDate: Date;
@@ -37,12 +37,12 @@ export class Movie {
   @Column()
   trailerLink: string;
 
-  @ManyToOne(() => User, (u) => u.movieRequest)
-  requestByUser: User;
+  @ManyToOne(() => User, (u) => u.movieRequest, { nullable: true })
+  requestByUser?: User;
 
   @Column()
-  approve: boolean;
+  approve?: boolean;
 
   @OneToMany(() => Review, (r) => r.movie)
-  reviews: Review[];
+  reviews?: Review[];
 }
