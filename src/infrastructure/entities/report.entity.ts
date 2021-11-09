@@ -4,7 +4,7 @@ import { User } from './user.entity';
 
 @Entity()
 export class Report {
-  @PrimaryGeneratedColumn({ type: 'integer' })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @ManyToOne(() => Director, (d) => d.movies)

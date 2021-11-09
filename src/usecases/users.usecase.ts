@@ -1,7 +1,6 @@
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
-import { ILogger } from 'src/domain/logger/logger.interface';
-import { UsersRepository } from 'src/infrastructure/repositories/users/users.repository';
 import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
+import { User } from 'src/infrastructure/entities/user.entity';
 
 export class UsersUseCases {
   constructor(
@@ -11,5 +10,18 @@ export class UsersUseCases {
 
   async create(dto: CreateUserDto): Promise<void> {
     await this.userRepository.create(dto);
+  }
+  async update(dto: CreateUserDto): Promise<void> {
+    await this.userRepository.create(dto);
+  }
+  async delete(dto: CreateUserDto): Promise<void> {
+    await this.userRepository.create(dto);
+  }
+  async findOne(id: number): Promise<User | undefined> {
+    const user = await this.userRepository.findById(id);
+    return user;
+  }
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.findAll();
   }
 }

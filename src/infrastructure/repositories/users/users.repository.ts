@@ -13,8 +13,7 @@ export class UsersRepository implements IUsersRepository {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const user = this.dtoToUser(createUserDto);
-    await this.userRepository.insert(user);
-    // console.log(result);
+    await this.userRepository.save(user);
     return user;
   }
 

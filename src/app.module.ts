@@ -6,7 +6,6 @@ import { TypeOrmConfigModule } from './infrastructure/config/typeorm/typeorm.mod
 import { LoggerModule } from './infrastructure/logger/logger.module';
 import { RepositoriesModule } from './infrastructure/repositories/repositories.module';
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
-import { MoviesController } from './infrastructure/controllers/movies/movies.controller';
 
 @Module({
   imports: [
