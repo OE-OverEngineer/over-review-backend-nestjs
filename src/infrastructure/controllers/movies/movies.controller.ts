@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { MoviesUseCases } from 'src/usecases/movies.usecase';
 import { CreateMovieDto } from './dto/createMovie.dto';
 

@@ -2,11 +2,9 @@ import { BadRequestException } from '@nestjs/common';
 import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
 import { IDirectorRepository } from 'src/domain/repositories/directorRepository.interface';
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
-import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/createMovie.dto';
-import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
+import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
-import { User } from 'src/infrastructure/entities/user.entity';
 
 export class MoviesUseCases {
   constructor(
@@ -24,17 +22,21 @@ export class MoviesUseCases {
       throw new BadRequestException('Actors not found ');
     await this.movieRepository.insert(dto);
   }
-  //   async update(id:number , dto: CreateUserDto): Promise<void> {
-  //     await this.movieRepository.create(dto);
-  //   }
-  //   async delete(dto: CreateUserDto): Promise<void> {
-  //     await this.movieRepository.create(dto);
-  //   }
 
-  //   async findOne(id: number): Promise<User | undefined> {
-  //     const user = await this.movieRepository.findById(id);
-  //     return user;
-  //   }
+  async update(id: number, dto: UpdateMovieDto): Promise<void> {
+    await this.movieRepository.update(id, dto);
+  }
+
+  async delete(id: number): Promise<void> {
+    await this.movieRepository.deleteById(id);
+  }
+
+  async findOne(id: number): Promise<Movie | undefined> {
+    if (id < 0) throw new BadRequestException('');
+    const movie = await this.movieRepository.findById(id);
+    return movie;
+  }
+
   async findAll(): Promise<Movie[]> {
     return await this.movieRepository.findAll();
   }

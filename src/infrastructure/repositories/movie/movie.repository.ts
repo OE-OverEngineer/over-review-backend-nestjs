@@ -25,6 +25,15 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   async findAll(): Promise<Movie[]> {
+    // const [score] = await this.movieEntityRepository
+    const score = await this.movieEntityRepository
+      .createQueryBuilder('movie')
+      .select('AVG(reviews.score)', 'score')
+      .leftJoin('movie.reviews', 'reviews')
+      .groupBy('movie.id')
+      .getRawMany();
+    console.log(score);
+    // return
     return this.movieEntityRepository.find({
       relations: ['director', 'actors', 'requestByUser', 'reviews'],
     });
