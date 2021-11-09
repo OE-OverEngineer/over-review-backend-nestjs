@@ -23,6 +23,15 @@ export class MoviesUseCases {
     await this.movieRepository.insert(dto);
   }
 
+  async requestByUser(dto: CreateMovieDto, userID: number): Promise<void> {
+    const director = await this.directorRepository.findById(dto.directorID);
+    if (!director) throw new BadRequestException('Director not found');
+    const actors = await this.actorRepository.findAllByID(dto.actorsID);
+    if (!actors || actors.length != dto.actorsID.length)
+      throw new BadRequestException('Actors not found ');
+    await this.movieRepository.insert(dto, userID);
+  }
+
   async update(id: number, dto: UpdateMovieDto): Promise<void> {
     await this.movieRepository.update(id, dto);
   }

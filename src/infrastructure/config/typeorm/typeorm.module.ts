@@ -14,9 +14,9 @@ export const getTypeOrmModuleOptions = (
     password: config.getDatabasePassword(),
     database: config.getDatabaseName(),
     entities: [__dirname + './../../**/*.entity{.ts,.js}'],
-    synchronize: true,
+    synchronize: false,
+    logging: false,
     logger: 'simple-console',
-    logging: true,
     ssl: false,
   } as TypeOrmModuleOptions);
 

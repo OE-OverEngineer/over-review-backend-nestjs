@@ -3,7 +3,7 @@ import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/update
 import { Movie } from '../../infrastructure/entities/movie.entity';
 
 export interface IMovieRepository {
-  insert(dto: CreateMovieDto): Promise<void>;
+  insert(dto: CreateMovieDto, int?: number): Promise<void>;
   findAll(): Promise<Movie[]>;
   findById(id: number): Promise<Movie | undefined>;
   update(id: number, dto: UpdateMovieDto): Promise<void>;
