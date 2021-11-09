@@ -17,9 +17,6 @@ export class Comment {
   @Column()
   message: string;
 
-  @Column({ type: 'tinyint' })
-  score: number;
-
   @ManyToOne(() => Movie, (m) => m.id)
   movie: Movie;
 }

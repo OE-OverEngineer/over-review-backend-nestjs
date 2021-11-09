@@ -7,7 +7,7 @@ export class ReviewsController {
   constructor(private readonly reviewsUsecases: ReviewsUsecase) {}
   @Post()
   create(@Body() createReviewDto: CreateReviewDto) {
-    const id = 8;
+    const id = 1;
     return this.reviewsUsecases.create(createReviewDto, id);
   }
 

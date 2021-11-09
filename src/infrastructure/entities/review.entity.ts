@@ -20,7 +20,7 @@ export class Review {
   @Column()
   message: string;
 
-  @Column({ type: 'tinyint' })
+  @Column({ type: 'integer' })
   score: number;
 
   @ManyToOne(() => Movie, (m) => m.reviews)
