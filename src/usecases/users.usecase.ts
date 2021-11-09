@@ -1,5 +1,7 @@
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
-import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/create-user.dto';
+import { ILogger } from 'src/domain/logger/logger.interface';
+import { UsersRepository } from 'src/infrastructure/repositories/users/users.repository';
+import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
 
 export class UsersUseCases {
   constructor(

@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../../controllers/users/dto/create-user.dto';
-import { UpdateUserDto } from '../../controllers/users/dto/update-user.dto';
+import { CreateUserDto } from '../../controllers/users/dto/createUser.dto';
+import { UpdateUserDto } from '../../controllers/users/dto/updateUser.dto';
 @Injectable()
 export class UsersRepository implements IUsersRepository {
   constructor(
@@ -49,8 +49,9 @@ export class UsersRepository implements IUsersRepository {
     user.firstName = dto.firstName;
     user.lastName = dto.lastName;
     user.displayName = dto.displayName;
-    user.birthDate = dto.dateOfBirth;
+    user.dateOfBirth = dto.dateOfBirth;
     user.gender = dto.gender;
+    user.avatar = dto.avatar;
 
     return user;
   }
