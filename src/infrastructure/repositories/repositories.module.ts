@@ -13,6 +13,7 @@ import { AuthRepository } from './auth/auth.repository';
 import { LocalStrategy } from './auth/auth.strategy';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
+import { DatabaseReviewRepository } from './reviews/review.repository';
 import { UsersRepository as DatabaseUsersRepository } from './users/users.repository';
 
 @Module({
@@ -35,6 +36,7 @@ import { UsersRepository as DatabaseUsersRepository } from './users/users.reposi
     DatabaseActorRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
+    DatabaseReviewRepository,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -43,6 +45,7 @@ import { UsersRepository as DatabaseUsersRepository } from './users/users.reposi
     DatabaseActorRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
+    DatabaseReviewRepository,
   ],
 })
 export class RepositoriesModule {}

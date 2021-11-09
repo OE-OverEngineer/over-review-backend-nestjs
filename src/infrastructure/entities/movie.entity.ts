@@ -47,4 +47,6 @@ export class Movie {
 
   @OneToMany(() => Review, (r) => r.movie)
   reviews?: Review[];
+
+  score?: number;
 }

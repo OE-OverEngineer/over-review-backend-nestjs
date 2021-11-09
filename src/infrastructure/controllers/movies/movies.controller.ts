@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { MoviesUseCases } from 'src/usecases/movies.usecase';
 import { CreateMovieDto } from './dto/createMovie.dto';
 
@@ -13,5 +13,10 @@ export class MoviesController {
   @Get()
   findAll() {
     return this.moviesUsecases.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: number) {
+    return this.moviesUsecases.findOne(id);
   }
 }

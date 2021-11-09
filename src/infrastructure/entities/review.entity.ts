@@ -12,7 +12,7 @@ import { User } from './user.entity';
 @Entity()
 export class Review {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @ManyToOne(() => User, (u) => u.reviews)
   user: User;
@@ -23,9 +23,9 @@ export class Review {
   @Column({ type: 'tinyint' })
   score: number;
 
-  @ManyToOne(() => Movie, (m) => m.id)
+  @ManyToOne(() => Movie, (m) => m.reviews)
   movie: Movie;
 
   @OneToMany(() => Comment, (c) => c.review)
-  comments: Comment[];
+  comments?: Comment[];
 }

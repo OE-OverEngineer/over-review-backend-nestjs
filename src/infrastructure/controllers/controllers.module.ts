@@ -12,6 +12,9 @@ import { DatabaseActorRepository } from '../repositories/actors/actors.repositor
 import { DatabaseDirectorsRepository } from '../repositories/directors/directors.repository';
 import { ActorsUseCases } from 'src/usecases/actors.usecase';
 import { DirectorsUseCases } from 'src/usecases/directors.usecase';
+import { ReviewsController } from './reviews/reviews.controller';
+import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
+import { DatabaseReviewRepository } from '../repositories/reviews/review.repository';
 
 @Module({
   imports: [RepositoriesModule],
@@ -20,6 +23,7 @@ import { DirectorsUseCases } from 'src/usecases/directors.usecase';
     MoviesController,
     ActorsController,
     DirectorsController,
+    ReviewsController,
   ],
 
   providers: [
@@ -58,6 +62,20 @@ import { DirectorsUseCases } from 'src/usecases/directors.usecase';
       inject: [DatabaseDirectorsRepository],
       useFactory: (repository: DatabaseDirectorsRepository) =>
         new DirectorsUseCases(repository),
+    },
+    {
+      provide: DirectorsUseCases,
+      inject: [DatabaseDirectorsRepository],
+      useFactory: (repository: DatabaseDirectorsRepository) =>
+        new DirectorsUseCases(repository),
+    },
+    {
+      provide: ReviewsUsecase,
+      inject: [DatabaseMovieRepository, DatabaseReviewRepository],
+      useFactory: (
+        movieRepository: DatabaseMovieRepository,
+        reviewRepository: DatabaseReviewRepository,
+      ) => new ReviewsUsecase(movieRepository, reviewRepository),
     },
   ],
 })
