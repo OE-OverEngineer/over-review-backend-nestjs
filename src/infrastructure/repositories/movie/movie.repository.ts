@@ -43,8 +43,8 @@ export class DatabaseMovieRepository implements IMovieRepository {
   async findById(id: number): Promise<Movie | undefined> {
     const movie = await this.movieEntityRepository
       .createQueryBuilder('movie')
-      .select('movie')
-      .addSelect('AVG(reviews.score)', 'score')
+      .select('AVG(reviews.score)', 'score')
+      .addSelect('movie')
       .leftJoin('movie.reviews', 'reviews')
       .groupBy('movie.id')
       .where('movie.id =:id', { id: id })
