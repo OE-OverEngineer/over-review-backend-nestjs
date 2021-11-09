@@ -8,8 +8,6 @@ import { Report } from '../entities/report.entity';
 import { Review } from '../entities/review.entity';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
-import { AuthRepository } from './auth/auth.repository';
-import { LocalStrategy } from './auth/auth.strategy';
 import { UsersRepository } from './users/users.repository';
 
 @Module({
@@ -25,7 +23,7 @@ import { UsersRepository } from './users/users.repository';
       User,
     ]),
   ],
-  providers: [UsersRepository, AuthRepository, LocalStrategy],
+  providers: [UsersRepository],
   exports: [UsersRepository],
 })
 export class RepositoriesModule {}

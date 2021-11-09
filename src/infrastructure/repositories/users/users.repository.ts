@@ -28,6 +28,12 @@ export class UsersRepository implements IUsersRepository {
     });
   }
 
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.userRepository.findOne({
+      where: { email: email },
+    });
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto): Promise<void> {
     await this.userRepository.update({ id: id }, { ...updateUserDto });
   }

@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { DatabaseConfig } from '../../../domain/config/database.interface';
+import { IDatabaseConfig } from '../../../domain/config/database.interface';
 
 @Injectable()
-export class EnvironmentConfigService implements DatabaseConfig {
+export class EnvironmentConfigService implements IDatabaseConfig {
   constructor(private configService: ConfigService) {}
 
   getDatabaseHost(): string {
