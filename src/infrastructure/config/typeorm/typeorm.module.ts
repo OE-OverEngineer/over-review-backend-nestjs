@@ -7,7 +7,7 @@ export const getTypeOrmModuleOptions = (
   config: EnvironmentConfigService,
 ): TypeOrmModuleOptions =>
   ({
-    type: 'mssql',
+    type: 'postgres',
     host: config.getDatabaseHost(),
     port: config.getDatabasePort(),
     username: config.getDatabaseUser(),
@@ -17,9 +17,7 @@ export const getTypeOrmModuleOptions = (
     synchronize: false,
     logger: 'simple-console',
     logging: true,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ssl: false,
   } as TypeOrmModuleOptions);
 
 @Module({
