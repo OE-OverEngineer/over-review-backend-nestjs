@@ -6,6 +6,7 @@ import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/create
 import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
 import { Pagination } from 'src/infrastructure/controllers/pagination/dto/pagination.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
+import { Category } from 'src/infrastructure/entities/category.entity';
 import { Director } from 'src/infrastructure/entities/director.entity';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
@@ -38,28 +39,59 @@ export class DatabaseMovieRepository implements IMovieRepository {
     //   .getRawMany();
     // console.log(score);
     const movies = await this.movieEntityRepository.find({
-      relations: ['director', 'actors', 'requestByUser'],
+      relations: ['director', 'actors', 'requestByUser', 'categories'],
       take: pagination.perPage,
       skip: pagination.pageNum - 1,
     });
-    console.log(movies);
 
+    return movies;
+  }
+  async findByCategory(
+    pagination: Pagination,
+    categoryID: number,
+  ): Promise<Movie[]> {
+    // const movies = await this.movieEntityRepository.find({
+    //   where: {
+    //     categories: {
+    //       id: categoryID,
+    //     },
+    //   },
+    //   relations: ['director', 'actors', 'requestByUser', 'categories'],
+    //   take: pagination.perPage,
+    //   skip: pagination.pageNum - 1,
+    // });
+    /// ตรงนี้จะได้แค่ Ca
+    const movies = await this.movieEntityRepository
+      .createQueryBuilder('movie')
+      .leftJoinAndSelect('movie.categories', 'category')
+      .leftJoinAndSelect('movie.actors', 'actors')
+      .where('category.id = :categoryID', { categoryID: categoryID })
+      .getRawMany();
     return movies;
   }
 
   async findById(id: number): Promise<Movie | undefined> {
-    const { score } = await this.movieEntityRepository
+    const score = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('AVG(reviews.score)', 'score')
+      .addSelect('movie')
       .leftJoin('movie.reviews', 'reviews')
       .groupBy('movie.id')
       .where('movie.id =:id', { id: id })
       .getRawOne();
+    const sd = await this.movieEntityRepository.create(score);
+    console.log(sd);
     const movie = await this.movieEntityRepository.findOne({
       where: { id },
-      relations: ['director', 'actors', 'requestByUser', 'reviews'],
+      relations: [
+        'director',
+        'actors',
+        'requestByUser',
+        'reviews',
+        'categories',
+      ],
     });
-    movie.score = score;
+    // movie.score = score;
     return movie;
   }
 
@@ -113,11 +145,17 @@ export class DatabaseMovieRepository implements IMovieRepository {
       actor.id = id;
       return actor;
     });
+    const categories = dto.categoriesID.map((id) => {
+      const category: Category = new Category();
+      category.id = id;
+      return category;
+    });
     const user: User = new User();
+
     user.id = userID;
-    console.log(user);
     const movie: Movie = {
       ...dto,
+      categories: categories,
       director: director,
       actors: actors,
       requestByUser: userID ? user : undefined,

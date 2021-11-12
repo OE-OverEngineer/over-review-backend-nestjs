@@ -8,6 +8,7 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Actor } from './actor.entity';
+import { Category } from './category.entity';
 import { Director } from './director.entity';
 import { Review } from './review.entity';
 import { User } from './user.entity';
@@ -29,6 +30,10 @@ export class Movie {
   @ManyToMany(() => Actor, (a) => a.movies)
   @JoinTable()
   actors: Actor[];
+
+  @ManyToMany(() => Category, (a) => a.movies)
+  @JoinTable()
+  categories: Category[];
 
   @Column()
   startDate: Date;

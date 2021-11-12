@@ -15,6 +15,9 @@ import { DirectorsUseCases } from 'src/usecases/directors.usecase';
 import { ReviewsController } from './reviews/reviews.controller';
 import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
 import { DatabaseReviewRepository } from '../repositories/reviews/review.repository';
+import { CategoriesUseCases } from 'src/usecases/categories.usecase';
+import { DatabaseCategoriesRepository } from '../repositories/categories/categories.repository';
+import { CategoriesController } from './category/categories.controller';
 
 @Module({
   imports: [RepositoriesModule],
@@ -24,6 +27,7 @@ import { DatabaseReviewRepository } from '../repositories/reviews/review.reposit
     ActorsController,
     DirectorsController,
     ReviewsController,
+    CategoriesController,
   ],
 
   providers: [
@@ -63,12 +67,7 @@ import { DatabaseReviewRepository } from '../repositories/reviews/review.reposit
       useFactory: (repository: DatabaseDirectorsRepository) =>
         new DirectorsUseCases(repository),
     },
-    {
-      provide: DirectorsUseCases,
-      inject: [DatabaseDirectorsRepository],
-      useFactory: (repository: DatabaseDirectorsRepository) =>
-        new DirectorsUseCases(repository),
-    },
+
     {
       provide: ReviewsUsecase,
       inject: [DatabaseMovieRepository, DatabaseReviewRepository],
@@ -76,6 +75,12 @@ import { DatabaseReviewRepository } from '../repositories/reviews/review.reposit
         movieRepository: DatabaseMovieRepository,
         reviewRepository: DatabaseReviewRepository,
       ) => new ReviewsUsecase(movieRepository, reviewRepository),
+    },
+    {
+      provide: CategoriesUseCases,
+      inject: [DatabaseCategoriesRepository],
+      useFactory: (repository: DatabaseCategoriesRepository) =>
+        new CategoriesUseCases(repository),
     },
   ],
 })

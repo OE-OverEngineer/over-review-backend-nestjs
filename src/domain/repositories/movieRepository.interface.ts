@@ -10,4 +10,5 @@ export interface IMovieRepository {
   update(id: number, dto: UpdateMovieDto): Promise<void>;
   deleteById(id: number): Promise<void>;
   findAllBySearch(searchText: string, pagination: Pagination): Promise<Movie[]>;
+  findByCategory(pagination: Pagination, categoryID: number): Promise<Movie[]>;
 }

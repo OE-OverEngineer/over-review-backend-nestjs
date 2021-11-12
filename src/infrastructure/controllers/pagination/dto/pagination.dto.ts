@@ -7,6 +7,6 @@ export class Pagination {
   @ApiProperty()
   pageNum: number;
 
-  @ApiProperty()
-  sort: string;
+  @ApiProperty({ nullable: true })
+  sort?: string;
 }
