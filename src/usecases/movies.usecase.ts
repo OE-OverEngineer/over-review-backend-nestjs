@@ -4,6 +4,7 @@ import { IDirectorRepository } from 'src/domain/repositories/directorRepository.
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
 import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/createMovie.dto';
 import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
+import { Pagination } from 'src/infrastructure/controllers/pagination/dto/pagination.dto';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
 
 export class MoviesUseCases {
@@ -46,7 +47,11 @@ export class MoviesUseCases {
     return movie;
   }
 
-  async findAll(): Promise<Movie[]> {
-    return await this.movieRepository.findAll();
+  async findAll(pagintaion: Pagination): Promise<Movie[]> {
+    return await this.movieRepository.findAll(pagintaion);
+  }
+
+  async search(searchText: string, pagintaion: Pagination): Promise<Movie[]> {
+    return await this.movieRepository.findAllBySearch(searchText, pagintaion);
   }
 }

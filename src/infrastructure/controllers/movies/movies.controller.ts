@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { query } from 'express';
 import { MoviesUseCases } from 'src/usecases/movies.usecase';
+import { Pagination } from '../pagination/dto/pagination.dto';
 import { CreateMovieDto } from './dto/createMovie.dto';
 
 @Controller('movies')
@@ -11,8 +13,12 @@ export class MoviesController {
   }
 
   @Get()
-  findAll() {
-    return this.moviesUsecases.findAll();
+  findAll(@Query() pagintaion: Pagination) {
+    return this.moviesUsecases.findAll(pagintaion);
+  }
+  @Post('search')
+  search(@Query('search') search: string, @Query() pagintaion: Pagination) {
+    return this.moviesUsecases.search(search, pagintaion);
   }
 
   @Get(':id')
