@@ -10,7 +10,7 @@ import { Category } from 'src/infrastructure/entities/category.entity';
 import { Director } from 'src/infrastructure/entities/director.entity';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
-import { Like, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 
 @Injectable()
 export class DatabaseMovieRepository implements IMovieRepository {
@@ -39,7 +39,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
     //   .getRawMany();
     // console.log(score);
     const movies = await this.movieEntityRepository.find({
-      relations: ['director', 'actors', 'requestByUser', 'categories'],
+      relations: ['director', 'actors', 'categories'],
       take: pagination.perPage,
       skip: pagination.pageNum - 1,
     });
@@ -50,24 +50,26 @@ export class DatabaseMovieRepository implements IMovieRepository {
     pagination: Pagination,
     categoryID: number,
   ): Promise<Movie[]> {
-    // const movies = await this.movieEntityRepository.find({
-    //   where: {
-    //     categories: {
-    //       id: categoryID,
-    //     },
-    //   },
-    //   relations: ['director', 'actors', 'requestByUser', 'categories'],
-    //   take: pagination.perPage,
-    //   skip: pagination.pageNum - 1,
-    // });
-    /// ตรงนี้จะได้แค่ Ca
-    const movies = await this.movieEntityRepository
+    // FIXME not paginate
+    const result = await this.movieEntityRepository
       .createQueryBuilder('movie')
-      .leftJoinAndSelect('movie.categories', 'category')
-      .leftJoinAndSelect('movie.actors', 'actors')
+      .select('movie.id')
+      .leftJoin('movie.categories', 'category')
       .where('category.id = :categoryID', { categoryID: categoryID })
+      .groupBy('movie.id')
+      .take(pagination.perPage)
+      .skip(pagination.pageNum - 1)
       .getRawMany();
-    return movies;
+    const resultID = result.map((e) => e.movie_id);
+    console.log(resultID);
+
+    const moviesLists = await this.movieEntityRepository.find({
+      where: {
+        id: In(resultID),
+      },
+      relations: ['categories'],
+    });
+    return moviesLists;
   }
 
   async findById(id: number): Promise<Movie | undefined> {
@@ -99,38 +101,64 @@ export class DatabaseMovieRepository implements IMovieRepository {
     searchText: string,
     pagination: Pagination,
   ): Promise<Movie[]> {
-    const movieLists = await this.movieEntityRepository.find({
-      relations: ['actors', 'director'],
-      where: [
-        {
-          title: Like('%' + searchText + '%'),
-        },
-        // {
-        //   actors: {
-        //     firstName: Like('%' + searchText + '%'),
-        //   },
-        // },
-        // {
-        //   actors: {
-        //     lastName: Like('%' + searchText + '%'),
-        //   },
-        // },
-        {
-          director: {
-            firstName: Like('%' + searchText + '%'),
-          },
-        },
-        {
-          director: {
-            lastName: Like('%' + searchText + '%'),
-          },
-        },
-      ],
-      skip: pagination.pageNum - 1,
-      take: pagination.perPage,
-    });
+    const result = await this.movieEntityRepository
+      .createQueryBuilder('movie')
+      .leftJoin('movie.director', 'director')
+      .leftJoin('movie.actors', 'actors')
+      .leftJoinAndSelect('movie.categories', 'categories')
+      .where('movie.title LIKE :search', { search: `%${searchText}%` })
+      .orWhere('actors.firstName LIKE :search', {
+        search: `%${searchText}%`,
+      })
+      .orWhere('actors.lastName LIKE :search', {
+        search: `%${searchText}%`,
+      })
+      .orWhere('director.firstName LIKE :search', {
+        search: `%${searchText}%`,
+      })
+      .orWhere('director.lastName LIKE :search', {
+        search: `%${searchText}%`,
+      })
+      // .groupBy('movie.id')
+      .take(pagination.perPage)
+      .skip(pagination.pageNum - 1)
+      .getMany();
+    // console.log(result);
 
-    return movieLists;
+    // .getMany();
+    // const movieLists = await this.movieEntityRepository.find({
+    //   relations: ['actors', 'director'],
+    //   where: [
+    //     {
+    //       title: Like('%' + searchText + '%'),
+    //     },
+    //     // {
+    //     //   actors: {
+    //     //     firstName: Like('%' + searchText + '%'),
+    //     //   },
+    //     // },
+    //     // {
+    //     //   actors: {
+    //     //     lastName: Like('%' + searchText + '%'),
+    //     //   },
+    //     // },
+    //     {
+    //       director: {
+    //         firstName: Like('%' + searchText + '%'),
+    //       },
+    //     },
+    //     {
+    //       director: {
+    //         lastName: Like('%' + searchText + '%'),
+    //       },
+    //     },
+    //   ],
+    //   skip: pagination.pageNum - 1,
+    //   take: pagination.perPage,
+    // });
+
+    return result;
+    // return [];
   }
 
   async deleteById(id: number): Promise<void> {
