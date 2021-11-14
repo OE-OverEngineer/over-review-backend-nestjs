@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersRepository } from 'src/infrastructure/repositories/users/users.repository';
 import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UsersUseCases } from 'src/usecases/users.usecase';
+import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -18,13 +21,20 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto);
     return this.userUsecases.create(createUserDto);
   }
 
   @Get()
   findAll() {
     return this.userUsecases.findAll();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  async me(@Request() req) {
+    const user = await this.userUsecases.findOne(req.user.id);
+    console.log(req.user);
+    return user;
   }
 
   // @Get(':id')

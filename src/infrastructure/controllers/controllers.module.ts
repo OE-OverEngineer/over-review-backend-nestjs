@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
 import { UsersUseCases } from 'src/usecases/users.usecase';
 import { RepositoriesModule } from '../repositories/repositories.module';
 import { UsersRepository } from '../repositories/users/users.repository';
@@ -16,15 +15,18 @@ import { DirectorsUseCases } from 'src/usecases/directors.usecase';
 import { ReviewsController } from './reviews/reviews.controller';
 import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
 import { DatabaseReviewRepository } from '../repositories/reviews/review.repository';
+import { AuthModule } from '../auth/auth.module';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
-  imports: [RepositoriesModule],
+  imports: [RepositoriesModule, AuthModule],
   controllers: [
     UsersController,
     MoviesController,
     ActorsController,
     DirectorsController,
     ReviewsController,
+    AuthController,
   ],
 
   providers: [

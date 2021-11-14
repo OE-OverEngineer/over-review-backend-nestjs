@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { User } from 'src/infrastructure/entities/user.entity';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
-export class AuthService {
-  constructor(private readonly userRepository: IUsersRepository) {}
+export class AuthUseCase {
+  constructor(
+    private readonly userRepository: IUsersRepository,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async validateUser(
     email: string,
@@ -19,5 +23,17 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async login(user: User) {
+    const payload = {
+      email: user.email,
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+    };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

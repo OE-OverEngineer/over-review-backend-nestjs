@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { IJwtConfig } from 'src/domain/config/jwt.interface';
 import { IDatabaseConfig } from '../../../domain/config/database.interface';
 
 @Injectable()
-export class EnvironmentConfigService implements IDatabaseConfig {
+export class EnvironmentConfigService implements IDatabaseConfig, IJwtConfig {
   constructor(private configService: ConfigService) {}
 
   getDatabaseHost(): string {
@@ -32,5 +33,9 @@ export class EnvironmentConfigService implements IDatabaseConfig {
 
   getDatabaseSync(): boolean {
     return this.configService.get<boolean>('DATABASE_SYNCHRONIZE');
+  }
+
+  getJwtSecret(): string {
+    return this.configService.get<string>('JWT_SECRET');
   }
 }
