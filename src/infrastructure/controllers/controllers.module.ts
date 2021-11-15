@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersUseCases } from 'src/usecases/users.usecase';
 import { RepositoriesModule } from '../repositories/repositories.module';
-import { UsersRepository } from '../repositories/users/users.repository';
+import { DatabaseUsersRepository } from '../repositories/users/users.repository';
 import { MoviesController } from './movies/movies.controller';
 import { UsersController } from './users/users.controller';
 import { ActorsController } from './actors/actors.controller';
@@ -17,6 +17,9 @@ import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
 import { DatabaseReviewRepository } from '../repositories/reviews/review.repository';
 import { AuthModule } from '../auth/auth.module';
 import { AuthController } from './auth/auth.controller';
+import { CategoriesUseCases } from 'src/usecases/categories.usecase';
+import { DatabaseCategoriesRepository } from '../repositories/categories/categories.repository';
+import { CategoriesController } from './category/categories.controller';
 
 @Module({
   imports: [RepositoriesModule, AuthModule],
@@ -27,13 +30,14 @@ import { AuthController } from './auth/auth.controller';
     DirectorsController,
     ReviewsController,
     AuthController,
+    CategoriesController,
   ],
 
   providers: [
     {
       provide: UsersUseCases,
-      inject: [UsersRepository],
-      useFactory: (repository: UsersRepository) =>
+      inject: [DatabaseUsersRepository],
+      useFactory: (repository: DatabaseUsersRepository) =>
         new UsersUseCases(repository),
     },
     {
@@ -66,12 +70,7 @@ import { AuthController } from './auth/auth.controller';
       useFactory: (repository: DatabaseDirectorsRepository) =>
         new DirectorsUseCases(repository),
     },
-    {
-      provide: DirectorsUseCases,
-      inject: [DatabaseDirectorsRepository],
-      useFactory: (repository: DatabaseDirectorsRepository) =>
-        new DirectorsUseCases(repository),
-    },
+
     {
       provide: ReviewsUsecase,
       inject: [DatabaseMovieRepository, DatabaseReviewRepository],
@@ -79,6 +78,12 @@ import { AuthController } from './auth/auth.controller';
         movieRepository: DatabaseMovieRepository,
         reviewRepository: DatabaseReviewRepository,
       ) => new ReviewsUsecase(movieRepository, reviewRepository),
+    },
+    {
+      provide: CategoriesUseCases,
+      inject: [DatabaseCategoriesRepository],
+      useFactory: (repository: DatabaseCategoriesRepository) =>
+        new CategoriesUseCases(repository),
     },
   ],
 })

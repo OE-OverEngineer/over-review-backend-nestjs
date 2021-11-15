@@ -1,5 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Movie } from './movie.entity';
 import { Review } from './review.entity';
 import { User } from './user.entity';
 
@@ -17,6 +16,6 @@ export class Comment {
   @Column()
   message: string;
 
-  @ManyToOne(() => Movie, (m) => m.id)
-  movie: Movie;
+  // @ManyToOne(() => Movie, (m) => m.i)
+  // movie: Movie;
 }

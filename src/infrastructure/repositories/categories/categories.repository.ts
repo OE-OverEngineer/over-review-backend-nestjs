@@ -1,0 +1,39 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ICategoryRepository } from 'src/domain/repositories/categoriesRepository.interface';
+import { CreateCategoryDto } from 'src/infrastructure/controllers/category/dto/createCategory.dto';
+import { UpdateCategoryDto } from 'src/infrastructure/controllers/category/dto/updateCategory.dto';
+import { Category } from 'src/infrastructure/entities/category.entity';
+
+import { In, Repository } from 'typeorm';
+
+@Injectable()
+export class DatabaseCategoriesRepository implements ICategoryRepository {
+  constructor(
+    @InjectRepository(Category)
+    private readonly categoryEntityRepository: Repository<Category>,
+  ) {}
+  async findAllByID(ids: number[]): Promise<Category[]> {
+    return this.categoryEntityRepository.find({ where: { id: In(ids) } });
+  }
+
+  async update(id: number, dto: UpdateCategoryDto): Promise<void> {
+    await this.categoryEntityRepository.update({ id: id }, { ...dto });
+  }
+
+  async insert(dto: CreateCategoryDto): Promise<void> {
+    await this.categoryEntityRepository.save(dto);
+  }
+
+  async findAll(): Promise<Category[]> {
+    return this.categoryEntityRepository.find();
+  }
+
+  async findById(id: number): Promise<Category | undefined> {
+    return this.categoryEntityRepository.findOne({ id });
+  }
+
+  async deleteById(id: number): Promise<void> {
+    await this.categoryEntityRepository.delete(id);
+  }
+}

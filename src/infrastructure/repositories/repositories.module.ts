@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Actor } from '../entities/actor.entity';
+import { Category } from '../entities/category.entity';
 import { Comment } from '../entities/comment.entity';
 import { Director } from '../entities/director.entity';
 import { Movie } from '../entities/movie.entity';
@@ -9,10 +10,11 @@ import { Review } from '../entities/review.entity';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
 import { DatabaseActorRepository } from './actors/actors.repository';
+import { DatabaseCategoriesRepository } from './categories/categories.repository';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
-import { UsersRepository as DatabaseUsersRepository } from './users/users.repository';
+import { DatabaseUsersRepository } from './users/users.repository';
 
 @Module({
   imports: [
@@ -25,6 +27,7 @@ import { UsersRepository as DatabaseUsersRepository } from './users/users.reposi
       Review,
       Role,
       User,
+      Category,
     ]),
   ],
   providers: [
@@ -33,6 +36,7 @@ import { UsersRepository as DatabaseUsersRepository } from './users/users.reposi
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
     DatabaseReviewRepository,
+    DatabaseCategoriesRepository,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -40,6 +44,7 @@ import { UsersRepository as DatabaseUsersRepository } from './users/users.reposi
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
     DatabaseReviewRepository,
+    DatabaseCategoriesRepository,
   ],
 })
 export class RepositoriesModule {}
