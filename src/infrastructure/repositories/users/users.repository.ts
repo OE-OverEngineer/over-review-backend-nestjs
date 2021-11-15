@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '../../controllers/users/dto/createUser.dto';
 import { UpdateUserDto } from '../../controllers/users/dto/updateUser.dto';
 @Injectable()
-export class UsersRepository implements IUsersRepository {
+export class DatabaseUsersRepository implements IUsersRepository {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
