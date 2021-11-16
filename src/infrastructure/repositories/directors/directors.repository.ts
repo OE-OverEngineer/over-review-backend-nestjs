@@ -13,8 +13,8 @@ export class DatabaseDirectorsRepository implements IDirectorRepository {
     @InjectRepository(Director)
     private readonly directorEntityRepository: Repository<Director>,
   ) {}
-  async insert(dto: CreateDirectorDto): Promise<void> {
-    await this.directorEntityRepository.save(dto);
+  async insert(dto: CreateDirectorDto): Promise<Director> {
+    return await this.directorEntityRepository.save(dto);
   }
   async findAll(): Promise<Director[]> {
     return this.directorEntityRepository.find();
@@ -23,8 +23,9 @@ export class DatabaseDirectorsRepository implements IDirectorRepository {
   async findById(id: number): Promise<Director> {
     return this.directorEntityRepository.findOne(id);
   }
-  async update(id: number, dto: UpdateDirectorDto): Promise<void> {
-    await this.directorEntityRepository.update({ id: id }, { ...dto });
+  async update(id: number, dto: UpdateDirectorDto): Promise<Director> {
+    // await this.directorEntityRepository.update({ id: id }, { ...dto });
+    return this.directorEntityRepository.findOne(id);
   }
 
   async deleteById(id: number): Promise<void> {

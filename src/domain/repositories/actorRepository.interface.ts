@@ -3,10 +3,10 @@ import { UpdateActorDto } from 'src/infrastructure/controllers/actors/dto/update
 import { Actor } from 'src/infrastructure/entities/actor.entity';
 
 export interface IActorRepository {
-  insert(dto: CreateActorDto): Promise<void>;
+  insert(dto: CreateActorDto): Promise<Actor>;
   findAll(): Promise<Actor[]>;
   findAllByID(ids: number[]): Promise<Actor[]>;
   findById(id: number): Promise<Actor>;
-  update(id: number, dto: UpdateActorDto): Promise<void>;
+  update(id: number, dto: UpdateActorDto): Promise<Actor>;
   deleteById(id: number): Promise<void>;
 }

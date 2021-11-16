@@ -6,6 +6,8 @@ import { TypeOrmConfigModule } from './infrastructure/config/typeorm/typeorm.mod
 import { LoggerModule } from './infrastructure/logger/logger.module';
 import { RepositoriesModule } from './infrastructure/repositories/repositories.module';
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
+// import { ValidatorModule } from './infrastructure/validators/validator.module';
+import { UsecasesModule } from './usecases/usecases.module';
 
 @Module({
   imports: [
@@ -14,6 +16,7 @@ import { ControllersModule } from './infrastructure/controllers/controllers.modu
     LoggerModule,
     RepositoriesModule,
     ControllersModule,
+    UsecasesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

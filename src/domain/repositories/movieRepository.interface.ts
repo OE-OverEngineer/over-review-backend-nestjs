@@ -1,11 +1,14 @@
 import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/createMovie.dto';
 import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
+import { Pagination } from 'src/infrastructure/controllers/pagination/dto/pagination.dto';
 import { Movie } from '../../infrastructure/entities/movie.entity';
 
 export interface IMovieRepository {
-  insert(dto: CreateMovieDto): Promise<void>;
-  findAll(): Promise<Movie[]>;
+  insert(dto: CreateMovieDto, int?: number): Promise<Movie>;
+  findAll(pagination: Pagination): Promise<Movie[]>;
   findById(id: number): Promise<Movie | undefined>;
-  update(id: number, dto: UpdateMovieDto): Promise<void>;
+  update(id: number, dto: UpdateMovieDto): Promise<Movie>;
   deleteById(id: number): Promise<void>;
+  findAllBySearch(searchText: string, pagination: Pagination): Promise<Movie[]>;
+  findByCategory(pagination: Pagination, categoryID: number): Promise<Movie[]>;
 }

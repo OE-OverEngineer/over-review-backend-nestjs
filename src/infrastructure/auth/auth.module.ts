@@ -3,7 +3,7 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './auth.strategy';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
-import { UsersRepository } from '../repositories/users/users.repository';
+import { DatabaseUsersRepository } from '../repositories/users/users.repository';
 import { RepositoriesModule } from '../repositories/repositories.module';
 import { AuthUseCase } from 'src/usecases/auth.usecase';
 import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
@@ -28,8 +28,8 @@ import { EnvironmentConfigModule } from '../config/environment-config/environmen
   providers: [
     {
       provide: AuthUseCase,
-      inject: [UsersRepository, JwtService],
-      useFactory: (repository: UsersRepository, jwtService: JwtService) =>
+      inject: [DatabaseUsersRepository, JwtService],
+      useFactory: (repository: DatabaseUsersRepository, jwtService: JwtService) =>
         new AuthUseCase(repository, jwtService),
     },
     LocalStrategy,

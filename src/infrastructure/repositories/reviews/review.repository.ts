@@ -13,35 +13,37 @@ import { Repository } from 'typeorm';
 export class DatabaseReviewRepository implements IReviewRepository {
   constructor(
     @InjectRepository(Review)
-    private readonly movieEntityRepository: Repository<Review>,
+    private readonly reviewEntityRepository: Repository<Review>,
   ) {}
 
-  async update(id: number, dto: UpdateReviewDto): Promise<void> {
-    await this.movieEntityRepository.update({ id: id }, { ...dto });
+  async update(id: number, dto: UpdateReviewDto): Promise<Review> {
+    // await this.reviewEntityRepository.update({ id: id }, { ...dto });
+    return await this.reviewEntityRepository.findOne(id);
   }
 
-  async insert(dto: CreateReviewDto, id: number): Promise<void> {
-    const movie: Review = this.dtoToReview(dto, id);
-    await this.movieEntityRepository.save(movie);
+  async insert(dto: CreateReviewDto, id: number): Promise<Review> {
+    // const movie: Review = this.dtoToReview(dto, id);
+    // await this.reviewEntityRepository.save(movie);
+    return await this.reviewEntityRepository.findOne(id);
   }
 
   async findAll(): Promise<Review[]> {
     // const [score] = await this.movieEntityRepository
-    const score = await this.movieEntityRepository
-      .createQueryBuilder('movie')
-      .select('AVG(reviews.score)', 'score')
-      .leftJoin('movie.reviews', 'reviews')
-      .groupBy('movie.id')
-      .getRawMany();
-    console.log(score);
+    // const score = await this.reviewEntityRepository
+    //   .createQueryBuilder('movie')
+    //   .select('AVG(reviews.score)', 'score')
+    //   .leftJoin('movie.reviews', 'reviews')
+    //   .groupBy('movie.id')
+    //   .getRawMany();
+    // console.log(score);
     // return
-    return this.movieEntityRepository.find({
-      relations: ['director', 'actors', 'requestByUser', 'reviews'],
+    return this.reviewEntityRepository.find({
+      // relations: [],
     });
   }
 
   async findById(id: number): Promise<Review | undefined> {
-    const score = await this.movieEntityRepository
+    const score = await this.reviewEntityRepository
       .createQueryBuilder('movie')
       .select('movie')
       // .addSelect('AVG(reviews.score)', 'score')
@@ -50,13 +52,13 @@ export class DatabaseReviewRepository implements IReviewRepository {
       // .where('movie.id = :id', { id: id })
       .getRawOne();
     console.log(score);
-    const movie = await this.movieEntityRepository.findOne({ id });
+    const movie = await this.reviewEntityRepository.findOne({ id });
     // movie.score = score;
     return movie;
   }
 
   async deleteById(id: number): Promise<void> {
-    await this.movieEntityRepository.delete(id);
+    await this.reviewEntityRepository.delete(id);
   }
 
   private dtoToReview(dto: CreateReviewDto, id: number): Review {
