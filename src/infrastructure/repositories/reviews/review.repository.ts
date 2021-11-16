@@ -16,13 +16,15 @@ export class DatabaseReviewRepository implements IReviewRepository {
     private readonly reviewEntityRepository: Repository<Review>,
   ) {}
 
-  async update(id: number, dto: UpdateReviewDto): Promise<void> {
-    await this.reviewEntityRepository.update({ id: id }, { ...dto });
+  async update(id: number, dto: UpdateReviewDto): Promise<Review> {
+    // await this.reviewEntityRepository.update({ id: id }, { ...dto });
+    return await this.reviewEntityRepository.findOne(id);
   }
 
-  async insert(dto: CreateReviewDto, id: number): Promise<void> {
-    const movie: Review = this.dtoToReview(dto, id);
-    await this.reviewEntityRepository.save(movie);
+  async insert(dto: CreateReviewDto, id: number): Promise<Review> {
+    // const movie: Review = this.dtoToReview(dto, id);
+    // await this.reviewEntityRepository.save(movie);
+    return await this.reviewEntityRepository.findOne(id);
   }
 
   async findAll(): Promise<Review[]> {

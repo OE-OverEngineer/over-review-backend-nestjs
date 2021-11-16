@@ -9,8 +9,8 @@ export class ActorsUseCases {
     private readonly actorRepository: IActorRepository,
   ) {}
 
-  async create(dto: CreateActorDto): Promise<void> {
-    await this.actorRepository.insert(dto);
+  async create(dto: CreateActorDto): Promise<Actor> {
+    return await this.actorRepository.insert(dto);
   }
   async update(id: number, dto: UpdateActorDto): Promise<void> {
     await this.actorRepository.update(id, dto);

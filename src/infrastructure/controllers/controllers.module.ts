@@ -20,9 +20,12 @@ import { AuthController } from './auth/auth.controller';
 import { CategoriesUseCases } from 'src/usecases/categories.usecase';
 import { DatabaseCategoriesRepository } from '../repositories/categories/categories.repository';
 import { CategoriesController } from './category/categories.controller';
+import { IsUserEmailAlreadyExist } from '../validators/user/user.validator';
+import { ValidatorModule } from '../validators/validator.module';
+// import { ValidatorModule } from '../validators/validator.module';
 
 @Module({
-  imports: [RepositoriesModule, AuthModule],
+  imports: [RepositoriesModule, AuthModule, ValidatorModule],
   controllers: [
     UsersController,
     MoviesController,
@@ -40,22 +43,29 @@ import { CategoriesController } from './category/categories.controller';
       useFactory: (repository: DatabaseUsersRepository) =>
         new UsersUseCases(repository),
     },
+
     {
       provide: MoviesUseCases,
       inject: [
         DatabaseMovieRepository,
         DatabaseActorRepository,
         DatabaseDirectorsRepository,
+        DatabaseCategoriesRepository,
+        DatabaseUsersRepository,
       ],
       useFactory: (
         movieRepository: DatabaseMovieRepository,
         actorRepository: DatabaseActorRepository,
         directorRepository: DatabaseDirectorsRepository,
+        categoryRepository: DatabaseCategoriesRepository,
+        userRepository: DatabaseUsersRepository,
       ) =>
         new MoviesUseCases(
           movieRepository,
           actorRepository,
           directorRepository,
+          categoryRepository,
+          userRepository,
         ),
     },
     {

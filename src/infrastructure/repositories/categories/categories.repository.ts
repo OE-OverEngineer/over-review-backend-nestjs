@@ -17,12 +17,13 @@ export class DatabaseCategoriesRepository implements ICategoryRepository {
     return this.categoryEntityRepository.find({ where: { id: In(ids) } });
   }
 
-  async update(id: number, dto: UpdateCategoryDto): Promise<void> {
-    await this.categoryEntityRepository.update({ id: id }, { ...dto });
+  async update(id: number, dto: UpdateCategoryDto): Promise<Category> {
+    // await this.categoryEntityRepository.save({ id: id }, { ...dto });
+    return await this.categoryEntityRepository.findOne(id);
   }
 
-  async insert(dto: CreateCategoryDto): Promise<void> {
-    await this.categoryEntityRepository.save(dto);
+  async insert(dto: CreateCategoryDto): Promise<Category> {
+    return await this.categoryEntityRepository.save(dto);
   }
 
   async findAll(): Promise<Category[]> {

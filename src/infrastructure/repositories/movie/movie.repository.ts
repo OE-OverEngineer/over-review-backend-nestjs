@@ -19,13 +19,14 @@ export class DatabaseMovieRepository implements IMovieRepository {
     private readonly movieEntityRepository: Repository<Movie>,
   ) {}
 
-  async update(id: number, dto: UpdateMovieDto): Promise<void> {
-    await this.movieEntityRepository.update({ id: id }, { ...dto });
+  async update(id: number, dto: UpdateMovieDto): Promise<Movie> {
+    // await this.movieEntityRepository.update({ id: id }, { ...dto });
+    return this.movieEntityRepository.findOne(id);
   }
 
-  async insert(dto: CreateMovieDto, userID?: number): Promise<void> {
+  async insert(dto: CreateMovieDto, userID?: number): Promise<Movie> {
     const movie: Movie = this.dtoToMovie(dto, userID);
-    await this.movieEntityRepository.save(movie);
+    return await this.movieEntityRepository.save(movie);
   }
 
   async findAll(pagination: Pagination): Promise<Movie[]> {

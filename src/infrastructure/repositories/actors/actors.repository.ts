@@ -16,12 +16,13 @@ export class DatabaseActorRepository implements IActorRepository {
     return this.actorEntityRepository.find({ where: { id: In(ids) } });
   }
 
-  async update(id: number, dto: UpdateActorDto): Promise<void> {
-    await this.actorEntityRepository.update({ id: id }, { ...dto });
+  async update(id: number, dto: UpdateActorDto): Promise<Actor> {
+    return await this.actorEntityRepository.findOne(id);
+    // await this.actorEntityRepository.update({ id: id }, { ...dto });
   }
 
-  async insert(dto: CreateActorDto): Promise<void> {
-    await this.actorEntityRepository.save(dto);
+  async insert(dto: CreateActorDto): Promise<Actor> {
+    return await this.actorEntityRepository.save(dto);
   }
 
   async findAll(): Promise<Actor[]> {
