@@ -5,6 +5,7 @@ import { User } from 'src/infrastructure/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../../controllers/users/dto/createUser.dto';
 import { UpdateUserDto } from '../../controllers/users/dto/updateUser.dto';
+
 @Injectable()
 export class UsersRepository implements IUsersRepository {
   constructor(

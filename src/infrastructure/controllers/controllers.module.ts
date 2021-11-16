@@ -17,6 +17,9 @@ import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
 import { DatabaseReviewRepository } from '../repositories/reviews/review.repository';
 import { AuthModule } from '../auth/auth.module';
 import { AuthController } from './auth/auth.controller';
+import { RolesController } from './roles/roles.controller';
+import { RoleMockRepository } from '../repositories/roles/roles.mock.repositoty';
+import { RoleUseCases } from 'src/usecases/roles.usecase';
 
 @Module({
   imports: [RepositoriesModule, AuthModule],
@@ -27,9 +30,16 @@ import { AuthController } from './auth/auth.controller';
     DirectorsController,
     ReviewsController,
     AuthController,
+    RolesController,
   ],
 
   providers: [
+    {
+      provide: RoleUseCases,
+      inject: [RoleMockRepository],
+      useFactory: (repository: RoleMockRepository) =>
+        new RoleUseCases(repository),
+    },
     {
       provide: UsersUseCases,
       inject: [UsersRepository],

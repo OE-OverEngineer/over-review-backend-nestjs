@@ -12,6 +12,7 @@ import { DatabaseActorRepository } from './actors/actors.repository';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
+import { RoleMockRepository } from './roles/roles.mock.repositoty';
 import { UsersRepository as DatabaseUsersRepository } from './users/users.repository';
 
 @Module({
@@ -33,6 +34,7 @@ import { UsersRepository as DatabaseUsersRepository } from './users/users.reposi
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
     DatabaseReviewRepository,
+    RoleMockRepository,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -40,6 +42,7 @@ import { UsersRepository as DatabaseUsersRepository } from './users/users.reposi
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
     DatabaseReviewRepository,
+    RoleMockRepository,
   ],
 })
 export class RepositoriesModule {}
