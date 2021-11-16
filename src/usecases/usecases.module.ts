@@ -20,7 +20,7 @@ import { UsersUseCases } from './users.usecase';
   providers: [
     {
       provide: UsersUseCases,
-      inject: [MockUsersRepository],
+      inject: [DatabaseUsersRepository],
       useFactory: (repository: IUsersRepository) =>
         new UsersUseCases(repository),
     },

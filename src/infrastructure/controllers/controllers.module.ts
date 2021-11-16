@@ -11,7 +11,6 @@ import { ValidatorModule } from '../validators/validator.module';
 import { UsecasesModule } from 'src/usecases/usecases.module';
 // import { ValidatorModule } from '../validators/validator.module';
 
-@Global()
 @Module({
   imports: [AuthModule, UsecasesModule, ValidatorModule],
   controllers: [

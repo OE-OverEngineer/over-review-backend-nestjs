@@ -8,6 +8,7 @@ import { Service } from 'typedi';
 @Service()
 export class MockUsersRepository implements IUsersRepository {
   create(dto: CreateUserDto): Promise<User> {
+    return 
     throw new Error('Method not implemented.');
   }
   findAll(): Promise<User[]> {

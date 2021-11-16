@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import { Container } from 'typedi';
 import { UsersUseCases } from './usecases/users.usecase';
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
+import { ValidatorModule } from './infrastructure/validators/validator.module';
 // import { ValidatorModule } from './infrastructure/validators/validator.module';
 
 async function bootstrap() {
@@ -19,6 +20,7 @@ async function bootstrap() {
   // const validator = Container.get(Validator);
   // useContainer(Container, { fallback: true });
   // const validator = Container.get(Validator);
+  useContainer(app.select(ValidatorModule), { fallbackOnErrors: true });
   const config = new DocumentBuilder()
     .setTitle('Over review')
     .setDescription('Over review API description')

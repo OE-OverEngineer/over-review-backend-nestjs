@@ -17,7 +17,6 @@ import { UsecasesModule } from './usecases/usecases.module';
     RepositoriesModule,
     ControllersModule,
     UsecasesModule,
-    // ValidatorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
