@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import {
   registerDecorator,
   ValidationOptions,
@@ -22,22 +22,24 @@ import { UsersUseCases } from 'src/usecases/users.usecase';
 //   }
 // }
 
-@ValidatorConstraint({ async: true })
-@Injectable()
+@ValidatorConstraint({ name: 'isUserEmailAlreadyExist', async: true })
 export class IsUserEmailAlreadyExist implements ValidatorConstraintInterface {
   // constructor(private readonly userRepository: DatabaseUsersRepository) {}
-  constructor(private readonly userUsecases: UsersUseCases) {}
-  validate(email: any, _: ValidationArguments) {
-    console.log(email);
+  constructor(private readonly userUsecases: UsersUseCases) {
+    this.usecase = userUsecases;
+    this.numberTest = 10;
+    console.log(this.usecase);
+  }
+  private usecase: UsersUseCases;
+  private numberTest: number;
+  validate(email: string) {
+    console.log(this.numberTest);
+    console.log(this.usecase);
 
-    return this.userUsecases.findByEmail(email).then((user) => {
+    return this.usecase.findByEmail(email).then((user) => {
       if (user) return false;
       return true;
     });
-    // return this.userRepository.findByEmail(email).then((user) => {
-    //   if (user) return false;
-    //   return true;
-    // });
   }
 }
 

@@ -4,7 +4,8 @@ import { User } from 'src/infrastructure/entities/user.entity';
 import { validate } from 'class-validator';
 import { Service } from 'typedi';
 import { Injectable } from '@nestjs/common';
-@Service()
+
+@Service('UsersUseCase')
 @Injectable()
 export class UsersUseCases {
   constructor(

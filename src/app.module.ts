@@ -7,8 +7,7 @@ import { LoggerModule } from './infrastructure/logger/logger.module';
 import { RepositoriesModule } from './infrastructure/repositories/repositories.module';
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
 // import { ValidatorModule } from './infrastructure/validators/validator.module';
-import { IsUserEmailAlreadyExist } from './infrastructure/validators/user/user.validator';
-import { DatabaseUsersRepository } from './infrastructure/repositories/users/users.repository';
+import { UsecasesModule } from './usecases/usecases.module';
 
 @Module({
   imports: [
@@ -17,6 +16,7 @@ import { DatabaseUsersRepository } from './infrastructure/repositories/users/use
     LoggerModule,
     RepositoriesModule,
     ControllersModule,
+    UsecasesModule,
     // ValidatorModule,
   ],
   controllers: [AppController],

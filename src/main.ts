@@ -12,9 +12,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-  useContainer(Container, { fallbackOnErrors: true });
-  const controllerModule = app.select(ControllersModule);
-  Container.set(UsersUseCases, controllerModule.get(UsersUseCases));
+  // useContainer(app, { fallback: true });
+  // useContainer(Container, { fallbackOnErrors: true });
+  // const controllerModule = app.select(ControllersModule);
+  // Container.set(UsersUseCases, controllerModule.get(UsersUseCases));
   // const validator = Container.get(Validator);
   // useContainer(Container, { fallback: true });
   // const validator = Container.get(Validator);
