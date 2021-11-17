@@ -6,7 +6,6 @@ import { DatabaseDirectorsRepository } from 'src/infrastructure/repositories/dir
 import { DatabaseMovieRepository } from 'src/infrastructure/repositories/movie/movie.repository';
 import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
 import { DatabaseReviewRepository } from 'src/infrastructure/repositories/reviews/review.repository';
-import { MockUsersRepository } from 'src/infrastructure/repositories/users/users.mock.repository';
 import { DatabaseUsersRepository } from 'src/infrastructure/repositories/users/users.repository';
 import { ActorsUseCases } from './actors.usecase';
 import { CategoriesUseCases } from './categories.usecase';
