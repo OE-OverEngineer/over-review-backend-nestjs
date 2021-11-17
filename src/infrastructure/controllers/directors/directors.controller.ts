@@ -1,21 +1,12 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { CreateDirectorDto } from 'src/infrastructure/dto/directors/createDirector.dto';
 import { DirectorsUseCases } from 'src/usecases/directors.usecase';
-import { CreateDirectorDto } from './dto/createDirector.dto';
 
 @Controller('directors')
 export class DirectorsController {
   constructor(private readonly directorsUsecases: DirectorsUseCases) {}
   @Post()
   create(@Body() createMovieDto: CreateDirectorDto) {
-    console.log(createMovieDto);
     return this.directorsUsecases.create(createMovieDto);
   }
 

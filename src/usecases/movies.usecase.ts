@@ -4,9 +4,9 @@ import { ICategoryRepository } from 'src/domain/repositories/categoriesRepositor
 import { IDirectorRepository } from 'src/domain/repositories/directorRepository.interface';
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
-import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/createMovie.dto';
-import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
-import { Pagination } from 'src/infrastructure/controllers/pagination/dto/pagination.dto';
+import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
+import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
+import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
 
 export class MoviesUseCases {

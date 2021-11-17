@@ -1,6 +1,6 @@
 import { ICategoryRepository } from 'src/domain/repositories/categoriesRepository.interface';
-import { CreateCategoryDto } from 'src/infrastructure/controllers/category/dto/createCategory.dto';
-import { UpdateCategoryDto } from 'src/infrastructure/controllers/category/dto/updateCategory.dto';
+import { CreateCategoryDto } from 'src/infrastructure/dto/category/createCategory.dto';
+import { UpdateCategoryDto } from 'src/infrastructure/dto/category/updateCategory.dto';
 import { Category } from 'src/infrastructure/entities/category.entity';
 
 export class CategoriesUseCases {
@@ -20,8 +20,13 @@ export class CategoriesUseCases {
   }
 
   async findOne(id: number): Promise<Category | undefined> {
-    const user = await this.categoriesRepository.findById(id);
-    return user;
+    const category = await this.categoriesRepository.findById(id);
+    return category;
+  }
+
+  async findByTitle(title: string): Promise<Category | undefined> {
+    const category = await this.categoriesRepository.findByTitle(title);
+    return category;
   }
 
   async findAll(): Promise<Category[]> {

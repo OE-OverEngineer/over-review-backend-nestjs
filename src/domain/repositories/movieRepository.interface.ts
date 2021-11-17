@@ -1,6 +1,6 @@
-import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/createMovie.dto';
-import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
-import { Pagination } from 'src/infrastructure/controllers/pagination/dto/pagination.dto';
+import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
+import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
+import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Movie } from '../../infrastructure/entities/movie.entity';
 
 export interface IMovieRepository {

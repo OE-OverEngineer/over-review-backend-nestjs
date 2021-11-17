@@ -3,27 +3,22 @@ import {
   IsInt,
   IsIn,
   IsString,
-  IsDate,
-  IsFQDN,
   IsEmail,
   MinLength,
   IsNotEmpty,
   IsAlpha,
-  IsEmpty,
   IsDateString,
-  Validate,
 } from 'class-validator';
-import { IsUserEmailAlreadyExist } from 'src/infrastructure/validators/user/user.validator';
+import { IsRoleAlreadyExist } from 'src/infrastructure/validators/roles/role.validator';
+import { IsUserEmailAlreadyExist } from 'src/infrastructure/validators/users/user.validator';
 export class CreateUserDto {
-  // @IsEmail()
-  @Validate(IsUserEmailAlreadyExist, {
-    message: 'Email already exists',
-  })
-  @ApiProperty()
+  @IsEmail()
+  @IsUserEmailAlreadyExist()
+  @ApiProperty({ default: 'test@test.com' })
   email: string;
 
   @IsString()
-  @ApiProperty()
+  @ApiProperty({ default: 'password' })
   @MinLength(6, {
     message: 'Password must be longer than 6 characters',
   })
@@ -56,10 +51,11 @@ export class CreateUserDto {
   dateOfBirth: Date;
 
   @IsIn(['Male', 'Female'])
-  @ApiProperty()
+  @ApiProperty({ default: 'Male' })
   gender: 'Male' | 'Female';
 
   @IsInt()
+  @IsRoleAlreadyExist()
   @ApiProperty()
   roleID: number;
 }

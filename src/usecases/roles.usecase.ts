@@ -1,5 +1,5 @@
 import { IRoleRepository } from 'src/domain/repositories/roleRepository.interface';
-import { CreateRoleDto } from 'src/infrastructure/controllers/roles/dto/createRole.dto';
+import { CreateRoleDto } from 'src/infrastructure/dto/roles/createRole.dto';
 import { Role } from 'src/infrastructure/entities/role.entity';
 import { validate } from 'class-validator';
 import { BadRequestException } from '@nestjs/common';
@@ -16,7 +16,9 @@ export class RoleUseCases {
     }
     return await this.roleRepository.insert(dto);
   }
-
+  async findOne(id: number): Promise<Role | undefined> {
+    return await this.roleRepository.findByID(id);
+  }
   async findAll(): Promise<Role[]> {
     return await this.roleRepository.findAll();
   }

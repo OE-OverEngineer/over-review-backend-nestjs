@@ -1,28 +1,28 @@
 import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Role } from 'src/infrastructure/entities/role.entity';
-import { RoleMockRepository } from 'src/infrastructure/repositories/roles/roles.mock.repositoty';
+import { MockRoleRepository } from 'src/infrastructure/repositories/roles/roles.mock.repositoty';
 import { RoleUseCases } from './roles.usecase';
 
 describe('Role Usecase', () => {
   let roleUseCases: RoleUseCases;
-  let roleMockRepository: RoleMockRepository;
+  let roleMockRepository: MockRoleRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        RoleMockRepository,
+        MockRoleRepository,
         {
           provide: RoleUseCases,
-          inject: [RoleMockRepository],
-          useFactory: (roleMockRepository: RoleMockRepository) =>
+          inject: [MockRoleRepository],
+          useFactory: (roleMockRepository: MockRoleRepository) =>
             new RoleUseCases(roleMockRepository),
         },
       ],
     }).compile();
 
     roleUseCases = module.get<RoleUseCases>(RoleUseCases);
-    roleMockRepository = module.get<RoleMockRepository>(RoleMockRepository);
+    roleMockRepository = module.get<MockRoleRepository>(MockRoleRepository);
   });
 
   it('Rolse Usecase - should be defined', () => {

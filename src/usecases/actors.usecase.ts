@@ -1,6 +1,6 @@
 import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
-import { CreateActorDto } from 'src/infrastructure/controllers/actors/dto/createActor.dto';
-import { UpdateActorDto } from 'src/infrastructure/controllers/actors/dto/updateActor.dto';
+import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
+import { UpdateActorDto } from 'src/infrastructure/dto/actors/updateActor.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
 
 export class ActorsUseCases {
@@ -26,5 +26,8 @@ export class ActorsUseCases {
 
   async findAll(): Promise<Actor[]> {
     return await this.actorRepository.findAll();
+  }
+  async findAllByID(ids: number[]): Promise<Actor[]> {
+    return await this.actorRepository.findAllByID(ids);
   }
 }

@@ -1,5 +1,5 @@
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
-import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
+import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { validate } from 'class-validator';
 import { Service } from 'typedi';

@@ -1,7 +1,7 @@
 import { BadRequestException } from '@nestjs/common';
 import { IDirectorRepository } from 'src/domain/repositories/directorRepository.interface';
-import { CreateDirectorDto } from 'src/infrastructure/controllers/directors/dto/createDirector.dto';
-import { UpdateDirectorDto } from 'src/infrastructure/controllers/directors/dto/updateDirector.dto';
+import { CreateDirectorDto } from 'src/infrastructure/dto/directors/createDirector.dto';
+import { UpdateDirectorDto } from 'src/infrastructure/dto/directors/updateDirector.dto';
 import { Director } from 'src/infrastructure/entities/director.entity';
 
 export class DirectorsUseCases {
