@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
-import { CreateMovieDto } from 'src/infrastructure/controllers/movies/dto/createMovie.dto';
-import { UpdateMovieDto } from 'src/infrastructure/controllers/movies/dto/updateMovie.dto';
-import { Pagination } from 'src/infrastructure/controllers/pagination/dto/pagination.dto';
+import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
+import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
+import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
 import { Category } from 'src/infrastructure/entities/category.entity';
 import { Director } from 'src/infrastructure/entities/director.entity';

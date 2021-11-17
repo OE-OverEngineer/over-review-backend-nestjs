@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { IRoleRepository } from 'src/domain/repositories/roleRepository.interface';
-import { CreateRoleDto } from 'src/infrastructure/controllers/roles/dto/createRole.dto';
+import { CreateRoleDto } from 'src/infrastructure/dto/roles/createRole.dto';
 import { Role } from 'src/infrastructure/entities/role.entity';
 
 @Injectable()
-export class RoleMockRepository implements IRoleRepository {
+export class MockRoleRepository implements IRoleRepository {
   public roles: Role[] = [
     {
       id: 1,
@@ -16,6 +16,9 @@ export class RoleMockRepository implements IRoleRepository {
     },
   ];
 
+  async findByID(id: number): Promise<Role | undefined> {
+    return this.roles.find((e) => e.id == id);
+  }
   async insert(dto: CreateRoleDto): Promise<Role> {
     const latedId = this.roles[this.roles.length - 1].id + 1;
     const newRole = { id: latedId, title: dto.title };

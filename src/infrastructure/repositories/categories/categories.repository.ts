@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ICategoryRepository } from 'src/domain/repositories/categoriesRepository.interface';
-import { CreateCategoryDto } from 'src/infrastructure/controllers/category/dto/createCategory.dto';
-import { UpdateCategoryDto } from 'src/infrastructure/controllers/category/dto/updateCategory.dto';
+import { CreateCategoryDto } from 'src/infrastructure/dto/category/createCategory.dto';
+import { UpdateCategoryDto } from 'src/infrastructure/dto/category/updateCategory.dto';
 import { Category } from 'src/infrastructure/entities/category.entity';
 
 import { In, Repository } from 'typeorm';
@@ -13,6 +13,10 @@ export class DatabaseCategoriesRepository implements ICategoryRepository {
     @InjectRepository(Category)
     private readonly categoryEntityRepository: Repository<Category>,
   ) {}
+
+  async findByTitle(title: string): Promise<Category | undefined> {
+    return this.categoryEntityRepository.findOne({ where: { title: title } });
+  }
   async findAllByID(ids: number[]): Promise<Category[]> {
     return this.categoryEntityRepository.find({ where: { id: In(ids) } });
   }

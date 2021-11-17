@@ -1,13 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { useContainer, Validator } from 'class-validator';
+import { useContainer } from 'class-validator';
 import { AppModule } from './app.module';
-import { Container } from 'typedi';
-import { UsersUseCases } from './usecases/users.usecase';
-import { ControllersModule } from './infrastructure/controllers/controllers.module';
 import { ValidatorModule } from './infrastructure/validators/validator.module';
-// import { ValidatorModule } from './infrastructure/validators/validator.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

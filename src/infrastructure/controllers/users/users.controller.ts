@@ -6,7 +6,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/infrastructure/controllers/users/dto/createUser.dto';
+import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { UsersUseCases } from 'src/usecases/users.usecase';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 

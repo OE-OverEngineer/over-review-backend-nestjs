@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
+import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
+import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { Role } from 'src/infrastructure/entities/role.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
-import { CreateUserDto } from '../../controllers/users/dto/createUser.dto';
-import { UpdateUserDto } from '../../controllers/users/dto/updateUser.dto';
 
 @Injectable()
 @Service()

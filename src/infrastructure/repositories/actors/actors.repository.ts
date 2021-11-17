@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
-import { CreateActorDto } from 'src/infrastructure/controllers/actors/dto/createActor.dto';
-import { UpdateActorDto } from 'src/infrastructure/controllers/actors/dto/updateActor.dto';
+import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
+import { UpdateActorDto } from 'src/infrastructure/dto/actors/updateActor.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
 import { In, Repository } from 'typeorm';
 

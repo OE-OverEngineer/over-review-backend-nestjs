@@ -14,6 +14,7 @@ import { DatabaseCategoriesRepository } from './categories/categories.repository
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
+import { MockRoleRepository } from './roles/roles.mock.repositoty';
 import { MockUsersRepository } from './users/users.mock.repository';
 import { DatabaseUsersRepository } from './users/users.repository';
 
@@ -39,6 +40,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseReviewRepository,
     DatabaseCategoriesRepository,
     MockUsersRepository,
+    MockRoleRepository,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -48,6 +50,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseReviewRepository,
     DatabaseCategoriesRepository,
     MockUsersRepository,
+    MockRoleRepository,
   ],
 })
 export class RepositoriesModule {}

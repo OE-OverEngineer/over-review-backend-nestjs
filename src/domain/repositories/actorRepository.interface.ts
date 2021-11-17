@@ -1,5 +1,5 @@
-import { CreateActorDto } from 'src/infrastructure/controllers/actors/dto/createActor.dto';
-import { UpdateActorDto } from 'src/infrastructure/controllers/actors/dto/updateActor.dto';
+import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
+import { UpdateActorDto } from 'src/infrastructure/dto/actors/updateActor.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
 
 export interface IActorRepository {

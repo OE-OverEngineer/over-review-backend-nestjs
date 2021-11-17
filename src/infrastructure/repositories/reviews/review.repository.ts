@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IReviewRepository } from 'src/domain/repositories/reviewRepository.interface';
-import { CreateReviewDto } from 'src/infrastructure/controllers/reviews/dto/createReview.dto';
-import { UpdateReviewDto } from 'src/infrastructure/controllers/reviews/dto/updateReview.dto';
+import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
+import { UpdateReviewDto } from 'src/infrastructure/dto/reviews/updateReview.dto';
 
 import { Movie } from 'src/infrastructure/entities/movie.entity';
 import { Review } from 'src/infrastructure/entities/review.entity';
