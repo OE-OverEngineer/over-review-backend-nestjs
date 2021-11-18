@@ -9,6 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors();
   useContainer(app.select(ValidatorModule), { fallbackOnErrors: true });
   const config = new DocumentBuilder()
     .setTitle('Over review')
