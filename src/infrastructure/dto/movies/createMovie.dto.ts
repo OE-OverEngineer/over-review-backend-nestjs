@@ -6,6 +6,7 @@ import {
   IsNotEmpty,
   IsArray,
   ArrayMinSize,
+  IsDateString,
 } from 'class-validator';
 import { IsActorListFound } from 'src/infrastructure/validators/actors/actors.validator';
 import { IsCategoryListFound } from 'src/infrastructure/validators/categories/category.validator';
@@ -40,7 +41,7 @@ export class CreateMovieDto {
   @IsCategoryListFound()
   categoriesID: number[];
 
-  @IsDate()
+  @IsDateString()
   @ApiProperty()
   startDate: Date;
 

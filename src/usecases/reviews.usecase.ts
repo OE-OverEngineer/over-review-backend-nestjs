@@ -1,4 +1,3 @@
-import { BadRequestException } from '@nestjs/common';
 import { IReviewRepository } from 'src/domain/repositories/reviewRepository.interface';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
 import { UpdateReviewDto } from 'src/infrastructure/dto/reviews/updateReview.dto';
@@ -22,7 +21,6 @@ export class ReviewsUsecase {
   }
 
   async findOne(id: number): Promise<Review | undefined> {
-    if (id < 0) throw new BadRequestException('');
     const review = await this.reviewReository.findById(id);
     return review;
   }

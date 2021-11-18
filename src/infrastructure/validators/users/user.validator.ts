@@ -37,21 +37,6 @@ export class IsUserEmailAlreadyExistConstraint
     return 'email already exists';
   }
 }
-// @ValidatorConstraint({ async: true })
-// export class IsUserEmailAlreadyExistConstraint
-//   implements ValidatorConstraintInterface
-// {
-//   constructor(private readonly userUsecases: UsersUseCases) {}
-//   validate(email: string) {
-//     return this.userUsecases.findByEmail(email).then((user) => {
-//       if (user) return false;
-//       return true;
-//     });
-//   }
-//   defaultMessage() {
-//     return 'email already exists';
-//   }
-// }
 
 /**  This is for decoration validator */
 export function IsUserFound(validationOptions?: ValidationOptions) {
@@ -79,16 +64,3 @@ export function IsEmailAlreadyExist(validationOptions?: ValidationOptions) {
     });
   };
 }
-
-// export function IsUserEmailAlreadyExist(validationOptions?: ValidationOptions) {
-//   return function (object: any, propertyName: string) {
-//     registerDecorator({
-//       name: 'IsUserEmailAlreadyExist',
-//       target: object.constructor,
-//       propertyName: propertyName,
-//       constraints: [],
-//       options: validationOptions,
-//       validator: IsUserEmailAlreadyExistConstraint,
-//     });
-//   };
-// }
