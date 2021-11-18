@@ -5,7 +5,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { DatabaseUsersRepository } from '../repositories/users/users.repository';
 import { RepositoriesModule } from '../repositories/repositories.module';
-import { AuthUseCase } from 'src/usecases/auth.usecase';
+import { AuthUseCase } from 'src/usecases/auth/auth.usecase';
 import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
 import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module';
 
@@ -29,8 +29,10 @@ import { EnvironmentConfigModule } from '../config/environment-config/environmen
     {
       provide: AuthUseCase,
       inject: [DatabaseUsersRepository, JwtService],
-      useFactory: (repository: DatabaseUsersRepository, jwtService: JwtService) =>
-        new AuthUseCase(repository, jwtService),
+      useFactory: (
+        repository: DatabaseUsersRepository,
+        jwtService: JwtService,
+      ) => new AuthUseCase(repository, jwtService),
     },
     LocalStrategy,
     {

@@ -1,5 +1,5 @@
 import { Controller, Post, UseGuards, Request } from '@nestjs/common';
-import { AuthUseCase } from 'src/usecases/auth.usecase';
+import { AuthUseCase } from 'src/usecases/auth/auth.usecase';
 import { LocalAuthGuard } from '../../auth/local-auth.guard';
 
 @Controller('auth')

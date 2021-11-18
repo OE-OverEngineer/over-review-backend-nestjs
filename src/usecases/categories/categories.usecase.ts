@@ -4,10 +4,7 @@ import { UpdateCategoryDto } from 'src/infrastructure/dto/category/updateCategor
 import { Category } from 'src/infrastructure/entities/category.entity';
 
 export class CategoriesUseCases {
-  constructor(
-    
-    private readonly categoriesRepository: ICategoryRepository,
-  ) {}
+  constructor(private readonly categoriesRepository: ICategoryRepository) {}
 
   async create(dto: CreateCategoryDto): Promise<void> {
     await this.categoriesRepository.insert(dto);

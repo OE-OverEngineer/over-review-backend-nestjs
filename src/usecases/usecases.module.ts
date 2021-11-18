@@ -16,10 +16,10 @@ import { RepositoriesModule } from 'src/infrastructure/repositories/repositories
 import { DatabaseReviewRepository } from 'src/infrastructure/repositories/reviews/review.repository';
 import { MockRoleRepository } from 'src/infrastructure/repositories/roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from 'src/infrastructure/repositories/users/users.repository';
-import { ActorsUseCases } from './actors.usecase';
-import { CategoriesUseCases } from './categories.usecase';
-import { CommentsUseCases } from './comments.usecase';
-import { DirectorsUseCases } from './directors.usecase';
+import { ActorsUseCases } from './actors/actors.usecase';
+import { CategoriesUseCases } from './categories/categories.usecase';
+import { CommentsUseCases } from './comments/comments.usecase';
+import { DirectorsUseCases } from './directors/directors.usecase';
 import { MoviesUseCases } from './movies.usecase';
 import { ReviewsUsecase } from './reviews.usecase';
 import { RoleUseCases } from './roles/roles.usecase';

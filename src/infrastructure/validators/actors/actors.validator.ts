@@ -5,7 +5,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { ActorsUseCases } from 'src/usecases/actors.usecase';
+import { ActorsUseCases } from 'src/usecases/actors/actors.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()

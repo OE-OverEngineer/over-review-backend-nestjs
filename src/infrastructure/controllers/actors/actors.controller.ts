@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
-import { ActorsUseCases } from 'src/usecases/actors.usecase';
+import { ActorsUseCases } from 'src/usecases/actors/actors.usecase';
 
 @Controller('actors')
 export class ActorsController {

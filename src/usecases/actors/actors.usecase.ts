@@ -4,10 +4,7 @@ import { UpdateActorDto } from 'src/infrastructure/dto/actors/updateActor.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
 
 export class ActorsUseCases {
-  constructor(
-    
-    private readonly actorRepository: IActorRepository,
-  ) {}
+  constructor(private readonly actorRepository: IActorRepository) {}
 
   async create(dto: CreateActorDto): Promise<Actor> {
     return await this.actorRepository.insert(dto);

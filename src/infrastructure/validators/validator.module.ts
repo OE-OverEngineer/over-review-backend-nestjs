@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ActorsUseCases } from 'src/usecases/actors.usecase';
-import { CategoriesUseCases } from 'src/usecases/categories.usecase';
-import { DirectorsUseCases } from 'src/usecases/directors.usecase';
+import { ActorsUseCases } from 'src/usecases/actors/actors.usecase';
+import { CategoriesUseCases } from 'src/usecases/categories/categories.usecase';
+import { DirectorsUseCases } from 'src/usecases/directors/directors.usecase';
 import { MoviesUseCases } from 'src/usecases/movies.usecase';
 import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
 import { RoleUseCases } from 'src/usecases/roles/roles.usecase';

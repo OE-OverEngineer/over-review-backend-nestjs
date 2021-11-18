@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-import { DirectorsUseCases } from 'src/usecases/directors.usecase';
+import { DirectorsUseCases } from 'src/usecases/directors/directors.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
