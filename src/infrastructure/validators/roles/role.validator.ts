@@ -9,9 +9,7 @@ import { RoleUseCases } from 'src/usecases/roles/roles.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class IsRoleAlreadyExistConstraint
-  implements ValidatorConstraintInterface
-{
+export class IsRoleFoundConstraint implements ValidatorConstraintInterface {
   constructor(private readonly roleUsecases: RoleUseCases) {}
   validate(id: any) {
     return this.roleUsecases.findOne(id).then((role) => role != undefined);
@@ -21,15 +19,15 @@ export class IsRoleAlreadyExistConstraint
   }
 }
 
-export function IsRoleAlreadyExist(validationOptions?: ValidationOptions) {
+export function IsRoleFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
-      name: 'IsRoleAlreadyExist',
+      name: 'IsRoleFound',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
       options: validationOptions,
-      validator: IsRoleAlreadyExistConstraint,
+      validator: IsRoleFoundConstraint,
     });
   };
 }

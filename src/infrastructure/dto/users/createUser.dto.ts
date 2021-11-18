@@ -9,7 +9,8 @@ import {
   IsAlpha,
   IsDateString,
 } from 'class-validator';
-import { IsRoleAlreadyExist } from 'src/infrastructure/validators/roles/role.validator';
+import { IsRoleFound } from 'src/infrastructure/validators/roles/role.validator';
+
 import { IsEmailAlreadyExist } from 'src/infrastructure/validators/users/user.validator';
 
 export class CreateUserDto {
@@ -56,7 +57,7 @@ export class CreateUserDto {
   gender: 'Male' | 'Female';
 
   @IsInt()
-  @IsRoleAlreadyExist()
+  @IsRoleFound()
   @ApiProperty()
   roleID: number;
 }

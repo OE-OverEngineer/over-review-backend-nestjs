@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
 import { ICategoryRepository } from 'src/domain/repositories/categoriesRepository.interface';
+import { ICommentRepository } from 'src/domain/repositories/commentRepository.interface';
 import { IDirectorRepository } from 'src/domain/repositories/directorRepository.interface';
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
 import { IReviewRepository } from 'src/domain/repositories/reviewRepository.interface';
@@ -8,15 +9,16 @@ import { IRoleRepository } from 'src/domain/repositories/roleRepository.interfac
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { DatabaseActorRepository } from 'src/infrastructure/repositories/actors/actors.repository';
 import { DatabaseCategoriesRepository } from 'src/infrastructure/repositories/categories/categories.repository';
+import { DatabaseCommentRepository } from 'src/infrastructure/repositories/comments/comments.repository';
 import { DatabaseDirectorsRepository } from 'src/infrastructure/repositories/directors/directors.repository';
 import { DatabaseMovieRepository } from 'src/infrastructure/repositories/movie/movie.repository';
 import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
 import { DatabaseReviewRepository } from 'src/infrastructure/repositories/reviews/review.repository';
 import { MockRoleRepository } from 'src/infrastructure/repositories/roles/roles.mock.repositoty';
-import { MockUsersRepository } from 'src/infrastructure/repositories/users/users.mock.repository';
 import { DatabaseUsersRepository } from 'src/infrastructure/repositories/users/users.repository';
 import { ActorsUseCases } from './actors.usecase';
 import { CategoriesUseCases } from './categories.usecase';
+import { CommentsUseCases } from './comments.usecase';
 import { DirectorsUseCases } from './directors.usecase';
 import { MoviesUseCases } from './movies.usecase';
 import { ReviewsUsecase } from './reviews.usecase';
@@ -34,27 +36,11 @@ import { UsersUseCases } from './users.usecase';
     },
     {
       provide: MoviesUseCases,
-      inject: [
-        DatabaseMovieRepository,
-        DatabaseActorRepository,
-        DatabaseDirectorsRepository,
-        DatabaseCategoriesRepository,
-        DatabaseUsersRepository,
-      ],
+      inject: [DatabaseMovieRepository, DatabaseUsersRepository],
       useFactory: (
         movieRepository: IMovieRepository,
-        actorRepository: IActorRepository,
-        directorRepository: IDirectorRepository,
-        categoryRepository: ICategoryRepository,
         userRepository: IUsersRepository,
-      ) =>
-        new MoviesUseCases(
-          movieRepository,
-          actorRepository,
-          directorRepository,
-          categoryRepository,
-          userRepository,
-        ),
+      ) => new MoviesUseCases(movieRepository, userRepository),
     },
     {
       provide: ActorsUseCases,
@@ -71,11 +57,9 @@ import { UsersUseCases } from './users.usecase';
 
     {
       provide: ReviewsUsecase,
-      inject: [DatabaseMovieRepository, DatabaseReviewRepository],
-      useFactory: (
-        movieRepository: IMovieRepository,
-        reviewRepository: IReviewRepository,
-      ) => new ReviewsUsecase(movieRepository, reviewRepository),
+      inject: [DatabaseReviewRepository],
+      useFactory: (reviewRepository: IReviewRepository) =>
+        new ReviewsUsecase(reviewRepository),
     },
     {
       provide: CategoriesUseCases,
@@ -88,10 +72,18 @@ import { UsersUseCases } from './users.usecase';
       inject: [MockRoleRepository],
       useFactory: (repository: IRoleRepository) => new RoleUseCases(repository),
     },
+    {
+      provide: CommentsUseCases,
+      inject: [DatabaseCommentRepository],
+      useFactory: (repository: ICommentRepository) =>
+        new CommentsUseCases(repository),
+    },
   ],
   exports: [
     UsersUseCases,
     MoviesUseCases,
+
+    CommentsUseCases,
     ActorsUseCases,
     DirectorsUseCases,
     ReviewsUsecase,

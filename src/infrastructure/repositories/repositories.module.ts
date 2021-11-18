@@ -11,6 +11,7 @@ import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
 import { DatabaseActorRepository } from './actors/actors.repository';
 import { DatabaseCategoriesRepository } from './categories/categories.repository';
+import { DatabaseCommentRepository } from './comments/comments.repository';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
@@ -34,6 +35,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
   ],
   providers: [
     DatabaseUsersRepository,
+    DatabaseCommentRepository,
     DatabaseActorRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
@@ -44,6 +46,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
   ],
   exports: [
     DatabaseUsersRepository,
+    DatabaseCommentRepository,
     DatabaseActorRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,

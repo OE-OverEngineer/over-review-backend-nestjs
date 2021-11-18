@@ -11,21 +11,17 @@ import { Movie } from 'src/infrastructure/entities/movie.entity';
 
 export class MoviesUseCases {
   constructor(
-    
     private readonly movieRepository: IMovieRepository,
-    private readonly actorRepository: IActorRepository,
-    private readonly directorRepository: IDirectorRepository,
-    private readonly categoryRepository: ICategoryRepository,
     private readonly userRepository: IUsersRepository,
   ) {}
 
   async create(dto: CreateMovieDto): Promise<Movie> {
-    await this.validateCreate(dto);
+    // await this.validateCreate(dto);
     return await this.movieRepository.insert(dto);
   }
 
   async requestByUser(dto: CreateMovieDto, userID: number): Promise<Movie> {
-    await this.validateCreate(dto);
+    // await this.validateCreate(dto);
     const user = await this.userRepository.findById(userID);
     if (!user) throw new BadRequestException('User not found');
     return await this.movieRepository.insert(dto, userID);
@@ -59,16 +55,16 @@ export class MoviesUseCases {
     return await this.movieRepository.findAllBySearch(searchText, pagintaion);
   }
 
-  async validateCreate(dto: CreateMovieDto): Promise<void> {
-    const director = await this.directorRepository.findById(dto.directorID);
-    if (!director) throw new BadRequestException('Director not found');
-    const actors = await this.actorRepository.findAllByID(dto.actorsID);
-    if (!actors || actors.length != dto.actorsID.length)
-      throw new BadRequestException('Actors not found');
-    const categories = await this.categoryRepository.findAllByID(
-      dto.categoriesID,
-    );
-    if (!categories || categories.length != dto.categoriesID.length)
-      throw new BadRequestException('Categories not found');
-  }
+  // async validateCreate(dto: CreateMovieDto): Promise<void> {
+  //   const director = await this.directorRepository.findById(dto.directorID);
+  //   if (!director) throw new BadRequestException('Director not found');
+  //   const actors = await this.actorRepository.findAllByID(dto.actorsID);
+  //   if (!actors || actors.length != dto.actorsID.length)
+  //     throw new BadRequestException('Actors not found');
+  //   const categories = await this.categoryRepository.findAllByID(
+  //     dto.categoriesID,
+  //   );
+  //   if (!categories || categories.length != dto.categoriesID.length)
+  //     throw new BadRequestException('Categories not found');
+  // }
 }

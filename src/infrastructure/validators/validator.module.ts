@@ -19,7 +19,7 @@ import {
 import { IsDirectorFoundConstraint } from './directors/director.validator';
 import { IsMovieFoundConstraint } from './movies/movie.validator';
 import { IsReviewFoundConstraint } from './reviews/review.validator';
-import { IsRoleAlreadyExistConstraint } from './roles/role.validator';
+import { IsRoleFoundConstraint } from './roles/role.validator';
 import {
   IsUserFoundConstraint,
   IsUserEmailAlreadyExistConstraint,
@@ -29,10 +29,10 @@ import {
   imports: [UsecasesModule],
   providers: [
     {
-      provide: IsRoleAlreadyExistConstraint,
+      provide: IsRoleFoundConstraint,
       inject: [RoleUseCases],
       useFactory: (roleUsecases: RoleUseCases) =>
-        new IsRoleAlreadyExistConstraint(roleUsecases),
+        new IsRoleFoundConstraint(roleUsecases),
     },
     {
       provide: IsUserFoundConstraint,
