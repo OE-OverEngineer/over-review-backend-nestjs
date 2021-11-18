@@ -5,7 +5,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { RoleUseCases } from 'src/usecases/roles.usecase';
+import { RoleUseCases } from 'src/usecases/roles/roles.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()

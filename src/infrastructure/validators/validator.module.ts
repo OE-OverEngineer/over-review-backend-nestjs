@@ -4,7 +4,8 @@ import { CategoriesUseCases } from 'src/usecases/categories.usecase';
 import { DirectorsUseCases } from 'src/usecases/directors.usecase';
 import { MoviesUseCases } from 'src/usecases/movies.usecase';
 import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
-import { RoleUseCases } from 'src/usecases/roles.usecase';
+import { RoleUseCases } from 'src/usecases/roles/roles.usecase';
+
 import { UsecasesModule } from 'src/usecases/usecases.module';
 import { UsersUseCases } from 'src/usecases/users.usecase';
 import {
