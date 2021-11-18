@@ -6,7 +6,7 @@ import { Director } from 'src/infrastructure/entities/director.entity';
 
 export class DirectorsUseCases {
   constructor(
-    // private readonly logger: ILogger,
+    
     private readonly directorRepository: IDirectorRepository,
   ) {}
 

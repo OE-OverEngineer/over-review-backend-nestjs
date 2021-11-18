@@ -5,7 +5,7 @@ import { Category } from 'src/infrastructure/entities/category.entity';
 
 export class CategoriesUseCases {
   constructor(
-    // private readonly logger: ILogger,
+    
     private readonly categoriesRepository: ICategoryRepository,
   ) {}
 
@@ -31,5 +31,9 @@ export class CategoriesUseCases {
 
   async findAll(): Promise<Category[]> {
     return await this.categoriesRepository.findAll();
+  }
+
+  async findAllByID(ids: number[]): Promise<Category[]> {
+    return await this.categoriesRepository.findAllByID(ids);
   }
 }

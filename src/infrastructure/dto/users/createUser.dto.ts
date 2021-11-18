@@ -10,10 +10,11 @@ import {
   IsDateString,
 } from 'class-validator';
 import { IsRoleAlreadyExist } from 'src/infrastructure/validators/roles/role.validator';
-import { IsUserEmailAlreadyExist } from 'src/infrastructure/validators/users/user.validator';
+import { IsEmailAlreadyExist } from 'src/infrastructure/validators/users/user.validator';
+
 export class CreateUserDto {
   @IsEmail()
-  @IsUserEmailAlreadyExist()
+  @IsEmailAlreadyExist()
   @ApiProperty({ default: 'test@test.com' })
   email: string;
 

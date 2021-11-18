@@ -7,7 +7,7 @@ import { Review } from 'src/infrastructure/entities/review.entity';
 
 export class ReviewsUsecase {
   constructor(
-    // private readonly logger: ILogger,
+    
     private readonly movieRepository: IMovieRepository,
     private readonly reviewReository: IReviewRepository,
   ) {}

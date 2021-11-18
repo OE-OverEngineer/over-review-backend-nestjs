@@ -8,10 +8,7 @@ import { Injectable } from '@nestjs/common';
 @Service('UsersUseCase')
 @Injectable()
 export class UsersUseCases {
-  constructor(
-    // private readonly logger: ILogger,
-    private readonly userRepository: IUsersRepository,
-  ) {}
+  constructor(private readonly userRepository: IUsersRepository) {}
 
   async create(dto: CreateUserDto): Promise<void> {
     const errors = await validate(dto);

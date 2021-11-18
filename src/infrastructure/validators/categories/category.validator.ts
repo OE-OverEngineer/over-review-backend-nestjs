@@ -9,9 +9,7 @@ import { CategoriesUseCases } from 'src/usecases/categories.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class IsCategoryAlreadyExistConstraint
-  implements ValidatorConstraintInterface
-{
+export class IsCategoryFoundConstraint implements ValidatorConstraintInterface {
   constructor(private readonly categoriesUsecases: CategoriesUseCases) {}
   validate(id: any) {
     return this.categoriesUsecases.findOne(id).then((category) => {
@@ -23,49 +21,75 @@ export class IsCategoryAlreadyExistConstraint
     return 'category not found';
   }
 }
-
 @ValidatorConstraint({ async: true })
-export class IsCategoryTitleAlreadyExistConstraint
+export class IsCategoryListFoundConstraint
   implements ValidatorConstraintInterface
 {
   constructor(private readonly categoriesUsecases: CategoriesUseCases) {}
-  validate(title: string) {
-    return this.categoriesUsecases.findByTitle(title).then((category) => {
-      if (category) return false;
+  validate(ids: number[]) {
+    return this.categoriesUsecases.findAllByID(ids).then((category) => {
+      if (!category || category.length != ids.length) return false;
       return true;
     });
   }
   defaultMessage() {
-    return 'category already exists';
+    return 'categories not found';
   }
 }
 
 /**  This is for decoration validator */
 
-export function IsCategoryAlreadyExist(validationOptions?: ValidationOptions) {
+export function IsCategoryFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
-      name: 'IsCategoryAlreadyExist',
+      name: 'IsCategoryFound',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
       options: validationOptions,
-      validator: IsCategoryAlreadyExistConstraint,
+      validator: IsCategoryFoundConstraint,
     });
   };
 }
 
-export function IsCategoryTitleAlreadyExist(
-  validationOptions?: ValidationOptions,
-) {
+export function IsCategoryListFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
-      name: 'IsCategoryTitleAlreadyExist',
+      name: 'IsCategoryListFound',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
       options: validationOptions,
-      validator: IsCategoryTitleAlreadyExistConstraint,
+      validator: IsCategoryListFoundConstraint,
     });
   };
 }
+// @ValidatorConstraint({ async: true })
+// export class IsCategoryTitleAlreadyExistConstraint
+//   implements ValidatorConstraintInterface
+// {
+//   constructor(private readonly categoriesUsecases: CategoriesUseCases) {}
+//   validate(title: string) {
+//     return this.categoriesUsecases.findByTitle(title).then((category) => {
+//       if (category) return false;
+//       return true;
+//     });
+//   }
+//   defaultMessage() {
+//     return 'category already exists';
+//   }
+// }
+// export function IsCategoryTitleAlreadyExist(
+//   validationOptions?: ValidationOptions,
+// ) {
+//   return function (object: any, propertyName: string) {
+//     registerDecorator({
+//       name: 'IsCategoryTitleAlreadyExist',
+//       target: object.constructor,
+//       propertyName: propertyName,
+//       constraints: [],
+//       options: validationOptions,
+//       validator: IsCategoryTitleAlreadyExistConstraint,
+//     });
+//   };
+// }

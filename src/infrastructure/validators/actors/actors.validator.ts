@@ -9,9 +9,7 @@ import { ActorsUseCases } from 'src/usecases/actors.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class IsActorAlreadyExistConstraint
-  implements ValidatorConstraintInterface
-{
+export class IsActorFoundConstraint implements ValidatorConstraintInterface {
   constructor(private readonly actorsUsecases: ActorsUseCases) {}
   validate(id: any) {
     return this.actorsUsecases.findOne(id).then((actor) => {
@@ -25,7 +23,7 @@ export class IsActorAlreadyExistConstraint
 }
 
 @ValidatorConstraint({ async: true })
-export class IsActorListAlreadyExistConstraint
+export class IsActorListFoundConstraint
   implements ValidatorConstraintInterface
 {
   constructor(private readonly actorsUsecases: ActorsUseCases) {}
@@ -42,28 +40,28 @@ export class IsActorListAlreadyExistConstraint
 
 /**  This is for decoration validator */
 
-export function IsActorAlreadyExist(validationOptions?: ValidationOptions) {
+export function IsActorFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
-      name: 'IsActorAlreadyExist',
+      name: 'IsActorFound',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
       options: validationOptions,
-      validator: IsActorAlreadyExistConstraint,
+      validator: IsActorFoundConstraint,
     });
   };
 }
 
-export function IsActorListAlreadyExist(validationOptions?: ValidationOptions) {
+export function IsActorListFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
-      name: 'IsActorListAlreadyExist',
+      name: 'IsActorListFound',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
       options: validationOptions,
-      validator: IsActorListAlreadyExistConstraint,
+      validator: IsActorListFoundConstraint,
     });
   };
 }

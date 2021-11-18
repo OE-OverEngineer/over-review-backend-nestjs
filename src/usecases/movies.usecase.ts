@@ -11,7 +11,7 @@ import { Movie } from 'src/infrastructure/entities/movie.entity';
 
 export class MoviesUseCases {
   constructor(
-    // private readonly logger: ILogger,
+    
     private readonly movieRepository: IMovieRepository,
     private readonly actorRepository: IActorRepository,
     private readonly directorRepository: IDirectorRepository,

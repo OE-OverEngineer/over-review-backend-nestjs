@@ -9,9 +9,7 @@ import { UsersUseCases } from 'src/usecases/users.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
-export class IsUserAlreadyExistConstraint
-  implements ValidatorConstraintInterface
-{
+export class IsUserFoundConstraint implements ValidatorConstraintInterface {
   constructor(private readonly userUsecases: UsersUseCases) {}
   validate(id: any) {
     return this.userUsecases.findOne(id).then((user) => {
@@ -39,13 +37,40 @@ export class IsUserEmailAlreadyExistConstraint
     return 'email already exists';
   }
 }
+// @ValidatorConstraint({ async: true })
+// export class IsUserEmailAlreadyExistConstraint
+//   implements ValidatorConstraintInterface
+// {
+//   constructor(private readonly userUsecases: UsersUseCases) {}
+//   validate(email: string) {
+//     return this.userUsecases.findByEmail(email).then((user) => {
+//       if (user) return false;
+//       return true;
+//     });
+//   }
+//   defaultMessage() {
+//     return 'email already exists';
+//   }
+// }
 
 /**  This is for decoration validator */
-
-export function IsUserEmailAlreadyExist(validationOptions?: ValidationOptions) {
+export function IsUserFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
-      name: 'IsUserEmailAlreadyExist',
+      name: 'IsUserFound',
+      target: object.constructor,
+      propertyName: propertyName,
+      constraints: [],
+      options: validationOptions,
+      validator: IsUserFoundConstraint,
+    });
+  };
+}
+
+export function IsEmailAlreadyExist(validationOptions?: ValidationOptions) {
+  return function (object: any, propertyName: string) {
+    registerDecorator({
+      name: 'IsEmailAlreadyExist',
       target: object.constructor,
       propertyName: propertyName,
       constraints: [],
@@ -55,15 +80,15 @@ export function IsUserEmailAlreadyExist(validationOptions?: ValidationOptions) {
   };
 }
 
-export function IsUserAlreadyExist(validationOptions?: ValidationOptions) {
-  return function (object: any, propertyName: string) {
-    registerDecorator({
-      name: 'IsUserAlreadyExist',
-      target: object.constructor,
-      propertyName: propertyName,
-      constraints: [],
-      options: validationOptions,
-      validator: IsUserAlreadyExistConstraint,
-    });
-  };
-}
+// export function IsUserEmailAlreadyExist(validationOptions?: ValidationOptions) {
+//   return function (object: any, propertyName: string) {
+//     registerDecorator({
+//       name: 'IsUserEmailAlreadyExist',
+//       target: object.constructor,
+//       propertyName: propertyName,
+//       constraints: [],
+//       options: validationOptions,
+//       validator: IsUserEmailAlreadyExistConstraint,
+//     });
+//   };
+// }

@@ -6,7 +6,7 @@ import { BadRequestException } from '@nestjs/common';
 
 export class RoleUseCases {
   constructor(
-    // private readonly logger: ILogger,
+    
     private readonly roleRepository: IRoleRepository,
   ) {}
   async create(dto: CreateRoleDto): Promise<Role> {

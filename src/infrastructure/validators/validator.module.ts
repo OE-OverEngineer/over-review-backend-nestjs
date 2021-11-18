@@ -1,20 +1,26 @@
 import { Module } from '@nestjs/common';
 import { ActorsUseCases } from 'src/usecases/actors.usecase';
 import { CategoriesUseCases } from 'src/usecases/categories.usecase';
+import { DirectorsUseCases } from 'src/usecases/directors.usecase';
+import { MoviesUseCases } from 'src/usecases/movies.usecase';
+import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
 import { RoleUseCases } from 'src/usecases/roles.usecase';
 import { UsecasesModule } from 'src/usecases/usecases.module';
 import { UsersUseCases } from 'src/usecases/users.usecase';
 import {
-  IsActorAlreadyExistConstraint,
-  IsActorListAlreadyExistConstraint,
+  IsActorFoundConstraint,
+  IsActorListFoundConstraint,
 } from './actors/actors.validator';
 import {
-  IsCategoryAlreadyExistConstraint,
-  IsCategoryTitleAlreadyExistConstraint,
+  IsCategoryFoundConstraint,
+  IsCategoryListFoundConstraint,
 } from './categories/category.validator';
+import { IsDirectorFoundConstraint } from './directors/director.validator';
+import { IsMovieFoundConstraint } from './movies/movie.validator';
+import { IsReviewFoundConstraint } from './reviews/review.validator';
 import { IsRoleAlreadyExistConstraint } from './roles/role.validator';
 import {
-  IsUserAlreadyExistConstraint,
+  IsUserFoundConstraint,
   IsUserEmailAlreadyExistConstraint,
 } from './users/user.validator';
 
@@ -28,10 +34,10 @@ import {
         new IsRoleAlreadyExistConstraint(roleUsecases),
     },
     {
-      provide: IsUserAlreadyExistConstraint,
+      provide: IsUserFoundConstraint,
       inject: [UsersUseCases],
       useFactory: (usersUsecases: UsersUseCases) =>
-        new IsUserAlreadyExistConstraint(usersUsecases),
+        new IsUserFoundConstraint(usersUsecases),
     },
     {
       provide: IsUserEmailAlreadyExistConstraint,
@@ -40,28 +46,46 @@ import {
         new IsUserEmailAlreadyExistConstraint(userUsercases),
     },
     {
-      provide: IsActorAlreadyExistConstraint,
+      provide: IsActorFoundConstraint,
       inject: [ActorsUseCases],
       useFactory: (actorsUsecases: ActorsUseCases) =>
-        new IsActorAlreadyExistConstraint(actorsUsecases),
+        new IsActorFoundConstraint(actorsUsecases),
     },
     {
-      provide: IsActorListAlreadyExistConstraint,
+      provide: IsActorListFoundConstraint,
       inject: [ActorsUseCases],
       useFactory: (actorsUsecases: ActorsUseCases) =>
-        new IsActorListAlreadyExistConstraint(actorsUsecases),
+        new IsActorListFoundConstraint(actorsUsecases),
     },
     {
-      provide: IsCategoryAlreadyExistConstraint,
+      provide: IsCategoryFoundConstraint,
       inject: [CategoriesUseCases],
       useFactory: (categoriesUsecases: CategoriesUseCases) =>
-        new IsCategoryAlreadyExistConstraint(categoriesUsecases),
+        new IsCategoryFoundConstraint(categoriesUsecases),
     },
     {
-      provide: IsCategoryTitleAlreadyExistConstraint,
+      provide: IsCategoryListFoundConstraint,
       inject: [CategoriesUseCases],
       useFactory: (categoriesUsecases: CategoriesUseCases) =>
-        new IsCategoryTitleAlreadyExistConstraint(categoriesUsecases),
+        new IsCategoryListFoundConstraint(categoriesUsecases),
+    },
+    {
+      provide: IsDirectorFoundConstraint,
+      inject: [DirectorsUseCases],
+      useFactory: (directorsUsecases: DirectorsUseCases) =>
+        new IsDirectorFoundConstraint(directorsUsecases),
+    },
+    {
+      provide: IsMovieFoundConstraint,
+      inject: [MoviesUseCases],
+      useFactory: (moviesUsecases: MoviesUseCases) =>
+        new IsMovieFoundConstraint(moviesUsecases),
+    },
+    {
+      provide: IsReviewFoundConstraint,
+      inject: [ReviewsUsecase],
+      useFactory: (reviewsUsecases: ReviewsUsecase) =>
+        new IsReviewFoundConstraint(reviewsUsecases),
     },
   ],
   exports: [],

@@ -5,7 +5,7 @@ import { Actor } from 'src/infrastructure/entities/actor.entity';
 
 export class ActorsUseCases {
   constructor(
-    // private readonly logger: ILogger,
+    
     private readonly actorRepository: IActorRepository,
   ) {}
 
