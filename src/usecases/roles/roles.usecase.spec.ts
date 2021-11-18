@@ -61,9 +61,18 @@ describe('Role Usecase', () => {
 
   describe('Error handle', () => {
     it('title is empty', async () => {
-      await expect(roleUseCases.create({ title: '' })).rejects.toEqual(
-        new BadRequestException(),
-      );
+      try {
+        await roleUseCases.create({ title: '' });
+      } catch (e) {
+        expect(e).toBeInstanceOf(BadRequestException);
+      }
+    });
+    it('title is not string', async () => {
+      try {
+        await roleUseCases.create({ title: undefined });
+      } catch (e) {
+        expect(e).toBeInstanceOf(BadRequestException);
+      }
     });
   });
 });

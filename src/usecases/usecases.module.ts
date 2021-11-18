@@ -20,7 +20,7 @@ import { CategoriesUseCases } from './categories.usecase';
 import { DirectorsUseCases } from './directors.usecase';
 import { MoviesUseCases } from './movies.usecase';
 import { ReviewsUsecase } from './reviews.usecase';
-import { RoleUseCases } from './roles.usecase';
+import { RoleUseCases } from './roles/roles.usecase';
 import { UsersUseCases } from './users.usecase';
 
 @Module({
