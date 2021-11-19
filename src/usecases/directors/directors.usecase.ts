@@ -5,10 +5,7 @@ import { UpdateDirectorDto } from 'src/infrastructure/dto/directors/updateDirect
 import { Director } from 'src/infrastructure/entities/director.entity';
 
 export class DirectorsUseCases {
-  constructor(
-    
-    private readonly directorRepository: IDirectorRepository,
-  ) {}
+  constructor(private readonly directorRepository: IDirectorRepository) {}
 
   async create(dto: CreateDirectorDto): Promise<void> {
     await this.directorRepository.insert(dto);

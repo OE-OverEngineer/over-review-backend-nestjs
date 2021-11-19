@@ -8,7 +8,7 @@ import { IReviewRepository } from 'src/domain/repositories/reviewRepository.inte
 import { IRoleRepository } from 'src/domain/repositories/roleRepository.interface';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { DatabaseActorRepository } from 'src/infrastructure/repositories/actors/actors.repository';
-import { DatabaseCategoriesRepository } from 'src/infrastructure/repositories/categories/categories.repository';
+import { DatabaseCategoryRepository } from 'src/infrastructure/repositories/categories/categories.repository';
 import { DatabaseCommentRepository } from 'src/infrastructure/repositories/comments/comments.repository';
 import { DatabaseDirectorsRepository } from 'src/infrastructure/repositories/directors/directors.repository';
 import { DatabaseMovieRepository } from 'src/infrastructure/repositories/movie/movie.repository';
@@ -63,7 +63,7 @@ import { UsersUseCases } from './users/users.usecase';
     },
     {
       provide: CategoriesUseCases,
-      inject: [DatabaseCategoriesRepository],
+      inject: [DatabaseCategoryRepository],
       useFactory: (repository: ICategoryRepository) =>
         new CategoriesUseCases(repository),
     },

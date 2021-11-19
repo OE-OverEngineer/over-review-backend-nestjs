@@ -10,7 +10,7 @@ import { Review } from '../entities/review.entity';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
 import { DatabaseActorRepository } from './actors/actors.repository';
-import { DatabaseCategoriesRepository } from './categories/categories.repository';
+import { DatabaseCategoryRepository } from './categories/categories.repository';
 import { DatabaseCommentRepository } from './comments/comments.repository';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
@@ -39,7 +39,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
     DatabaseReviewRepository,
-    DatabaseCategoriesRepository,
+    DatabaseCategoryRepository,
     MockRoleRepository,
   ],
   exports: [
@@ -49,7 +49,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
     DatabaseReviewRepository,
-    DatabaseCategoriesRepository,
+    DatabaseCategoryRepository,
     MockRoleRepository,
   ],
 })

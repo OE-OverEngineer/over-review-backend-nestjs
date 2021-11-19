@@ -4,33 +4,33 @@ import { UpdateCategoryDto } from 'src/infrastructure/dto/category/updateCategor
 import { Category } from 'src/infrastructure/entities/category.entity';
 
 export class CategoriesUseCases {
-  constructor(private readonly categoriesRepository: ICategoryRepository) {}
+  constructor(private readonly categoryRepository: ICategoryRepository) {}
 
   async create(dto: CreateCategoryDto): Promise<void> {
-    await this.categoriesRepository.insert(dto);
+    await this.categoryRepository.insert(dto);
   }
   async update(id: number, dto: UpdateCategoryDto): Promise<void> {
-    await this.categoriesRepository.update(id, dto);
+    await this.categoryRepository.update(id, dto);
   }
   async delete(id: number): Promise<void> {
-    await this.categoriesRepository.deleteById(id);
+    await this.categoryRepository.deleteById(id);
   }
 
   async findOne(id: number): Promise<Category | undefined> {
-    const category = await this.categoriesRepository.findById(id);
+    const category = await this.categoryRepository.findById(id);
     return category;
   }
 
   async findByTitle(title: string): Promise<Category | undefined> {
-    const category = await this.categoriesRepository.findByTitle(title);
+    const category = await this.categoryRepository.findByTitle(title);
     return category;
   }
 
   async findAll(): Promise<Category[]> {
-    return await this.categoriesRepository.findAll();
+    return await this.categoryRepository.findAll();
   }
 
   async findAllByID(ids: number[]): Promise<Category[]> {
-    return await this.categoriesRepository.findAllByID(ids);
+    return await this.categoryRepository.findAllByID(ids);
   }
 }

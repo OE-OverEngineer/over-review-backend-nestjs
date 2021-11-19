@@ -8,7 +8,7 @@ import { Category } from 'src/infrastructure/entities/category.entity';
 import { In, Repository } from 'typeorm';
 
 @Injectable()
-export class DatabaseCategoriesRepository implements ICategoryRepository {
+export class DatabaseCategoryRepository implements ICategoryRepository {
   constructor(
     @InjectRepository(Category)
     private readonly categoryEntityRepository: Repository<Category>,
