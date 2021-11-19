@@ -1,11 +1,11 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Role } from 'src/infrastructure/entities/role.entity';
 import { MockRoleRepository } from 'src/infrastructure/repositories/roles/roles.mock.repositoty';
-import { RoleUseCases } from './roles.usecase';
+import { RolesUseCases } from './roles.usecase';
 
 describe('Role Usecase', () => {
-  let roleUseCases: RoleUseCases;
+  let roleUseCases: RolesUseCases;
   let roleMockRepository: MockRoleRepository;
 
   beforeEach(async () => {
@@ -13,15 +13,15 @@ describe('Role Usecase', () => {
       providers: [
         MockRoleRepository,
         {
-          provide: RoleUseCases,
+          provide: RolesUseCases,
           inject: [MockRoleRepository],
           useFactory: (roleMockRepository: MockRoleRepository) =>
-            new RoleUseCases(roleMockRepository),
+            new RolesUseCases(roleMockRepository),
         },
       ],
     }).compile();
 
-    roleUseCases = module.get<RoleUseCases>(RoleUseCases);
+    roleUseCases = module.get<RolesUseCases>(RolesUseCases);
     roleMockRepository = module.get<MockRoleRepository>(MockRoleRepository);
   });
 
@@ -60,18 +60,28 @@ describe('Role Usecase', () => {
   });
 
   describe('Error handle', () => {
-    it('title is empty', async () => {
+    it('title is empty', async (done) => {
       try {
         await roleUseCases.create({ title: '' });
       } catch (e) {
         expect(e).toBeInstanceOf(BadRequestException);
+        done();
       }
     });
-    it('title is not string', async () => {
+    it('title is not string', async (done) => {
       try {
         await roleUseCases.create({ title: undefined });
       } catch (e) {
         expect(e).toBeInstanceOf(BadRequestException);
+        done();
+      }
+    });
+    it('title is already exists', async (done) => {
+      try {
+        await roleUseCases.create({ title: 'admin2' });
+      } catch (e) {
+        expect(e).toBeInstanceOf(ForbiddenException);
+        done();
       }
     });
   });

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { IRoleRepository } from 'src/domain/repositories/roleRepository.interface';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
@@ -7,6 +8,8 @@ import { Service } from 'typedi';
 @Injectable()
 @Service()
 export class MockUsersRepository implements IUsersRepository {
+  constructor(private readonly roleRepository: IRoleRepository) {}
+  private users: User[] = [];
   create(dto: CreateUserDto): Promise<User> {
     throw new Error('Method not implemented.');
   }

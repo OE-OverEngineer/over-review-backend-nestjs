@@ -4,16 +4,13 @@ import { Role } from 'src/infrastructure/entities/role.entity';
 import { validate } from 'class-validator';
 import { BadRequestException, Inject } from '@nestjs/common';
 
-export class RoleUseCases {
-  constructor(
-    
-    private readonly roleRepository: IRoleRepository,
-  ) {}
+export class RolesUseCases {
+  constructor(private readonly roleRepository: IRoleRepository) {}
   async create(dto: CreateRoleDto): Promise<Role> {
-    const errors = await validate(dto);
-    if (errors.length > 0) {
-      throw new BadRequestException();
-    }
+    // const errors = await validate(dto);
+    // if (errors.length > 0) {
+    //   throw new BadRequestException();
+    // }
     return await this.roleRepository.insert(dto);
   }
   async findOne(id: number): Promise<Role | undefined> {
