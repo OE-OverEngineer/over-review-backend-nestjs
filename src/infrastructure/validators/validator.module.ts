@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { ActorsUseCases } from 'src/usecases/actors/actors.usecase';
 import { CategoriesUseCases } from 'src/usecases/categories/categories.usecase';
 import { DirectorsUseCases } from 'src/usecases/directors/directors.usecase';
-import { MoviesUseCases } from 'src/usecases/movies.usecase';
-import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
-import { RoleUseCases } from 'src/usecases/roles/roles.usecase';
+import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
+import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
+import { RolesUseCases } from 'src/usecases/roles/roles.usecase';
 
 import { UsecasesModule } from 'src/usecases/usecases.module';
-import { UsersUseCases } from 'src/usecases/users.usecase';
+import { UsersUseCases } from 'src/usecases/users/users.usecase';
 import {
   IsActorFoundConstraint,
   IsActorListFoundConstraint,
@@ -30,8 +30,8 @@ import {
   providers: [
     {
       provide: IsRoleFoundConstraint,
-      inject: [RoleUseCases],
-      useFactory: (roleUsecases: RoleUseCases) =>
+      inject: [RolesUseCases],
+      useFactory: (roleUsecases: RolesUseCases) =>
         new IsRoleFoundConstraint(roleUsecases),
     },
     {

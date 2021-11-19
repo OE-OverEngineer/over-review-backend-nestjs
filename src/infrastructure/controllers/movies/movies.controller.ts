@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
-import { MoviesUseCases } from 'src/usecases/movies.usecase';
+import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
 
 @Controller('movies')
 export class MoviesController {

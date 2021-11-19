@@ -1,7 +1,4 @@
 import { BadRequestException } from '@nestjs/common';
-import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
-import { ICategoryRepository } from 'src/domain/repositories/categoriesRepository.interface';
-import { IDirectorRepository } from 'src/domain/repositories/directorRepository.interface';
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';

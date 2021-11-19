@@ -6,7 +6,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-import { ReviewsUsecase } from 'src/usecases/reviews.usecase';
+import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()

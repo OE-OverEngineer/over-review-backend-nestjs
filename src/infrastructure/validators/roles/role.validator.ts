@@ -5,14 +5,14 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator';
-import { RoleUseCases } from 'src/usecases/roles/roles.usecase';
+import { RolesUseCases } from 'src/usecases/roles/roles.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class IsRoleFoundConstraint implements ValidatorConstraintInterface {
-  constructor(private readonly roleUsecases: RoleUseCases) {}
+  constructor(private readonly rolesUsecases: RolesUseCases) {}
   validate(id: any) {
-    return this.roleUsecases.findOne(id).then((role) => role != undefined);
+    return this.rolesUsecases.findOne(id).then((role) => role != undefined);
   }
   defaultMessage() {
     return 'role not found';

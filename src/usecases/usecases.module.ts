@@ -20,10 +20,10 @@ import { ActorsUseCases } from './actors/actors.usecase';
 import { CategoriesUseCases } from './categories/categories.usecase';
 import { CommentsUseCases } from './comments/comments.usecase';
 import { DirectorsUseCases } from './directors/directors.usecase';
-import { MoviesUseCases } from './movies.usecase';
-import { ReviewsUsecase } from './reviews.usecase';
-import { RoleUseCases } from './roles/roles.usecase';
-import { UsersUseCases } from './users.usecase';
+import { MoviesUseCases } from './movies/movies.usecase';
+import { ReviewsUsecase } from './reviews/reviews.usecase';
+import { RolesUseCases } from './roles/roles.usecase';
+import { UsersUseCases } from './users/users.usecase';
 
 @Module({
   imports: [RepositoriesModule],
@@ -68,9 +68,10 @@ import { UsersUseCases } from './users.usecase';
         new CategoriesUseCases(repository),
     },
     {
-      provide: RoleUseCases,
+      provide: RolesUseCases,
       inject: [MockRoleRepository],
-      useFactory: (repository: IRoleRepository) => new RoleUseCases(repository),
+      useFactory: (repository: IRoleRepository) =>
+        new RolesUseCases(repository),
     },
     {
       provide: CommentsUseCases,
@@ -82,13 +83,12 @@ import { UsersUseCases } from './users.usecase';
   exports: [
     UsersUseCases,
     MoviesUseCases,
-
     CommentsUseCases,
     ActorsUseCases,
     DirectorsUseCases,
     ReviewsUsecase,
     CategoriesUseCases,
-    RoleUseCases,
+    RolesUseCases,
   ],
 })
 export class UsecasesModule {}

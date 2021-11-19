@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
-import { UsersUseCases } from 'src/usecases/users.usecase';
+import { UsersUseCases } from 'src/usecases/users/users.usecase';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 
 @Controller('users')
