@@ -7,10 +7,14 @@ import {
   IsArray,
   ArrayMinSize,
   IsDateString,
+  Validate,
 } from 'class-validator';
 import { IsActorListFound } from 'src/infrastructure/validators/actors/actors.validator';
 import { IsCategoryListFound } from 'src/infrastructure/validators/categories/category.validator';
-import { IsDirectorFound } from 'src/infrastructure/validators/directors/director.validator';
+import {
+  IsDirectorFound,
+  IsDirectorFoundConstraint,
+} from 'src/infrastructure/validators/directors/director.validator';
 
 export class CreateMovieDto {
   @IsString()
@@ -23,6 +27,7 @@ export class CreateMovieDto {
 
   @IsInt()
   @IsDirectorFound()
+  // @Validate(IsDirectorFoundConstraint)
   @ApiProperty()
   directorID: number;
 

@@ -7,9 +7,6 @@ export class Report {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Director, (d) => d.movies)
-  director: Director;
-
   @ManyToOne(() => User, (u) => u.reported)
   targetUser: User;
 

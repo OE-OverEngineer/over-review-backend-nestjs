@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Comment } from './comment.entity';
+import { Like } from './like.entity';
 import { Movie } from './movie.entity';
 import { User } from './user.entity';
 
@@ -28,4 +29,7 @@ export class Review {
 
   @OneToMany(() => Comment, (c) => c.review)
   comments?: Comment[];
+
+  @OneToMany(() => Like, (c) => c.review)
+  likes?: Like[];
 }

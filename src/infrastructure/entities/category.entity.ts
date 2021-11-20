@@ -4,6 +4,8 @@ import {
   PrimaryGeneratedColumn,
   JoinTable,
   ManyToMany,
+  UpdateDateColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Movie } from './movie.entity';
 
@@ -18,4 +20,10 @@ export class Category {
   @ManyToMany(() => Movie, (m) => m.categories)
   @JoinTable()
   movies: Movie[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
