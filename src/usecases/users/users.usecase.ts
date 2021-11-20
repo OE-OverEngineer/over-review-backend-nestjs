@@ -39,4 +39,8 @@ export class UsersUseCases {
   async findAll(): Promise<User[]> {
     return await this.userRepository.findAll();
   }
+
+  async findTopReviewers(amount: number): Promise<User[]> {
+    return await this.userRepository.findTopReviewers(amount);
+  }
 }

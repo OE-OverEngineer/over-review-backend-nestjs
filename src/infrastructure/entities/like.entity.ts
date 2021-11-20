@@ -1,4 +1,3 @@
-// import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 import {
   CreateDateColumn,
   Entity,
@@ -6,7 +5,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Movie } from './movie.entity';
 import { Review } from './review.entity';
 import { User } from './user.entity';
 

@@ -22,6 +22,9 @@ export class Director {
   @OneToMany(() => Movie, (m) => m.director)
   movies: Movie[];
 
+  @Column()
+  imageUrl: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

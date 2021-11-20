@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Director } from './director.entity';
 import { User } from './user.entity';
 
 @Entity()

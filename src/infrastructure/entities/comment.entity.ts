@@ -27,8 +27,7 @@ export class Comment {
 
   @OneToMany(() => Reply, (r) => r.comment)
   reply: Reply[];
-  // @ManyToOne(() => Movie, (m) => m.i)
-  // movie: Movie;
+
   @CreateDateColumn()
   createdAt: Date;
 

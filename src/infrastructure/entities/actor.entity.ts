@@ -22,6 +22,9 @@ export class Actor {
   @ManyToMany(() => Movie, (m) => m.id)
   movies: Movie[];
 
+  @Column()
+  imageUrl: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

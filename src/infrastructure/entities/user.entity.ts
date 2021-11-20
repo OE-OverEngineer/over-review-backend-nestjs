@@ -76,4 +76,6 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  amountReviews?: number;
 }

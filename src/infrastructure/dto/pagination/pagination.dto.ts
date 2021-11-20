@@ -8,5 +8,5 @@ export class Pagination {
   pageNum: number;
 
   @ApiProperty({ nullable: true, required: false })
-  sort?: string;
+  sortBy?: string;
 }

@@ -31,21 +31,34 @@ export class DatabaseMovieRepository implements IMovieRepository {
 
   async findAll(pagination: Pagination): Promise<Movie[]> {
     // TODO : ADD Pagination and filter and response pagination
-    // const [score] = await this.movieEntityRepository
-    //   .createQueryBuilder('movie')
-    //   .select('movie')
-    //   .addSelect('AVG(reviews.score)', 'score')
-    //   .leftJoin('movie.reviews', 'reviews')
-    //   .groupBy('movie.id')
-    //   .getRawMany();
-    // console.log(score);
+    let sort: string | undefined;
+    if (pagination.sortBy == 'random') sort = 'RANDOM()';
+    else if (pagination.sortBy == 'popular') sort = 'count';
+    else if (pagination.sortBy == 'recent') sort = 'movie.startDate';
+    const raw = await this.movieEntityRepository
+      .createQueryBuilder('movie')
+      .select('movie.id')
+      .addSelect('COUNT(reviews.score)', 'count')
+      .addSelect('AVG(reviews.score)', 'score')
+      .leftJoin('movie.reviews', 'reviews')
+      .groupBy('movie.id')
+      .orderBy(sort)
+      .getRawMany();
+    const ids = raw.map(({ movie_id }) => movie_id);
     const movies = await this.movieEntityRepository.find({
+      where: { id: In(ids) },
       relations: ['director', 'actors', 'categories'],
-      take: pagination.perPage,
-      skip: pagination.pageNum - 1,
+    });
+    const response = movies.map((e) => {
+      return {
+        ...e,
+        score: Number(
+          Number(raw.find((i) => i.movie_id == e.id).score).toFixed(1),
+        ),
+      };
     });
 
-    return movies;
+    return response;
   }
   async findByCategory(
     pagination: Pagination,

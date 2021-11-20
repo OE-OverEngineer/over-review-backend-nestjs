@@ -2,19 +2,14 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsInt,
   IsString,
-  IsDate,
   IsNotEmpty,
   IsArray,
   ArrayMinSize,
   IsDateString,
-  Validate,
 } from 'class-validator';
 import { IsActorListFound } from 'src/infrastructure/validators/actors/actors.validator';
 import { IsCategoryListFound } from 'src/infrastructure/validators/categories/category.validator';
-import {
-  IsDirectorFound,
-  IsDirectorFoundConstraint,
-} from 'src/infrastructure/validators/directors/director.validator';
+import { IsDirectorFound } from 'src/infrastructure/validators/directors/director.validator';
 
 export class CreateMovieDto {
   @IsString()
@@ -24,10 +19,9 @@ export class CreateMovieDto {
   @IsString()
   @ApiProperty()
   description: string;
-
+  //
   @IsInt()
   @IsDirectorFound()
-  // @Validate(IsDirectorFoundConstraint)
   @ApiProperty()
   directorID: number;
 

@@ -5,14 +5,22 @@ import {
   Body,
   Request,
   UseGuards,
+  Query,
+  Param,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { UsersUseCases } from 'src/usecases/users/users.usecase';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 
+import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
+import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
+
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userUsecases: UsersUseCases) {}
+  constructor(
+    private readonly userUsecases: UsersUseCases,
+    private readonly reviewsUsecases: ReviewsUsecase,
+  ) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
@@ -32,6 +40,17 @@ export class UsersController {
     return user;
   }
 
+  @Get('/:id/reviews')
+  async findReviewFromID(
+    @Query() pagintaion: Pagination,
+    @Param('id') id: number,
+  ) {
+    return this.reviewsUsecases.findAllByUserID(id, pagintaion);
+  }
+  @Get('/top-review/')
+  async findTopReview(@Query('amount') amount: number) {
+    return this.userUsecases.findTopReviewers(amount);
+  }
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.usersService.findById(Number.parseInt(id));

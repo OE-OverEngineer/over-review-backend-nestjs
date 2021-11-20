@@ -3,7 +3,7 @@ import { UpdateCommentDto } from 'src/infrastructure/dto/comments/updateComment.
 import { Comment } from 'src/infrastructure/entities/comment.entity';
 
 export interface ICommentRepository {
-  insert(dto: CreateCommentDto): Promise<Comment>;
+  insert(dto: CreateCommentDto, userID: number): Promise<Comment>;
   findAll(): Promise<Comment[]>;
   findById(id: number): Promise<Comment>;
   update(id: number, dto: UpdateCommentDto): Promise<Comment>;

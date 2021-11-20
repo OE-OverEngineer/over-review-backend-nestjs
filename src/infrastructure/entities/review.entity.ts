@@ -32,4 +32,6 @@ export class Review {
 
   @OneToMany(() => Like, (c) => c.review)
   likes?: Like[];
+
+  likesCount?: number;
 }

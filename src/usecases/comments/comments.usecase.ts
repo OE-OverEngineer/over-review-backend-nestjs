@@ -6,8 +6,8 @@ import { Comment } from 'src/infrastructure/entities/comment.entity';
 export class CommentsUseCases {
   constructor(private readonly commentRepositories: ICommentRepository) {}
 
-  async create(dto: CreateCommentDto): Promise<Comment> {
-    return await this.commentRepositories.insert(dto);
+  async create(dto: CreateCommentDto, userID: number): Promise<Comment> {
+    return await this.commentRepositories.insert(dto, userID);
   }
   async update(id: number, dto: UpdateCommentDto): Promise<Comment> {
     return await this.commentRepositories.update(id, dto);

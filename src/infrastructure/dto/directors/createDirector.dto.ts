@@ -5,4 +5,7 @@ export class CreateDirectorDto {
   firstName: string;
   @ApiProperty()
   lastName: string;
+
+  @ApiProperty()
+  imageUrl: string;
 }

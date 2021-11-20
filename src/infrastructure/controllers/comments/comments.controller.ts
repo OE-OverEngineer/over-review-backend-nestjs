@@ -8,7 +8,8 @@ export class CommentsController {
 
   @Post()
   create(@Body() dto: CreateCommentDto) {
-    return this.commentUsecases.create(dto);
+    const id = 1;
+    return this.commentUsecases.create(dto, id);
   }
 
   @Get()
