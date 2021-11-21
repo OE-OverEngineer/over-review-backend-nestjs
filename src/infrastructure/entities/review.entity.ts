@@ -1,9 +1,12 @@
+import { InjectRepository } from '@nestjs/typeorm';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  AfterInsert,
+  Repository,
 } from 'typeorm';
 import { Comment } from './comment.entity';
 import { Like } from './like.entity';
@@ -12,6 +15,10 @@ import { User } from './user.entity';
 
 @Entity()
 export class Review {
+  // constructor(
+  //   @InjectRepository(Movie)
+  //   private readonly movieEntityRepository: Repository<Movie>,
+  // ) {}
   @PrimaryGeneratedColumn()
   id?: number;
 
@@ -34,4 +41,9 @@ export class Review {
   likes?: Like[];
 
   likesCount?: number;
+
+  // @AfterInsert()
+  // private async computeAverage(): Promise<void> {
+  //   console.log('hello');
+  // }
 }

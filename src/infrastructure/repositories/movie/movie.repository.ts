@@ -90,16 +90,17 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   async findById(id: number): Promise<Movie | undefined> {
-    const score = await this.movieEntityRepository
-      .createQueryBuilder('movie')
-      .select('AVG(reviews.score)', 'score')
-      .addSelect('movie')
-      .leftJoin('movie.reviews', 'reviews')
-      .groupBy('movie.id')
-      .where('movie.id =:id', { id: id })
-      .getRawOne();
-    const sd = await this.movieEntityRepository.create(score);
-    console.log(sd);
+    // const movieeee = await this.movieEntityRepository
+    //   .createQueryBuilder('movie')
+    //   .select('AVG(reviews.score)', 'score')
+    //   .addSelect('movie')
+    //   .leftJoin('movie.reviews', 'reviews')
+    //   .groupBy('movie.id')
+    //   .where('movie.id =:id', { id: id })
+    //   .getRawOne();
+    // const sd = await this.movieEntityRepository.create(movieeee);
+    // console.log(movieeee);
+    // console.log(sd);
     const movie = await this.movieEntityRepository.findOne({
       where: { id },
       relations: [

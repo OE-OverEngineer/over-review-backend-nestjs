@@ -12,6 +12,7 @@ import { Report } from '../entities/report.entity';
 import { Review } from '../entities/review.entity';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
+import { PostSubscriber } from '../subscriber/review.subscriber';
 import { DatabaseActorsRepository } from './actors/actors.repository';
 import { DatabaseCategoriesRepository } from './categories/categories.repository';
 import { DatabaseCommentsRepository } from './comments/comments.repository';
@@ -50,6 +51,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseLikesRepository,
     DatabaseCategoriesRepository,
     MockRoleRepository,
+    PostSubscriber,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -62,6 +64,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseReviewRepository,
     DatabaseCategoriesRepository,
     MockRoleRepository,
+    PostSubscriber,
   ],
 })
 export class RepositoriesModule {}

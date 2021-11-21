@@ -153,11 +153,16 @@ export class DatabaseReviewRepository implements IReviewRepository {
     movie.id = dto.movieID;
     const user: User = new User();
     user.id = id;
-    const review: Review = {
-      ...dto,
-      user: user,
-      movie: movie,
-    };
+    const review: Review = new Review();
+    review.message = dto.message;
+    review.score = dto.score;
+    review.movie = movie;
+    review.user = user;
+    // const review: Review = {
+    //   ...dto,
+    //   user: user,
+    //   movie: movie,
+    // };
     return review;
   }
 }
