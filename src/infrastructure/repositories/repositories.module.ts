@@ -18,6 +18,7 @@ import { DatabaseCommentsRepository } from './comments/comments.repository';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseLikesRepository } from './likes/likes.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
+import { DatabaseReportRepository } from './reports/reports.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
 import { MockRoleRepository } from './roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from './users/users.repository';
@@ -44,6 +45,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseActorsRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
+    DatabaseReportRepository,
     DatabaseReviewRepository,
     DatabaseLikesRepository,
     DatabaseCategoriesRepository,
@@ -56,6 +58,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseLikesRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
+    DatabaseReportRepository,
     DatabaseReviewRepository,
     DatabaseCategoriesRepository,
     MockRoleRepository,

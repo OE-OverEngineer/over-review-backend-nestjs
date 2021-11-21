@@ -11,6 +11,7 @@ import { ValidatorModule } from '../validators/validator.module';
 import { UsecasesModule } from 'src/usecases/usecases.module';
 import { CommentsController } from './comments/comments.controller';
 import { RolesController } from './roles/roles.controller';
+import { ReportsController } from './reports/reports.controller';
 // import { ValidatorModule } from '../validators/validator.module';
 
 @Module({
@@ -25,6 +26,7 @@ import { RolesController } from './roles/roles.controller';
     AuthController,
     CategoriesController,
     RolesController,
+    ReportsController,
   ],
 
   providers: [],

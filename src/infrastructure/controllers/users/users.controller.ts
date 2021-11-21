@@ -12,14 +12,14 @@ import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { UsersUseCases } from 'src/usecases/users/users.usecase';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 
-import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
+import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(
     private readonly userUsecases: UsersUseCases,
-    private readonly reviewsUsecases: ReviewsUsecase,
+    private readonly reviewsUsecases: ReviewsUseCases,
   ) {}
 
   @Post()

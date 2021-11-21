@@ -2,13 +2,13 @@ import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
-import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
+import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
 @Controller('movies')
 export class MoviesController {
   constructor(
     private readonly moviesUsecases: MoviesUseCases,
-    private readonly reviewUsecases: ReviewsUsecase,
+    private readonly reviewUsecases: ReviewsUseCases,
   ) {}
   @Post()
   create(@Body() createMovieDto: CreateMovieDto) {

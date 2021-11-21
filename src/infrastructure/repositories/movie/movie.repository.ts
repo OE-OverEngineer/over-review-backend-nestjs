@@ -35,6 +35,8 @@ export class DatabaseMovieRepository implements IMovieRepository {
     if (pagination.sortBy == 'random') sort = 'RANDOM()';
     else if (pagination.sortBy == 'popular') sort = 'count';
     else if (pagination.sortBy == 'recent') sort = 'movie.startDate';
+    /// ANCHOR IDk what top movies should work
+    else if (pagination.sortBy == 'score') sort = 'score';
     const raw = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie.id')
@@ -71,6 +73,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .leftJoin('movie.categories', 'category')
       .where('category.id = :categoryID', { categoryID: categoryID })
       .groupBy('movie.id')
+      .orderBy('RANDOM()')
       .take(pagination.perPage)
       .skip(pagination.pageNum - 1)
       .getRawMany();
