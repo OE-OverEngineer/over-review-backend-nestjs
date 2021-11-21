@@ -17,8 +17,8 @@ export class DatabaseActorsRepository implements IActorRepository {
   }
 
   async update(id: number, dto: UpdateActorDto): Promise<Actor> {
-    return await this.actorEntityRepository.findOne(id);
     // await this.actorEntityRepository.update({ id: id }, { ...dto });
+    return await this.actorEntityRepository.findOne(id);
   }
 
   async insert(dto: CreateActorDto): Promise<Actor> {
