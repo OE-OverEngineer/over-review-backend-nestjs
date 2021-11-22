@@ -1,9 +1,11 @@
 import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/infrastructure/auth/local-auth.guard';
 import { LoginEmailPasswordDto } from 'src/infrastructure/dto/auth/loginEmailPassword.dto';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 import { AuthUseCase } from 'src/usecases/auth/auth.usecase';
 
+@ApiTags('Auths')
 @Controller('auth')
 export class AuthController {
   constructor(private authUseCase: AuthUseCase) {}

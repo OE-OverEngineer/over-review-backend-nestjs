@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateLikeDto } from 'src/infrastructure/dto/likes/createLike.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
 import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
+@ApiTags('Reviews')
 @Controller('reviews')
 export class ReviewsController {
   constructor(

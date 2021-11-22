@@ -14,7 +14,9 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(

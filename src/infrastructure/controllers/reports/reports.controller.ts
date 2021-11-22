@@ -1,8 +1,10 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateReportDto } from 'src/infrastructure/dto/reports/createReport.dto';
 
 import { ReportsUsecase } from 'src/usecases/reports/reports.usecase';
 
+@ApiTags('Reports')
 @Controller('reports')
 export class ReportsController {
   constructor(private readonly reportUseCases: ReportsUsecase) {}

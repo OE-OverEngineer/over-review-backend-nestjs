@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
+@ApiTags('Movies')
 @Controller('movies')
 export class MoviesController {
   constructor(

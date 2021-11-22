@@ -1,3 +1,4 @@
+import { ApiTags } from '@nestjs/swagger';
 import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
 import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
 import { UpdateActorDto } from 'src/infrastructure/dto/actors/updateActor.dto';
