@@ -16,6 +16,7 @@ async function bootstrap() {
     .setDescription('Over review API description')
     .setVersion('1.0')
     .setBasePath('api')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

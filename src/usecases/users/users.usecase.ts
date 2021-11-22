@@ -10,15 +10,8 @@ import { Injectable } from '@nestjs/common';
 export class UsersUseCases {
   constructor(private readonly userRepository: IUsersRepository) {}
 
-  async create(dto: CreateUserDto): Promise<void> {
-    const errors = await validate(dto);
-    console.log(errors);
-
-    if (errors.length > 0) {
-      errors.forEach(console.log);
-    } else {
-      await this.userRepository.create(dto);
-    }
+  async create(dto: CreateUserDto): Promise<User> {
+    return await this.userRepository.create(dto);
   }
 
   async update(dto: CreateUserDto): Promise<void> {
