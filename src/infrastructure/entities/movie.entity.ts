@@ -53,6 +53,6 @@ export class Movie {
   @OneToMany(() => Review, (r) => r.movie)
   reviews?: Review[];
 
-  @Column({ default: 0 })
+  @Column({ type: 'float', default: 0 })
   score?: number;
 }

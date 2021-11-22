@@ -14,7 +14,7 @@ export const getTypeOrmModuleOptions = (
     password: config.getDatabasePassword(),
     database: config.getDatabaseName(),
     entities: [__dirname + './../../**/*.entity{.ts,.js}'],
-    subscribers: [__dirname + './../../**/*.subscriber{.ts,.js}'],
+    // subscribers: [__dirname + './../../**/*.subscriber{.ts,.js}'],
     // migrations: ['./*.migration.ts'],
     // migrationsRun: true,
     synchronize: true,

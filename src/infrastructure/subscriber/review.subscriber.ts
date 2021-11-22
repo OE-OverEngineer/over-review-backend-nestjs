@@ -1,5 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import {
+  Connection,
   EntitySubscriberInterface,
   EventSubscriber,
   InsertEvent,
@@ -11,9 +12,12 @@ import { Review } from '../entities/review.entity';
 @EventSubscriber()
 export class PostSubscriber implements EntitySubscriberInterface<Review> {
   constructor(
+    private readonly connection: Connection,
     @InjectRepository(Movie)
     private readonly movieEntityRepository: Repository<Movie>,
-  ) {}
+  ) {
+    connection.subscribers.push(this);
+  }
   /**
    * Indicates that this subscriber only listen to Post events.
    */
@@ -22,15 +26,17 @@ export class PostSubscriber implements EntitySubscriberInterface<Review> {
   }
 
   async afterInsert(event: InsertEvent<Review>) {
-    const raw = await this.movieEntityRepository
+    const { score } = await this.movieEntityRepository
       .createQueryBuilder('movie')
-      .addSelect('AVG(reviews.score)', 'score')
+      .select('AVG(reviews.score)', 'score')
       .leftJoin('movie.reviews', 'reviews')
       .where('movie.id = :movieID', { movieID: event.entity.movie.id })
       .groupBy('movie.id')
       .getRawOne();
-    console.log(raw);
-    // await this.movieEntityRepository.up
+    await this.movieEntityRepository.update(event.entity.id, {
+      score,
+    });
+
     console.log(`AFTER INSERTED: `, event.entity);
   }
 }
