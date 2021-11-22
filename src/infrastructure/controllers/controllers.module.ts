@@ -17,13 +17,13 @@ import { ReportsController } from './reports/reports.controller';
 @Module({
   imports: [AuthModule, UsecasesModule, ValidatorModule],
   controllers: [
+    AuthController,
     UsersController,
-    CommentsController,
     MoviesController,
+    ReviewsController,
+    CommentsController,
     ActorsController,
     DirectorsController,
-    ReviewsController,
-    AuthController,
     CategoriesController,
     RolesController,
     ReportsController,
