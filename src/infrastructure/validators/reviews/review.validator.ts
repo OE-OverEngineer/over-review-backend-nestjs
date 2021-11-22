@@ -6,12 +6,12 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 
-import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
+import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class IsReviewFoundConstraint implements ValidatorConstraintInterface {
-  constructor(private readonly reviewsUsecases: ReviewsUsecase) {}
+  constructor(private readonly reviewsUsecases: ReviewsUseCases) {}
   validate(id: any) {
     return this.reviewsUsecases.findOne(id).then((review) => {
       if (review) return true;

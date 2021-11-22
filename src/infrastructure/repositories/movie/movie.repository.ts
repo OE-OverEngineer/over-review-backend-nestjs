@@ -35,6 +35,8 @@ export class DatabaseMovieRepository implements IMovieRepository {
     if (pagination.sortBy == 'random') sort = 'RANDOM()';
     else if (pagination.sortBy == 'popular') sort = 'count';
     else if (pagination.sortBy == 'recent') sort = 'movie.startDate';
+    /// ANCHOR IDk what top movies should work
+    else if (pagination.sortBy == 'score') sort = 'score';
     const raw = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie.id')
@@ -71,6 +73,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .leftJoin('movie.categories', 'category')
       .where('category.id = :categoryID', { categoryID: categoryID })
       .groupBy('movie.id')
+      .orderBy('RANDOM()')
       .take(pagination.perPage)
       .skip(pagination.pageNum - 1)
       .getRawMany();
@@ -87,16 +90,17 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   async findById(id: number): Promise<Movie | undefined> {
-    const score = await this.movieEntityRepository
-      .createQueryBuilder('movie')
-      .select('AVG(reviews.score)', 'score')
-      .addSelect('movie')
-      .leftJoin('movie.reviews', 'reviews')
-      .groupBy('movie.id')
-      .where('movie.id =:id', { id: id })
-      .getRawOne();
-    const sd = await this.movieEntityRepository.create(score);
-    console.log(sd);
+    // const movieeee = await this.movieEntityRepository
+    //   .createQueryBuilder('movie')
+    //   .select('AVG(reviews.score)', 'score')
+    //   .addSelect('movie')
+    //   .leftJoin('movie.reviews', 'reviews')
+    //   .groupBy('movie.id')
+    //   .where('movie.id =:id', { id: id })
+    //   .getRawOne();
+    // const sd = await this.movieEntityRepository.create(movieeee);
+    // console.log(movieeee);
+    // console.log(sd);
     const movie = await this.movieEntityRepository.findOne({
       where: { id },
       relations: [

@@ -4,7 +4,7 @@ import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto
 import { UpdateReviewDto } from 'src/infrastructure/dto/reviews/updateReview.dto';
 import { Review } from 'src/infrastructure/entities/review.entity';
 
-export class ReviewsUsecase {
+export class ReviewsUseCases {
   constructor(private readonly reviewReository: IReviewRepository) {}
 
   async create(dto: CreateReviewDto, userID: number): Promise<void> {

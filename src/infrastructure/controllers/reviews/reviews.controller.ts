@@ -1,14 +1,14 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { CreateLikeDto } from 'src/infrastructure/dto/likes/createLike.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
-import { LikesUsecase } from 'src/usecases/likes/likes.usecase';
-import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
+import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
+import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
 @Controller('reviews')
 export class ReviewsController {
   constructor(
-    private readonly reviewsUsecases: ReviewsUsecase,
-    private readonly likesUsecases: LikesUsecase,
+    private readonly reviewsUsecases: ReviewsUseCases,
+    private readonly likesUsecases: LikesUseCases,
   ) {}
   @Post()
   create(@Body() createReviewDto: CreateReviewDto) {

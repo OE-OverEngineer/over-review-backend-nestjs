@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import e from 'express';
 import { IReviewRepository } from 'src/domain/repositories/reviewRepository.interface';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
@@ -154,11 +153,16 @@ export class DatabaseReviewRepository implements IReviewRepository {
     movie.id = dto.movieID;
     const user: User = new User();
     user.id = id;
-    const review: Review = {
-      ...dto,
-      user: user,
-      movie: movie,
-    };
+    const review: Review = new Review();
+    review.message = dto.message;
+    review.score = dto.score;
+    review.movie = movie;
+    review.user = user;
+    // const review: Review = {
+    //   ...dto,
+    //   user: user,
+    //   movie: movie,
+    // };
     return review;
   }
 }

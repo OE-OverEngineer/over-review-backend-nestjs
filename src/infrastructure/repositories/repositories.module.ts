@@ -12,12 +12,14 @@ import { Report } from '../entities/report.entity';
 import { Review } from '../entities/review.entity';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
+import { PostSubscriber } from '../subscriber/review.subscriber';
 import { DatabaseActorsRepository } from './actors/actors.repository';
 import { DatabaseCategoriesRepository } from './categories/categories.repository';
 import { DatabaseCommentsRepository } from './comments/comments.repository';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
 import { DatabaseLikesRepository } from './likes/likes.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
+import { DatabaseReportRepository } from './reports/reports.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
 import { MockRoleRepository } from './roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from './users/users.repository';
@@ -44,10 +46,12 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseActorsRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
+    DatabaseReportRepository,
     DatabaseReviewRepository,
     DatabaseLikesRepository,
     DatabaseCategoriesRepository,
     MockRoleRepository,
+    PostSubscriber,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -56,9 +60,11 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseLikesRepository,
     DatabaseMovieRepository,
     DatabaseDirectorsRepository,
+    DatabaseReportRepository,
     DatabaseReviewRepository,
     DatabaseCategoriesRepository,
     MockRoleRepository,
+    PostSubscriber,
   ],
 })
 export class RepositoriesModule {}
