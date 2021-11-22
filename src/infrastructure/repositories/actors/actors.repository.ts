@@ -7,7 +7,7 @@ import { Actor } from 'src/infrastructure/entities/actor.entity';
 import { In, Repository } from 'typeorm';
 
 @Injectable()
-export class DatabaseActorRepository implements IActorRepository {
+export class DatabaseActorsRepository implements IActorRepository {
   constructor(
     @InjectRepository(Actor)
     private readonly actorEntityRepository: Repository<Actor>,
@@ -17,8 +17,8 @@ export class DatabaseActorRepository implements IActorRepository {
   }
 
   async update(id: number, dto: UpdateActorDto): Promise<Actor> {
-    return await this.actorEntityRepository.findOne(id);
     // await this.actorEntityRepository.update({ id: id }, { ...dto });
+    return await this.actorEntityRepository.findOne(id);
   }
 
   async insert(dto: CreateActorDto): Promise<Actor> {

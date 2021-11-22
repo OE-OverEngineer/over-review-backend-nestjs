@@ -14,6 +14,25 @@ export class DatabaseUsersRepository implements IUsersRepository {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
+  async findTopReviewers(amount: number): Promise<User[]> {
+    const { entities, raw } = await this.userRepository
+      .createQueryBuilder('user')
+      .select('user')
+      .addSelect('COUNT (*) ', 'count')
+      .groupBy('user.id')
+      .addOrderBy('count')
+      .take(amount)
+      .getRawAndEntities();
+    const response = entities.map((e) => {
+      return {
+        ...e,
+        amountReviews: Number(
+          Number(raw.find((i) => i.user_id == e.id).count).toFixed(0),
+        ),
+      };
+    });
+    return response;
+  }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const dto = this.dtoToUser(createUserDto);
@@ -34,8 +53,8 @@ export class DatabaseUsersRepository implements IUsersRepository {
 
   async findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({
-      select: ['password'],
       where: { email: email },
+      select: ['password', 'firstName', 'lastName', 'email', 'id'],
     });
   }
 

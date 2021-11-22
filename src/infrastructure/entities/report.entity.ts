@@ -1,14 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Director } from './director.entity';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
 export class Report {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
-  @ManyToOne(() => Director, (d) => d.movies)
-  director: Director;
+  @Column()
+  message: string;
 
   @ManyToOne(() => User, (u) => u.reported)
   targetUser: User;

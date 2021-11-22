@@ -9,6 +9,9 @@ import { Service } from 'typedi';
 @Service()
 export class MockUsersRepository implements IUsersRepository {
   constructor(private readonly roleRepository: IRoleRepository) {}
+  findTopReviewers(amount: number): Promise<User[]> {
+    throw new Error('Method not implemented.');
+  }
   private users: User[] = [];
   create(dto: CreateUserDto): Promise<User> {
     throw new Error('Method not implemented.');

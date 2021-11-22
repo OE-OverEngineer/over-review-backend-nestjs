@@ -8,6 +8,7 @@ import {
   IsNotEmpty,
   IsAlpha,
   IsDateString,
+  MaxLength,
 } from 'class-validator';
 import { IsRoleFound } from 'src/infrastructure/validators/roles/role.validator';
 
@@ -23,6 +24,9 @@ export class CreateUserDto {
   @ApiProperty({ default: 'password' })
   @MinLength(6, {
     message: 'Password must be longer than 6 characters',
+  })
+  @MaxLength(50, {
+    message: 'Password must be less than 50 characters',
   })
   password: string;
 

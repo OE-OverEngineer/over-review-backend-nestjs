@@ -9,4 +9,5 @@ export interface IUsersRepository {
   findByEmail(email: string): Promise<User>;
   update(id: number, updateUserDto: UpdateUserDto): Promise<User>;
   deleteById(id: number): Promise<void>;
+  findTopReviewers(amount: number): Promise<User[]>;
 }

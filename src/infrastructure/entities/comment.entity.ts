@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Reply } from './reply.entity';
 import { Review } from './review.entity';
 import { User } from './user.entity';
 
@@ -16,6 +25,12 @@ export class Comment {
   @Column()
   message: string;
 
-  // @ManyToOne(() => Movie, (m) => m.i)
-  // movie: Movie;
+  @OneToMany(() => Reply, (r) => r.comment)
+  reply: Reply[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

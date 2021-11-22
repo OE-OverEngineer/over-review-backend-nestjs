@@ -4,9 +4,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Comment } from './comment.entity';
+import { Like } from './like.entity';
 import { Movie } from './movie.entity';
+import { Reply } from './reply.entity';
 import { Report } from './report.entity';
 import { Review } from './review.entity';
 import { Role } from './role.entity';
@@ -47,17 +51,31 @@ export class User {
   banned: boolean;
 
   @OneToMany(() => Movie, (m) => m.requestByUser)
-  movieRequest: Movie[];
+  movieRequest?: Movie[];
 
   @ManyToOne(() => Report, (r) => r.byUser)
-  reports: Report[];
+  reports?: Report[];
 
   @ManyToOne(() => Report, (r) => r.targetUser)
-  reported: Report[];
+  reported?: Report[];
 
   @OneToMany(() => Review, (r) => r.user)
-  reviews: Review[];
+  reviews?: Review[];
 
   @OneToMany(() => Comment, (c) => c.user)
-  comments: Comment[];
+  comments?: Comment[];
+
+  @OneToMany(() => Reply, (r) => r.byUser)
+  replys?: Reply[];
+
+  @OneToMany(() => Like, (l) => l.byUser)
+  likes?: Reply[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  amountReviews?: number;
 }

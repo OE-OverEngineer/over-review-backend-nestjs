@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsInt,
   IsString,
-  IsDate,
   IsNotEmpty,
   IsArray,
   ArrayMinSize,
@@ -20,7 +19,7 @@ export class CreateMovieDto {
   @IsString()
   @ApiProperty()
   description: string;
-
+  //
   @IsInt()
   @IsDirectorFound()
   @ApiProperty()

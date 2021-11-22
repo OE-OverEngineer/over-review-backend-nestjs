@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ActorsUseCases } from 'src/usecases/actors/actors.usecase';
 import { CategoriesUseCases } from 'src/usecases/categories/categories.usecase';
+import { CommentsUseCases } from 'src/usecases/comments/comments.usecase';
 import { DirectorsUseCases } from 'src/usecases/directors/directors.usecase';
 import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
-import { ReviewsUsecase } from 'src/usecases/reviews/reviews.usecase';
+import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { RolesUseCases } from 'src/usecases/roles/roles.usecase';
 
 import { UsecasesModule } from 'src/usecases/usecases.module';
@@ -16,6 +17,7 @@ import {
   IsCategoryFoundConstraint,
   IsCategoryListFoundConstraint,
 } from './categories/category.validator';
+import { IsCommentFoundConstraint } from './comments/comments.validator';
 import { IsDirectorFoundConstraint } from './directors/director.validator';
 import { IsMovieFoundConstraint } from './movies/movie.validator';
 import { IsReviewFoundConstraint } from './reviews/review.validator';
@@ -84,9 +86,15 @@ import {
     },
     {
       provide: IsReviewFoundConstraint,
-      inject: [ReviewsUsecase],
-      useFactory: (reviewsUsecases: ReviewsUsecase) =>
+      inject: [ReviewsUseCases],
+      useFactory: (reviewsUsecases: ReviewsUseCases) =>
         new IsReviewFoundConstraint(reviewsUsecases),
+    },
+    {
+      provide: IsCommentFoundConstraint,
+      inject: [CommentsUseCases],
+      useFactory: (commentsUsecases: CommentsUseCases) =>
+        new IsCommentFoundConstraint(commentsUsecases),
     },
   ],
   exports: [],

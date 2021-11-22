@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
 import { ActorsUseCases } from 'src/usecases/actors/actors.usecase';
 
+@ApiTags('Actors')
 @Controller('actors')
 export class ActorsController {
   constructor(private readonly actorsUsecases: ActorsUseCases) {}

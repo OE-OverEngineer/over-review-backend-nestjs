@@ -1,3 +1,4 @@
+import { ApiTags } from '@nestjs/swagger';
 import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
 import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
 import { UpdateActorDto } from 'src/infrastructure/dto/actors/updateActor.dto';
@@ -7,6 +8,7 @@ export class ActorsUseCases {
   constructor(private readonly actorRepository: IActorRepository) {}
 
   async create(dto: CreateActorDto): Promise<Actor> {
+    // const actor = await this.actorRepository.findById(id);
     return await this.actorRepository.insert(dto);
   }
   async update(id: number, dto: UpdateActorDto): Promise<void> {

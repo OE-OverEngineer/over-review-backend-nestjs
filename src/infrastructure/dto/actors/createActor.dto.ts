@@ -5,4 +5,7 @@ export class CreateActorDto {
   firstName: string;
   @ApiProperty()
   lastName: string;
+
+  @ApiProperty()
+  imageUrl: string;
 }

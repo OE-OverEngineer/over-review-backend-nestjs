@@ -31,21 +31,36 @@ export class DatabaseMovieRepository implements IMovieRepository {
 
   async findAll(pagination: Pagination): Promise<Movie[]> {
     // TODO : ADD Pagination and filter and response pagination
-    // const [score] = await this.movieEntityRepository
-    //   .createQueryBuilder('movie')
-    //   .select('movie')
-    //   .addSelect('AVG(reviews.score)', 'score')
-    //   .leftJoin('movie.reviews', 'reviews')
-    //   .groupBy('movie.id')
-    //   .getRawMany();
-    // console.log(score);
+    let sort: string | undefined;
+    if (pagination.sortBy == 'random') sort = 'RANDOM()';
+    else if (pagination.sortBy == 'popular') sort = 'count';
+    else if (pagination.sortBy == 'recent') sort = 'movie.startDate';
+    /// ANCHOR IDk what top movies should work
+    else if (pagination.sortBy == 'score') sort = 'score';
+    const raw = await this.movieEntityRepository
+      .createQueryBuilder('movie')
+      .select('movie.id')
+      .addSelect('COUNT(reviews.score)', 'count')
+      .addSelect('AVG(reviews.score)', 'score')
+      .leftJoin('movie.reviews', 'reviews')
+      .groupBy('movie.id')
+      .orderBy(sort)
+      .getRawMany();
+    const ids = raw.map(({ movie_id }) => movie_id);
     const movies = await this.movieEntityRepository.find({
+      where: { id: In(ids) },
       relations: ['director', 'actors', 'categories'],
-      take: pagination.perPage,
-      skip: pagination.pageNum - 1,
+    });
+    const response = movies.map((e) => {
+      return {
+        ...e,
+        score: Number(
+          Number(raw.find((i) => i.movie_id == e.id).score).toFixed(1),
+        ),
+      };
     });
 
-    return movies;
+    return response;
   }
   async findByCategory(
     pagination: Pagination,
@@ -58,6 +73,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .leftJoin('movie.categories', 'category')
       .where('category.id = :categoryID', { categoryID: categoryID })
       .groupBy('movie.id')
+      .orderBy('RANDOM()')
       .take(pagination.perPage)
       .skip(pagination.pageNum - 1)
       .getRawMany();
@@ -74,16 +90,17 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   async findById(id: number): Promise<Movie | undefined> {
-    const score = await this.movieEntityRepository
-      .createQueryBuilder('movie')
-      .select('AVG(reviews.score)', 'score')
-      .addSelect('movie')
-      .leftJoin('movie.reviews', 'reviews')
-      .groupBy('movie.id')
-      .where('movie.id =:id', { id: id })
-      .getRawOne();
-    const sd = await this.movieEntityRepository.create(score);
-    console.log(sd);
+    // const movieeee = await this.movieEntityRepository
+    //   .createQueryBuilder('movie')
+    //   .select('AVG(reviews.score)', 'score')
+    //   .addSelect('movie')
+    //   .leftJoin('movie.reviews', 'reviews')
+    //   .groupBy('movie.id')
+    //   .where('movie.id =:id', { id: id })
+    //   .getRawOne();
+    // const sd = await this.movieEntityRepository.create(movieeee);
+    // console.log(movieeee);
+    // console.log(sd);
     const movie = await this.movieEntityRepository.findOne({
       where: { id },
       relations: [

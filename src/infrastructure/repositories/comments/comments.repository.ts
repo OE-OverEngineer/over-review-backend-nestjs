@@ -4,10 +4,12 @@ import { ICommentRepository } from 'src/domain/repositories/commentRepository.in
 import { CreateCommentDto } from 'src/infrastructure/dto/comments/createComment.dto';
 import { UpdateCommentDto } from 'src/infrastructure/dto/comments/updateComment.dto';
 import { Comment } from 'src/infrastructure/entities/comment.entity';
+import { Review } from 'src/infrastructure/entities/review.entity';
+import { User } from 'src/infrastructure/entities/user.entity';
 import { In, Repository } from 'typeorm';
 
 @Injectable()
-export class DatabaseCommentRepository implements ICommentRepository {
+export class DatabaseCommentsRepository implements ICommentRepository {
   constructor(
     @InjectRepository(Comment)
     private readonly categoryEntityRepository: Repository<Comment>,
@@ -22,8 +24,9 @@ export class DatabaseCommentRepository implements ICommentRepository {
     return await this.categoryEntityRepository.findOne(id);
   }
 
-  async insert(dto: CreateCommentDto): Promise<Comment> {
-    return await this.categoryEntityRepository.save(dto);
+  async insert(dto: CreateCommentDto, userID: number): Promise<Comment> {
+    const comment = this.createDtoToComment(dto, userID);
+    return await this.categoryEntityRepository.save(comment);
   }
 
   async findAll(): Promise<Comment[]> {
@@ -36,5 +39,16 @@ export class DatabaseCommentRepository implements ICommentRepository {
 
   async deleteById(id: number): Promise<void> {
     await this.categoryEntityRepository.delete(id);
+  }
+
+  private createDtoToComment(dto: CreateCommentDto, userID: number): Comment {
+    const comment = new Comment();
+    const user = new User();
+    user.id = userID;
+    const review = new Review();
+    review.id = dto.reviewID;
+    comment.message = dto.message;
+    comment.user = user;
+    return comment;
   }
 }
