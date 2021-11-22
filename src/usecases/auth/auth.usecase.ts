@@ -17,9 +17,11 @@ export class AuthUseCase {
     // TODO : Add hash password , this is for simple
     console.log(email);
     const user = await this.userRepository.findByEmail(email);
+    console.log('User = ', user);
     if (user && user.password == password) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
+      console.log(user);
       return result;
     }
     return null;
@@ -27,8 +29,8 @@ export class AuthUseCase {
 
   async login(user: User) {
     const payload = {
-      email: user.email,
       id: user.id,
+      email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
     };

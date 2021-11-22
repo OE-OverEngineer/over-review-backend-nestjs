@@ -53,8 +53,8 @@ export class DatabaseUsersRepository implements IUsersRepository {
 
   async findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({
-      select: ['password'],
       where: { email: email },
+      select: ['password', 'firstName', 'lastName', 'email', 'id'],
     });
   }
 
