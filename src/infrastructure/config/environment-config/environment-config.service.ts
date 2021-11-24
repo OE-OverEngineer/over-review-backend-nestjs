@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { IBlobStorage } from 'src/domain/config/blob-storage.interface';
 import { IJwtConfig } from 'src/domain/config/jwt.interface';
 import { IDatabaseConfig } from '../../../domain/config/database.interface';
 
 @Injectable()
-export class EnvironmentConfigService implements IDatabaseConfig, IJwtConfig {
+export class EnvironmentConfigService
+  implements IDatabaseConfig, IJwtConfig, IBlobStorage
+{
   constructor(private configService: ConfigService) {}
 
   getDatabaseHost(): string {
@@ -37,5 +40,17 @@ export class EnvironmentConfigService implements IDatabaseConfig, IJwtConfig {
 
   getJwtSecret(): string {
     return this.configService.get<string>('JWT_SECRET');
+  }
+
+  getAzureAccountName(): string {
+    return this.configService.get<string>('AZURE_BLOB_ACCOUNT');
+  }
+
+  getAzureSasKey(): string {
+    return this.configService.get<string>('AZURE_BLOB_SASKEY');
+  }
+
+  getAzureContainerName(): string {
+    return this.configService.get<string>('AZURE_BLOB_CONTAINER');
   }
 }
