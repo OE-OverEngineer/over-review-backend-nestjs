@@ -39,7 +39,7 @@ export class User {
   displayName: string;
 
   @Column()
-  avatar: string;
+  avatarUrl: string;
 
   @Column()
   dateOfBirth: Date;

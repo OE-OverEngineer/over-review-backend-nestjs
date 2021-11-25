@@ -12,6 +12,7 @@ import { UsecasesModule } from 'src/usecases/usecases.module';
 import { CommentsController } from './comments/comments.controller';
 import { RolesController } from './roles/roles.controller';
 import { ReportsController } from './reports/reports.controller';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 // import { ValidatorModule } from '../validators/validator.module';
 
 @Module({
@@ -27,6 +28,7 @@ import { ReportsController } from './reports/reports.controller';
     CategoriesController,
     RolesController,
     ReportsController,
+    NestjsFormDataModule,
   ],
 
   providers: [],

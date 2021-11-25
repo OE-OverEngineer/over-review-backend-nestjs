@@ -60,7 +60,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findById(id);
-    // user.avatar =
+    // user.avatarUrl =
     // user = {
     //   ...updateUserDto,
     // };
@@ -83,7 +83,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
     user.displayName = dto.displayName;
     user.dateOfBirth = dto.dateOfBirth;
     user.gender = dto.gender;
-    user.avatar = dto.avatar;
+    user.avatarUrl = dto.avatarUrl;
     // user.role = role;
     return user;
   }
@@ -99,7 +99,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
   //   user.displayName = dto.displayName;
   //   user.dateOfBirth = dto.dateOfBirth;
   //   user.gender = dto.gender;
-  //   user.avatar = dto.avatar;
+  //   user.avatarUrl = dto.avatarUrl;
   //   user.role = role;
   //   return user;
   // }

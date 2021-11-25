@@ -50,7 +50,7 @@ export class CreateUserDto {
 
   @IsString()
   @ApiProperty()
-  avatar: string;
+  avatarUrl: string;
 
   @IsDateString()
   @ApiProperty()

@@ -9,6 +9,7 @@ import { ControllersModule } from './infrastructure/controllers/controllers.modu
 import { UsecasesModule } from './usecases/usecases.module';
 import { AzureBlobStorageModule } from './infrastructure/config/azure-blob-storage/azure-blob-storage.module';
 import { StorageModule } from './infrastructure/storage/storage.module';
+import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { StorageModule } from './infrastructure/storage/storage.module';
     UsecasesModule,
     AzureBlobStorageModule,
     StorageModule,
+    NestjsFormDataModule,
   ],
   providers: [AppService],
 })
