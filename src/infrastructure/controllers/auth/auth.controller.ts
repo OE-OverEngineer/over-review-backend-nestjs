@@ -35,10 +35,7 @@ export class AuthController {
     @Body() dto: RegisterUserDto,
   ): Promise<{ access_token: string }> {
     console.log(dto.avatarUrl);
-    const user = await this.authUseCase.register(
-      { ...dto, avatarUrl: 'asd' },
-      '',
-    );
+    const user = await this.authUseCase.register(dto);
     return await this.authUseCase.signJwt(user);
   }
 }

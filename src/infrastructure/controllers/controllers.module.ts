@@ -16,7 +16,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
 // import { ValidatorModule } from '../validators/validator.module';
 
 @Module({
-  imports: [AuthModule, UsecasesModule, ValidatorModule],
+  imports: [AuthModule, UsecasesModule, ValidatorModule, NestjsFormDataModule],
   controllers: [
     AuthController,
     UsersController,
@@ -28,7 +28,6 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
     CategoriesController,
     RolesController,
     ReportsController,
-    NestjsFormDataModule,
   ],
 
   providers: [],

@@ -10,6 +10,12 @@ import {
   IsDateString,
   MaxLength,
 } from 'class-validator';
+import {
+  HasMimeType,
+  IsFile,
+  MaxFileSize,
+  MemoryStoredFile,
+} from 'nestjs-form-data';
 import { IsRoleFound } from 'src/infrastructure/validators/roles/role.validator';
 
 import { IsEmailAlreadyExist } from 'src/infrastructure/validators/users/user.validator';
@@ -48,9 +54,14 @@ export class CreateUserDto {
   })
   displayName: string;
 
-  @IsString()
+  // @IsString()
+  // @ApiProperty()
+  // avatarUrl: string;
   @ApiProperty()
-  avatarUrl: string;
+  @IsFile()
+  @MaxFileSize(1e6)
+  @HasMimeType(['image/jpeg', 'image/png'])
+  avatarUrl?: MemoryStoredFile;
 
   @IsDateString()
   @ApiProperty()

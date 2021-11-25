@@ -15,13 +15,14 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
   imports: [
     EnvironmentConfigModule,
     TypeOrmConfigModule,
+    // NestjsFormDataModule,
     LoggerModule,
     RepositoriesModule,
     ControllersModule,
     UsecasesModule,
+
     AzureBlobStorageModule,
     StorageModule,
-    NestjsFormDataModule,
   ],
   providers: [AppService],
 })

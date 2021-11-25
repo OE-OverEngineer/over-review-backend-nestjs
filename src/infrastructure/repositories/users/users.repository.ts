@@ -83,7 +83,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
     user.displayName = dto.displayName;
     user.dateOfBirth = dto.dateOfBirth;
     user.gender = dto.gender;
-    user.avatarUrl = dto.avatarUrl;
+    // user.avatarUrl = dto.avatarUrl;
     // user.role = role;
     return user;
   }

@@ -39,8 +39,9 @@ export class AuthUseCase {
     };
   }
 
-  async register(dto: RegisterUserDto, avatarUrl: string): Promise<User> {
+  async register(dto: RegisterUserDto): Promise<User> {
     const newUser = { ...dto, roleID: 1 };
-    return await this.usersUseCase.create(newUser);
+    const { avatarUrl, ...d } = newUser;
+    return await this.usersUseCase.create(d);
   }
 }
