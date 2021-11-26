@@ -7,7 +7,7 @@ export class LikesUseCases {
   async like(dto: CreateLikeDto, userID: number): Promise<number> {
     return await this.likeRepository.like(dto, userID);
   }
-  
+
   async dislike(dto: CreateLikeDto, userID: number): Promise<number> {
     return await this.likeRepository.disLike(dto, userID);
   }

@@ -15,7 +15,7 @@ import { ReportsController } from './reports/reports.controller';
 // import { ValidatorModule } from '../validators/validator.module';
 
 @Module({
-  imports: [AuthModule, UsecasesModule, ValidatorModule],
+  imports: [AuthModule, UsecasesModule, ValidatorModule, NestjsFormDataModule],
   controllers: [
     AuthController,
     UsersController,
