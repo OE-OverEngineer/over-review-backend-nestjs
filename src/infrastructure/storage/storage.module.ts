@@ -1,9 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AzureBlobStorageModule } from '../config/azure-blob-storage/azure-blob-storage.module';
+import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module';
+import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
 import { StorageService } from './storage.service';
 
 @Module({
-  imports: [AzureBlobStorageModule],
-  providers: [StorageService, AzureBlobStorageModule],
+  imports: [EnvironmentConfigModule],
+  providers: [
+    {
+      provide: StorageService,
+      inject: [EnvironmentConfigService],
+      useFactory: (config: EnvironmentConfigService) =>
+        new StorageService(config),
+    },
+  ],
+  exports: [StorageService],
 })
 export class StorageModule {}

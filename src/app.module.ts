@@ -7,9 +7,7 @@ import { RepositoriesModule } from './infrastructure/repositories/repositories.m
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
 // import { ValidatorModule } from './infrastructure/validators/validator.module';
 import { UsecasesModule } from './usecases/usecases.module';
-import { AzureBlobStorageModule } from './infrastructure/config/azure-blob-storage/azure-blob-storage.module';
 import { StorageModule } from './infrastructure/storage/storage.module';
-import { NestjsFormDataModule } from 'nestjs-form-data';
 
 @Module({
   imports: [
@@ -19,9 +17,7 @@ import { NestjsFormDataModule } from 'nestjs-form-data';
     RepositoriesModule,
     ControllersModule,
     UsecasesModule,
-    AzureBlobStorageModule,
     StorageModule,
-    NestjsFormDataModule,
   ],
   providers: [AppService],
 })

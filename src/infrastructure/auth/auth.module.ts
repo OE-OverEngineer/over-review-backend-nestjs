@@ -10,6 +10,8 @@ import { EnvironmentConfigService } from '../config/environment-config/environme
 import { EnvironmentConfigModule } from '../config/environment-config/environment-config.module';
 import { UsecasesModule } from 'src/usecases/usecases.module';
 import { UsersUseCases } from 'src/usecases/users/users.usecase';
+import { StorageService } from '../storage/storage.service';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
   imports: [
@@ -27,16 +29,24 @@ import { UsersUseCases } from 'src/usecases/users/users.usecase';
     RepositoriesModule,
     EnvironmentConfigService,
     UsecasesModule,
+    StorageModule,
   ],
   providers: [
     {
       provide: AuthUseCase,
-      inject: [DatabaseUsersRepository, JwtService, UsersUseCases],
+      inject: [
+        DatabaseUsersRepository,
+        JwtService,
+        UsersUseCases,
+        StorageService,
+      ],
       useFactory: (
         repository: DatabaseUsersRepository,
         jwtService: JwtService,
         usersUseCase: UsersUseCases,
-      ) => new AuthUseCase(repository, jwtService, usersUseCase),
+        storageService: StorageService,
+      ) =>
+        new AuthUseCase(repository, jwtService, usersUseCase, storageService),
     },
     LocalStrategy,
     {

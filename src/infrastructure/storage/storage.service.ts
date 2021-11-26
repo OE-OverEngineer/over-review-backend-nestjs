@@ -1,29 +1,32 @@
-import {
-  AzureStorageFileInterceptor,
-  AzureStorageService,
-  UploadedFileMetadata,
-} from '@nestjs/azure-storage';
-import { Injectable, UseInterceptors } from '@nestjs/common';
+import { BlobServiceClient } from '@azure/storage-blob';
+import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
 
-@Injectable()
 export class StorageService {
-  constructor(private readonly azureStorage: AzureStorageService) {}
-
-  @UseInterceptors(
-    AzureStorageFileInterceptor('file', null, {
-      containerName: 'avatar',
-    }),
-  )
-  async uploadProfile(file: UploadedFileMetadata): Promise<string> {
-    file = {
-      ...file,
-      originalname: 'foo-bar.txt',
-    };
-    const storageUrl = await this.azureStorage.upload(file);
-    return storageUrl;
+  constructor(private readonly config: EnvironmentConfigService) {
+    this.blobServiceClient = BlobServiceClient.fromConnectionString(
+      this.config.getAzureBlobConnectionString(),
+    );
   }
 
-  uploadPoster(): Promise<string> {
-    return;
+  private blobServiceClient;
+
+  async uploadAvatar(b64Image: string, filename: string): Promise<string> {
+    return await this.uploadImageToBlob(b64Image, filename, 'avatar');
+  }
+
+  async uploadPoster(b64Image: string, filename: string): Promise<string> {
+    return await this.uploadImageToBlob(b64Image, filename, 'poster');
+  }
+
+  private async uploadImageToBlob(data, fileName, container): Promise<string> {
+    const containerClient = await this.blobServiceClient.getContainerClient(
+      container,
+    );
+    const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+    const matches = data.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    const buffer = Buffer.from(matches[2], 'base64');
+
+    const response = await blockBlobClient.upload(buffer, buffer.byteLength);
+    return response._response.request.url;
   }
 }

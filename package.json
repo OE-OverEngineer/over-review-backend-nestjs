@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@nestjs/azure-storage": "^3.0.0",
+    "@azure/storage-blob": "^12.8.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^1.0.3",
     "@nestjs/core": "^8.0.0",
@@ -34,7 +34,6 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "mssql": "^7.2.1",
-    "nestjs-form-data": "^1.5.0",
     "passport": "^0.5.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",

@@ -4,6 +4,7 @@ import { User } from 'src/infrastructure/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 import { UsersUseCases } from '../users/users.usecase';
+import { StorageService } from 'src/infrastructure/storage/storage.service';
 
 @Injectable()
 export class AuthUseCase {
@@ -11,6 +12,7 @@ export class AuthUseCase {
     private readonly userRepository: IUsersRepository,
     private readonly jwtService: JwtService,
     private readonly usersUseCase: UsersUseCases,
+    private readonly storageService: StorageService,
   ) {}
 
   async validateUserByPassword(
@@ -39,8 +41,13 @@ export class AuthUseCase {
     };
   }
 
-  async register(dto: RegisterUserDto, avatarUrl: string): Promise<User> {
-    const newUser = { ...dto, roleID: 1 };
+  async register(dto: RegisterUserDto): Promise<User> {
+    const randomString = dto.displayName + String(Date.now());
+    const avatarUrlBlob = await this.storageService.uploadAvatar(
+      dto.avatar,
+      randomString,
+    );
+    const newUser = { ...dto, roleID: 1, avatarUrl: avatarUrlBlob };
     return await this.usersUseCase.create(newUser);
   }
 }

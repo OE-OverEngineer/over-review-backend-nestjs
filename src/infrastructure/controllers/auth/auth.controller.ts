@@ -1,13 +1,5 @@
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  UploadedFile,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { FormDataRequest } from 'nestjs-form-data';
 import { LocalAuthGuard } from 'src/infrastructure/auth/local-auth.guard';
 import { LoginEmailPasswordDto } from 'src/infrastructure/dto/auth/loginEmailPassword.dto';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
@@ -30,15 +22,10 @@ export class AuthController {
   }
 
   @Post('register')
-  @FormDataRequest()
   async register(
     @Body() dto: RegisterUserDto,
   ): Promise<{ access_token: string }> {
-    console.log(dto.avatarUrl);
-    const user = await this.authUseCase.register(
-      { ...dto, avatarUrl: 'asd' },
-      '',
-    );
+    const user = await this.authUseCase.register(dto);
     return await this.authUseCase.signJwt(user);
   }
 }

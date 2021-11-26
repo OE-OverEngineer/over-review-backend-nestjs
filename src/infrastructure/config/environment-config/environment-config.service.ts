@@ -42,15 +42,7 @@ export class EnvironmentConfigService
     return this.configService.get<string>('JWT_SECRET');
   }
 
-  getAzureAccountName(): string {
-    return this.configService.get<string>('AZURE_BLOB_ACCOUNT');
-  }
-
-  getAzureSasKey(): string {
-    return this.configService.get<string>('AZURE_BLOB_SASKEY');
-  }
-
-  getAzureContainerName(): string {
-    return this.configService.get<string>('AZURE_BLOB_CONTAINER');
+  getAzureBlobConnectionString(): string {
+    return this.configService.get<string>('AZURE_BLOB_CONNECTION_STRING');
   }
 }

@@ -1,6 +1,5 @@
-import { UploadedFileMetadata } from '@nestjs/azure-storage';
 import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { HasMimeType, IsFile, MaxFileSize } from 'nestjs-form-data';
+import { IsNotEmpty } from 'class-validator';
 import { CreateUserDto } from '../users/createUser.dto';
 
 export class RegisterUserDto extends OmitType(CreateUserDto, [
@@ -8,8 +7,6 @@ export class RegisterUserDto extends OmitType(CreateUserDto, [
   'avatarUrl',
 ]) {
   @ApiProperty()
-  @IsFile()
-  @MaxFileSize(1e6)
-  @HasMimeType(['image/jpeg', 'image/png'])
-  avatarUrl: any;
+  @IsNotEmpty()
+  avatar: string;
 }
