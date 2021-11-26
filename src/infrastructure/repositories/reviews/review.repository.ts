@@ -21,7 +21,7 @@ export class DatabaseReviewRepository implements IReviewRepository {
     pagination: Pagination,
   ): Promise<Review[]> {
     let sort: string | undefined;
-    if (pagination.sortBy == 'like') sort = 'likesCount';
+    if (pagination.sort == 'like') sort = 'likesCount';
     // 1. Get likes and id from pagination
     const raw = await this.reviewEntityRepository
       .createQueryBuilder('review')

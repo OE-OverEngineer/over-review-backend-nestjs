@@ -5,15 +5,22 @@ import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
+import { StorageService } from 'src/infrastructure/storage/storage.service';
 
 export class MoviesUseCases {
   constructor(
     private readonly movieRepository: IMovieRepository,
     private readonly userRepository: IUsersRepository,
+    private readonly storageService: StorageService,
   ) {}
 
   async create(dto: CreateMovieDto): Promise<Movie> {
-    // await this.validateCreate(dto);
+    const randomString = dto.title + String(Date.now());
+    const posterUrlBlob = await this.storageService.uploadPoster(
+      dto.bannerImage,
+      randomString,
+    );
+    dto.bannerImageUrl = posterUrlBlob;
     return await this.movieRepository.insert(dto);
   }
 

@@ -30,13 +30,13 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   async findAll(pagination: Pagination): Promise<Movie[]> {
-    // TODO : ADD Pagination and filter and response pagination
+    // TODO : ADD response pagination
     let sort: string | undefined;
-    if (pagination.sortBy == 'random') sort = 'RANDOM()';
-    else if (pagination.sortBy == 'popular') sort = 'count';
-    else if (pagination.sortBy == 'recent') sort = 'movie.startDate';
+    if (pagination.sort == 'random') sort = 'RANDOM()';
+    else if (pagination.sort == 'popular') sort = 'count';
+    else if (pagination.sort == 'recent') sort = 'movie.startDate';
     /// ANCHOR IDk what top movies should work
-    else if (pagination.sortBy == 'score') sort = 'score';
+    else if (pagination.sort == 'score') sort = 'score';
     const raw = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie.id')
@@ -201,6 +201,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
     user.id = userID;
     const movie: Movie = {
       ...dto,
+      // bannerImage: dto.bannerImageUrl,
       categories: categories,
       director: director,
       actors: actors,

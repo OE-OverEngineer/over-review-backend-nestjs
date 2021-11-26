@@ -39,10 +39,10 @@ export class Movie {
   startDate: Date;
 
   @Column()
-  bannerImage: string;
+  bannerImageUrl: string;
 
   @Column()
-  trailerLink: string;
+  trailerLinkUrl: string;
 
   @Column()
   approve: boolean;

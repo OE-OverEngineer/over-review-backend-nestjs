@@ -52,5 +52,7 @@ export class CreateMovieDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty()
-  trailerLink: string;
+  trailerLinkUrl: string;
+
+  bannerImageUrl: string;
 }

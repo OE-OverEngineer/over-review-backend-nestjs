@@ -38,7 +38,7 @@ export class User {
   @Column()
   displayName: string;
 
-  @Column()
+  @Column({ nullable: true })
   avatarUrl: string;
 
   @Column()
