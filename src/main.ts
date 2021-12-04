@@ -18,7 +18,10 @@ async function bootstrap() {
     .setDescription('Over review API description')
     .setVersion('1.0')
     .setBasePath('api')
-    .addBearerAuth()
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'access-token',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
