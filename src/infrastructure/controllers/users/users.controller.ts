@@ -49,6 +49,7 @@ export class UsersController {
   ) {
     return this.reviewsUsecases.findAllByUserID(id, pagintaion);
   }
+
   @Get('/top-review/')
   async findTopReview(@Query('amount') amount: number) {
     return this.userUsecases.findTopReviewers(amount);

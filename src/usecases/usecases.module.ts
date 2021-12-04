@@ -32,6 +32,9 @@ import { RolesUseCases } from './roles/roles.usecase';
 import { UsersUseCases } from './users/users.usecase';
 import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { StorageModule } from 'src/infrastructure/storage/storage.module';
+import { RepliesUsecase } from './replies/replies.usecase';
+import { IReplyRepository } from 'src/domain/repositories/replyRepository.interface copy';
+import { DatabaseRepliesRepository } from 'src/infrastructure/repositories/replies/replies.repository';
 
 @Module({
   imports: [RepositoriesModule, StorageModule],
@@ -92,6 +95,12 @@ import { StorageModule } from 'src/infrastructure/storage/storage.module';
         new CommentsUseCases(repository),
     },
     {
+      provide: RepliesUsecase,
+      inject: [DatabaseRepliesRepository],
+      useFactory: (repository: IReplyRepository) =>
+        new RepliesUsecase(repository),
+    },
+    {
       provide: LikesUseCases,
       inject: [DatabaseLikesRepository],
       useFactory: (repository: ILikeRepository) =>
@@ -115,6 +124,7 @@ import { StorageModule } from 'src/infrastructure/storage/storage.module';
     RolesUseCases,
     LikesUseCases,
     ReportsUsecase,
+    RepliesUsecase,
   ],
 })
 export class UsecasesModule {}
