@@ -6,8 +6,8 @@ import {
   InsertEvent,
   Repository,
 } from 'typeorm';
-import { Movie } from '../entities/movie.entity';
-import { Review } from '../entities/review.entity';
+import { Movie } from '../../entities/movie.entity';
+import { Review } from '../../entities/review.entity';
 
 @EventSubscriber()
 export class PostSubscriber implements EntitySubscriberInterface<Review> {
@@ -34,8 +34,7 @@ export class PostSubscriber implements EntitySubscriberInterface<Review> {
       .where('review.movie.id = :movieID', { movieID: event.entity.movie.id })
       .groupBy('review.movie.id')
       .getRawOne();
-    console.log(scores);
-    await this.movieEntityRepository.update(event.entity.id, {
+    await this.movieEntityRepository.update(event.entity.movie.id, {
       score: scores,
     });
 

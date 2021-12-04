@@ -50,7 +50,10 @@ export class Movie {
   @ManyToOne(() => User, (u) => u.movieRequest, { nullable: true })
   requestByUser?: User;
 
-  @OneToMany(() => Review, (r) => r.movie)
+  @OneToMany(() => Review, (r) => r.movie, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   reviews?: Review[];
 
   @Column({ type: 'float', default: 0 })

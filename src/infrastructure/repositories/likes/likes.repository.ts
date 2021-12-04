@@ -14,7 +14,19 @@ export class DatabaseLikesRepository implements ILikeRepository {
     @InjectRepository(Like)
     private readonly likeEntityRepository: Repository<Like>,
   ) {}
-  async like(dto: CreateLikeDto, byUserID: number): Promise<number> {
+  async findOne(targetReviewID: number, byUserID: number): Promise<Like> {
+    return await this.likeEntityRepository.findOne({
+      where: {
+        review: {
+          id: targetReviewID,
+        },
+        byUser: {
+          id: byUserID,
+        },
+      },
+    });
+  }
+  async like(dto: CreateLikeDto, byUserID: number): Promise<void> {
     const like: Like = new Like();
     const review: Review = new Review();
     review.id = dto.targetReviewID;
@@ -23,32 +35,9 @@ export class DatabaseLikesRepository implements ILikeRepository {
     like.review = review;
     like.byUser = user;
     await this.likeEntityRepository.save(like);
-    return await this.likeEntityRepository.count({
-      where: {
-        review: {
-          id: dto.targetReviewID,
-        },
-      },
-    });
   }
-  async disLike(dto: CreateLikeDto, byUserID: number): Promise<number> {
-    const like = await this.likeEntityRepository.findOne({
-      where: {
-        review: {
-          id: dto.targetReviewID,
-        },
-        byUser: {
-          id: byUserID,
-        },
-      },
-    });
+  async disLike(like: Like): Promise<void> {
+    // const like = await this.findOne(dto.targetReviewID, byUserID);
     await this.likeEntityRepository.delete(like);
-    return await this.likeEntityRepository.count({
-      where: {
-        review: {
-          id: dto.targetReviewID,
-        },
-      },
-    });
   }
 }

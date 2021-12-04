@@ -46,8 +46,8 @@ export class DatabaseReviewRepository implements IReviewRepository {
           'user',
           'comments',
           'comments.user',
-          'comments.reply',
-          'comments.reply.byUser',
+          'comments.replies',
+          'comments.replies.byUser',
         ],
       })
     ).map((e) => {
@@ -130,16 +130,28 @@ export class DatabaseReviewRepository implements IReviewRepository {
   }
 
   async findById(id: number): Promise<Review | undefined> {
-    const score = await this.reviewEntityRepository
-      .createQueryBuilder('movie')
-      .select('movie')
-      // .addSelect('AVG(reviews.score)', 'score')
-      // .leftJoin('movie.reviews', 'reviews')
-      // .groupBy('movie.id')
-      // .where('movie.id = :id', { id: id })
-      .getRawOne();
-    console.log(score);
-    const movie = await this.reviewEntityRepository.findOne({ id });
+    // const score = await this.reviewEntityRepository
+    //   .createQueryBuilder('movie')
+    //   .select('movie')
+    //   // .addSelect('AVG(reviews.score)', 'score')
+    //   // .leftJoin('movie.reviews', 'reviews')
+    //   // .groupBy('movie.id')
+    //   // .where('movie.id = :id', { id: id })
+    //   .getRawOne();
+    // console.log(score);
+    /// ANCHOR : Need to sort by comment.createdAt
+    const movie = await this.reviewEntityRepository.findOne({
+      where: { id },
+      relations: [
+        'user',
+        'comments',
+        'comments.user',
+        'comments.replies',
+        'comments.replies.byUser',
+        'movie',
+      ],
+      // order: { comments: 'DESC' },
+    });
     // movie.score = score;
     return movie;
   }

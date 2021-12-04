@@ -26,6 +26,7 @@ export class DatabaseCommentsRepository implements ICommentRepository {
 
   async insert(dto: CreateCommentDto, userID: number): Promise<Comment> {
     const comment = this.createDtoToComment(dto, userID);
+    console.log(comment);
     return await this.categoryEntityRepository.save(comment);
   }
 
@@ -49,6 +50,7 @@ export class DatabaseCommentsRepository implements ICommentRepository {
     review.id = dto.reviewID;
     comment.message = dto.message;
     comment.user = user;
+    comment.review = review;
     return comment;
   }
 }

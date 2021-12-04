@@ -13,7 +13,7 @@ export class Reply {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => Comment, (c) => c.reply)
+  @ManyToOne(() => Comment, (c) => c.replies)
   comment: Comment;
 
   @Column()

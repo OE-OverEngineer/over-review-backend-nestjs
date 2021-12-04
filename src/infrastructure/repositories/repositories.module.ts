@@ -13,7 +13,7 @@ import { Review } from '../entities/review.entity';
 import { Role } from '../entities/role.entity';
 import { User } from '../entities/user.entity';
 import { DatabaseCategoryRepository } from './categories/categories.repository';
-import { PostSubscriber } from '../subscriber/review.subscriber';
+import { PostSubscriber } from '../subscriber/reviews/review.subscriber';
 import { DatabaseActorsRepository } from './actors/actors.repository';
 import { DatabaseCommentsRepository } from './comments/comments.repository';
 import { DatabaseDirectorsRepository } from './directors/directors.repository';
@@ -23,6 +23,7 @@ import { DatabaseReportRepository } from './reports/reports.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
 import { MockRoleRepository } from './roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from './users/users.repository';
+import { LikesSubscriber } from '../subscriber/likes/likes.subscriber';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseLikesRepository,
     MockRoleRepository,
     PostSubscriber,
+    LikesSubscriber,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -65,6 +67,7 @@ import { DatabaseUsersRepository } from './users/users.repository';
     DatabaseCategoryRepository,
     MockRoleRepository,
     PostSubscriber,
+    LikesSubscriber,
   ],
 })
 export class RepositoriesModule {}

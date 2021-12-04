@@ -26,7 +26,7 @@ export class Comment {
   message: string;
 
   @OneToMany(() => Reply, (r) => r.comment)
-  reply: Reply[];
+  replies: Reply[];
 
   @CreateDateColumn()
   createdAt: Date;

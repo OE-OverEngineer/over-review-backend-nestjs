@@ -7,6 +7,8 @@ import {
   OneToMany,
   AfterInsert,
   Repository,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Comment } from './comment.entity';
 import { Like } from './like.entity';
@@ -34,16 +36,24 @@ export class Review {
   @ManyToOne(() => Movie, (m) => m.reviews)
   movie: Movie;
 
-  @OneToMany(() => Comment, (c) => c.review)
+  @OneToMany(() => Comment, (c) => c.review, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   comments?: Comment[];
 
-  @OneToMany(() => Like, (c) => c.review)
+  @OneToMany(() => Like, (c) => c.review, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   likes?: Like[];
 
-  likesCount?: number;
+  @CreateDateColumn()
+  createdAt: Date;
 
-  // @AfterInsert()
-  // private async computeAverage(): Promise<void> {
-  //   console.log('hello');
-  // }
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @Column({ type: 'integer', default: 0 })
+  likesCount?: number;
 }
