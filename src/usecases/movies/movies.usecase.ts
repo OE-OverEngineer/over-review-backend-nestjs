@@ -25,7 +25,6 @@ export class MoviesUseCases {
   }
 
   async requestByUser(dto: CreateMovieDto, userID: number): Promise<Movie> {
-    // await this.validateCreate(dto);
     const user = await this.userRepository.findById(userID);
     if (!user) throw new BadRequestException('User not found');
     return await this.movieRepository.insert(dto, userID);
