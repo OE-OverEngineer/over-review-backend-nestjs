@@ -22,12 +22,9 @@ export class Director {
   @OneToMany(() => Movie, (m) => m.director)
   movies: Movie[];
 
-  @Column({ default: '' })
-  imageUrl: string;
-
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 }

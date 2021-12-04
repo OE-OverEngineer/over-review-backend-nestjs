@@ -6,6 +6,8 @@ import {
   ManyToMany,
   OneToMany,
   JoinTable,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Actor } from './actor.entity';
 import { Category } from './category.entity';
@@ -58,4 +60,10 @@ export class Movie {
 
   @Column({ type: 'float', default: 0 })
   score?: number;
+
+  @CreateDateColumn()
+  createdAt?: Date;
+
+  @UpdateDateColumn()
+  updatedAt?: Date;
 }

@@ -49,10 +49,10 @@ export class Review {
   likes?: Like[];
 
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Date;
 
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt?: Date;
 
   @Column({ type: 'integer', default: 0 })
   likesCount?: number;
