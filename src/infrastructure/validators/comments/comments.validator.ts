@@ -12,7 +12,10 @@ import { CommentsUseCases } from 'src/usecases/comments/comments.usecase';
 export class IsCommentFoundConstraint implements ValidatorConstraintInterface {
   constructor(private readonly commentsUsecases: CommentsUseCases) {}
   validate(id: any) {
-    return this.commentsUsecases.findOne(id).then((c) => c === undefined);
+    return this.commentsUsecases.findOne(id).then((c) => {
+      if (c) return true;
+      return false;
+    });
   }
   defaultMessage() {
     return 'comment not found';

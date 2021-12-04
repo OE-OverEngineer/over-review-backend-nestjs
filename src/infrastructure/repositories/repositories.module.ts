@@ -24,6 +24,7 @@ import { DatabaseReviewRepository } from './reviews/review.repository';
 import { MockRoleRepository } from './roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from './users/users.repository';
 import { LikesSubscriber } from '../subscriber/likes/likes.subscriber';
+import { DatabaseRepliesRepository } from './replies/replies.repository';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { LikesSubscriber } from '../subscriber/likes/likes.subscriber';
     DatabaseReviewRepository,
     DatabaseCategoryRepository,
     DatabaseLikesRepository,
+    DatabaseRepliesRepository,
     MockRoleRepository,
     PostSubscriber,
     LikesSubscriber,
@@ -65,6 +67,7 @@ import { LikesSubscriber } from '../subscriber/likes/likes.subscriber';
     DatabaseReportRepository,
     DatabaseReviewRepository,
     DatabaseCategoryRepository,
+    DatabaseRepliesRepository,
     MockRoleRepository,
     PostSubscriber,
     LikesSubscriber,

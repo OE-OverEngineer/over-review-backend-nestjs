@@ -16,9 +16,8 @@ export class CommentsUseCases {
     await this.commentRepositories.deleteById(id);
   }
 
-  async findOne(id: number): Promise<Comment | undefined> {
-    const category = await this.commentRepositories.findById(id);
-    return category;
+  async findOne(id: number): Promise<Comment> {
+    return await this.commentRepositories.findById(id);
   }
 
   async findAll(): Promise<Comment[]> {
