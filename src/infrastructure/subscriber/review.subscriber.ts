@@ -15,6 +15,8 @@ export class PostSubscriber implements EntitySubscriberInterface<Review> {
     private readonly connection: Connection,
     @InjectRepository(Movie)
     private readonly movieEntityRepository: Repository<Movie>,
+    @InjectRepository(Review)
+    private readonly reviewEntityRepository: Repository<Review>,
   ) {
     connection.subscribers.push(this);
   }
@@ -26,15 +28,15 @@ export class PostSubscriber implements EntitySubscriberInterface<Review> {
   }
 
   async afterInsert(event: InsertEvent<Review>) {
-    const { score } = await this.movieEntityRepository
-      .createQueryBuilder('movie')
-      .select('AVG(reviews.score)', 'score')
-      .leftJoin('movie.reviews', 'reviews')
-      .where('movie.id = :movieID', { movieID: event.entity.movie.id })
-      .groupBy('movie.id')
+    const { scores } = await this.reviewEntityRepository
+      .createQueryBuilder('review')
+      .select('AVG(score)', 'scores')
+      .where('review.movie.id = :movieID', { movieID: event.entity.movie.id })
+      .groupBy('review.movie.id')
       .getRawOne();
+    console.log(scores);
     await this.movieEntityRepository.update(event.entity.id, {
-      score,
+      score: scores,
     });
 
     console.log(`AFTER INSERTED: `, event.entity);
