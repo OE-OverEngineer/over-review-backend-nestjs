@@ -18,7 +18,11 @@ export class StorageService {
     return await this.uploadImageToBlob(b64Image, filename, 'poster');
   }
 
-  private async uploadImageToBlob(data, fileName, container): Promise<string> {
+  private async uploadImageToBlob(
+    data: string,
+    fileName: string,
+    container: string,
+  ): Promise<string> {
     const containerClient = await this.blobServiceClient.getContainerClient(
       container,
     );
