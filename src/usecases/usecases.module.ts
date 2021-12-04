@@ -30,6 +30,8 @@ import { ReportsUsecase } from './reports/reports.usecase';
 import { ReviewsUseCases } from './reviews/reviews.usecase';
 import { RolesUseCases } from './roles/roles.usecase';
 import { UsersUseCases } from './users/users.usecase';
+import { IBlobStorage } from 'src/domain/config/blob-storage.interface';
+import { StorageService } from 'src/infrastructure/storage/storage.service';
 
 @Module({
   imports: [RepositoriesModule],
@@ -46,7 +48,8 @@ import { UsersUseCases } from './users/users.usecase';
       useFactory: (
         movieRepository: IMovieRepository,
         userRepository: IUsersRepository,
-      ) => new MoviesUseCases(movieRepository, userRepository),
+        storageService: StorageService,
+      ) => new MoviesUseCases(movieRepository, userRepository, storageService),
     },
     {
       provide: ActorsUseCases,
