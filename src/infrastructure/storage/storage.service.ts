@@ -18,6 +18,10 @@ export class StorageService {
     return await this.uploadImageToBlob(b64Image, filename, 'poster');
   }
 
+  async uploadActor(b64Image: string, filename: string): Promise<string> {
+    return await this.uploadImageToBlob(b64Image, filename, 'actor');
+  }
+
   private async uploadImageToBlob(
     data: string,
     fileName: string,

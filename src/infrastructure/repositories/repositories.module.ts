@@ -25,6 +25,7 @@ import { MockRoleRepository } from './roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from './users/users.repository';
 import { LikesSubscriber } from '../subscriber/likes/likes.subscriber';
 import { DatabaseRepliesRepository } from './replies/replies.repository';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { DatabaseRepliesRepository } from './replies/replies.repository';
       Like,
       Reply,
     ]),
+    StorageModule,
   ],
   providers: [
     DatabaseUsersRepository,

@@ -4,6 +4,7 @@ import { IActorRepository } from 'src/domain/repositories/actorRepository.interf
 import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
 import { UpdateActorDto } from 'src/infrastructure/dto/actors/updateActor.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
+import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { In, Repository } from 'typeorm';
 
 @Injectable()
@@ -11,6 +12,7 @@ export class DatabaseActorsRepository implements IActorRepository {
   constructor(
     @InjectRepository(Actor)
     private readonly actorEntityRepository: Repository<Actor>,
+    private readonly storageService: StorageService,
   ) {}
   async findAllByID(ids: number[]): Promise<Actor[]> {
     return this.actorEntityRepository.find({ where: { id: In(ids) } });
@@ -22,7 +24,14 @@ export class DatabaseActorsRepository implements IActorRepository {
   }
 
   async insert(dto: CreateActorDto): Promise<Actor> {
-    return await this.actorEntityRepository.save(dto);
+    const randomString = dto.firstName + String(Date.now());
+    const actorUrlBlob = await this.storageService.uploadAvatar(
+      dto.image,
+      randomString,
+    );
+    const newActor = { ...dto, imageUrl: actorUrlBlob };
+    console.log(actorUrlBlob);
+    return await this.actorEntityRepository.save(newActor);
   }
 
   async findAll(): Promise<Actor[]> {
