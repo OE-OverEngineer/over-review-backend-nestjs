@@ -4,11 +4,21 @@ import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Movie } from '../../infrastructure/entities/movie.entity';
 
 export interface IMovieRepository {
-  insert(dto: CreateMovieDto, userID?: number): Promise<Movie>;
-  findAll(pagination: Pagination): Promise<Movie[]>;
-  findById(id: number): Promise<Movie | undefined>;
+  insert(dto: CreateMovieDto): Promise<Movie>;
+  addRequestMovie(title: string, userID: number): Promise<void>;
+  findRequestMovie(
+    pagination: Pagination,
+  ): Promise<{ data: Movie[]; total: number }>;
+  findAll(pagination: Pagination): Promise<{ data: Movie[]; total: number }>;
+  findById(id: number): Promise<Movie>;
   update(id: number, dto: UpdateMovieDto): Promise<Movie>;
   deleteById(id: number): Promise<void>;
-  findAllBySearch(searchText: string, pagination: Pagination): Promise<Movie[]>;
-  findByCategory(pagination: Pagination, categoryID: number): Promise<Movie[]>;
+  findAllBySearch(
+    searchText: string,
+    pagination: Pagination,
+  ): Promise<{ data: Movie[]; total: number }>;
+  findByCategory(
+    pagination: Pagination,
+    categoryID: number,
+  ): Promise<{ data: Movie[]; total: number }>;
 }

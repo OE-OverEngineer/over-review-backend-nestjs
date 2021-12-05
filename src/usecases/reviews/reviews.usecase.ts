@@ -1,3 +1,4 @@
+import { ConflictException } from '@nestjs/common';
 import { IReviewRepository } from 'src/domain/repositories/reviewRepository.interface';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
@@ -7,13 +8,15 @@ import { Review } from 'src/infrastructure/entities/review.entity';
 export class ReviewsUseCases {
   constructor(private readonly reviewReository: IReviewRepository) {}
 
-  async create(dto: CreateReviewDto, userID: number): Promise<void> {
-    /// FIXME ยังไม่ได้เช็คว่า เคย review ไว้รึเปล่า
-    // const movie = await this.movieRepository.findById(dto.movieID);
-    // if (!movie) throw new BadRequestException('Movie not found');
-    await this.reviewReository.insert(dto, userID);
+  async create(dto: CreateReviewDto, userID: number): Promise<Review> {
+    const review = await this.reviewReository.findByUserIDMovieID(
+      dto.movieID,
+      userID,
+    );
+    if (review) throw new ConflictException();
+    return await this.reviewReository.insert(dto, userID);
   }
-  // async like(dto: )
+
   async update(id: number, dto: UpdateReviewDto): Promise<void> {
     await this.reviewReository.update(id, dto);
   }

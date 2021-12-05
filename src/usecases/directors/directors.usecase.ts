@@ -7,13 +7,16 @@ import { Director } from 'src/infrastructure/entities/director.entity';
 export class DirectorsUseCases {
   constructor(private readonly directorRepository: IDirectorRepository) {}
 
-  async create(dto: CreateDirectorDto): Promise<void> {
-    await this.directorRepository.insert(dto);
+  async create(dto: CreateDirectorDto): Promise<Director> {
+    const director = new Director();
+    director.firstName = dto.firstName;
+    director.lastName = dto.lastName;
+    return await this.directorRepository.insert(director);
   }
   async update(id: number, dto: UpdateDirectorDto): Promise<void> {
-    if (id < 0) throw new BadRequestException('Cannot find id < 0');
     await this.directorRepository.update(id, dto);
   }
+
   async delete(id: number): Promise<void> {
     if (id < 0) throw new BadRequestException('Cannot find id < 0');
     await this.directorRepository.deleteById(id);

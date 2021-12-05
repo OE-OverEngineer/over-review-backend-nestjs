@@ -11,7 +11,7 @@ import { Movie } from './movie.entity';
 @Entity()
 export class Actor {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column()
   firstName: string;
@@ -20,7 +20,7 @@ export class Actor {
   lastName: string;
 
   @ManyToMany(() => Movie, (m) => m.id)
-  movies: Movie[];
+  movies?: Movie[];
 
   @Column()
   imageUrl: string;

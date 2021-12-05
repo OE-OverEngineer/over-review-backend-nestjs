@@ -14,22 +14,27 @@ export class DatabaseActorsRepository implements IActorRepository {
     private readonly actorEntityRepository: Repository<Actor>,
     private readonly storageService: StorageService,
   ) {}
+
+  async findByName(firstName: string, lastName: string): Promise<Actor> {
+    return await this.actorEntityRepository.findOne({
+      where: {
+        firstName: firstName,
+        lastName: lastName,
+      },
+    });
+  }
+
   async findAllByID(ids: number[]): Promise<Actor[]> {
     return this.actorEntityRepository.find({ where: { id: In(ids) } });
   }
 
   async update(id: number, dto: UpdateActorDto): Promise<Actor> {
-    // await this.actorEntityRepository.update({ id: id }, { ...dto });
+    /// ANCHOR : ถ้าสมมติอัพเดทภาพ ให้ลบอันเก่าออกมั้ย แล้วลบยังไง (ฺฺฺฺBlob storage)
+    await this.actorEntityRepository.update(id, { ...dto });
     return await this.actorEntityRepository.findOne(id);
   }
 
-  async insert(dto: CreateActorDto): Promise<Actor> {
-    const randomString = dto.firstName + String(Date.now());
-    const actorUrlBlob = await this.storageService.uploadAvatar(
-      dto.image,
-      randomString,
-    );
-    const newActor = { ...dto, imageUrl: actorUrlBlob };
+  async insert(newActor: Actor): Promise<Actor> {
     return await this.actorEntityRepository.save(newActor);
   }
 

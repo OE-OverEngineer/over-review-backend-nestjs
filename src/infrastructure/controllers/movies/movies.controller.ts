@@ -11,6 +11,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
+import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
@@ -26,11 +27,17 @@ export class MoviesController {
   create(@Body() createMovieDto: CreateMovieDto) {
     return this.moviesUsecases.create(createMovieDto);
   }
+
   @UseGuards(JwtAuthGuard)
   @Post('/request')
-  requestMovie(@Body() createMovieDto: CreateMovieDto, @Request() req: any) {
+  requestMovie(@Body() dto: RequestMovieDto, @Request() req: any) {
     const userID = Number(req.user.id);
-    return this.moviesUsecases.requestByUser(createMovieDto, userID);
+    return this.moviesUsecases.requestByUser(dto.title, userID);
+  }
+
+  @Get('/request')
+  findAllRequestMovie(@Query() pagintaion: Pagination) {
+    return this.moviesUsecases.findRequestMovie(pagintaion);
   }
 
   @Get()
@@ -38,10 +45,6 @@ export class MoviesController {
     return this.moviesUsecases.findAll(pagintaion);
   }
 
-  // @Get('/category/:id')
-  // findByCategory(@Query() pagintaion: Pagination, @Param('id') id: number) {
-  //   return this.moviesUsecases.findCategoryMovie(id, pagintaion);
-  // }
   @Get('/:id/reviews')
   findByCategory(@Query() pagintaion: Pagination, @Param('id') id: number) {
     return this.reviewUsecases.findAllByMovieID(id, pagintaion);

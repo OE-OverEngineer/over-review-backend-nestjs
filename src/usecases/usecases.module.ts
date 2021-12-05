@@ -60,9 +60,11 @@ import { DatabaseRepliesRepository } from 'src/infrastructure/repositories/repli
     },
     {
       provide: ActorsUseCases,
-      inject: [DatabaseActorsRepository],
-      useFactory: (repository: IActorRepository) =>
-        new ActorsUseCases(repository),
+      inject: [DatabaseActorsRepository, StorageService],
+      useFactory: (
+        repository: IActorRepository,
+        storageService: StorageService,
+      ) => new ActorsUseCases(repository, storageService),
     },
     {
       provide: DirectorsUseCases,

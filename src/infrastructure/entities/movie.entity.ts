@@ -23,27 +23,33 @@ export class Movie {
   @Column()
   title: string;
 
-  @Column()
-  description: string;
+  @Column({ nullable: true })
+  description?: string;
 
   @ManyToOne(() => Director, (d) => d.movies)
   director: Director;
 
-  @ManyToMany(() => Actor, (a) => a.movies)
+  @ManyToMany(() => Actor, (a) => a.movies, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   actors: Actor[];
 
-  @ManyToMany(() => Category, (a) => a.movies)
+  @ManyToMany(() => Category, (a) => a.movies, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   categories: Category[];
 
-  @Column()
+  @Column({ nullable: true })
   startDate: Date;
 
-  @Column()
+  @Column({ nullable: true })
   bannerImageUrl: string;
 
-  @Column()
+  @Column({ nullable: true })
   trailerLinkUrl: string;
 
   @Column()

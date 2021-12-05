@@ -26,6 +26,7 @@ export class DatabaseLikesRepository implements ILikeRepository {
       },
     });
   }
+
   async like(dto: CreateLikeDto, byUserID: number): Promise<void> {
     const like: Like = new Like();
     const review: Review = new Review();
@@ -36,6 +37,7 @@ export class DatabaseLikesRepository implements ILikeRepository {
     like.byUser = user;
     await this.likeEntityRepository.save(like);
   }
+
   async disLike(like: Like): Promise<void> {
     // const like = await this.findOne(dto.targetReviewID, byUserID);
     await this.likeEntityRepository.delete(like);

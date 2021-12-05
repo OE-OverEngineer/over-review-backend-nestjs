@@ -3,7 +3,7 @@ import { UpdateDirectorDto } from 'src/infrastructure/dto/directors/updateDirect
 import { Director } from 'src/infrastructure/entities/director.entity';
 
 export interface IDirectorRepository {
-  insert(dto: CreateDirectorDto): Promise<Director>;
+  insert(newDirector: Director): Promise<Director>;
   findAll(): Promise<Director[]>;
   findById(id: number): Promise<Director>;
   update(id: number, dto: UpdateDirectorDto): Promise<Director>;

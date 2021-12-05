@@ -11,7 +11,7 @@ import { Director } from 'src/infrastructure/entities/director.entity';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { StorageService } from 'src/infrastructure/storage/storage.service';
-import { In, Like, Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class DatabaseMovieRepository implements IMovieRepository {
@@ -20,25 +20,49 @@ export class DatabaseMovieRepository implements IMovieRepository {
     private readonly movieEntityRepository: Repository<Movie>,
     private readonly storageService: StorageService,
   ) {}
+  async findRequestMovie(
+    pagination: Pagination,
+  ): Promise<{ data: Movie[]; total: number }> {
+    const skip = (pagination.pageNum - 1) * pagination.perPage;
+    const [data, total] = await this.movieEntityRepository.findAndCount({
+      where: {
+        approve: false,
+      },
+      take: pagination.perPage,
+      skip: skip,
+    });
+    return { data, total };
+  }
+
+  async addRequestMovie(title: string, userID: number): Promise<void> {
+    const movie = new Movie();
+    const user = new User();
+    movie.title = title;
+    user.id = userID;
+    movie.requestByUser = user;
+    await this.movieEntityRepository.insert(movie);
+  }
 
   async update(id: number, dto: UpdateMovieDto): Promise<Movie> {
-    // await this.movieEntityRepository.update({ id: id }, { ...dto });
+    const movie = await this.dtoToMovie(dto);
+    await this.movieEntityRepository.update(id, movie);
     return this.movieEntityRepository.findOne(id);
   }
 
-  async insert(dto: CreateMovieDto, userID?: number): Promise<Movie> {
-    const movie: Movie = await this.dtoToMovie(dto, userID);
+  async insert(dto: CreateMovieDto): Promise<Movie> {
+    const movie: Movie = await this.dtoToMovie(dto);
     return await this.movieEntityRepository.save(movie);
   }
 
-  async findAll(pagination: Pagination): Promise<Movie[]> {
-    // TODO : ADD response pagination
+  async findAll(
+    pagination: Pagination,
+  ): Promise<{ data: Movie[]; total: number }> {
     let sort: string | undefined;
     if (pagination.sort == 'random') sort = 'RANDOM()';
     else if (pagination.sort == 'popular') sort = 'count';
     else if (pagination.sort == 'recent') sort = 'movie.startDate';
-    /// ANCHOR IDk what top movies should work
     else if (pagination.sort == 'score') sort = 'score';
+    const skip = (pagination.pageNum - 1) * pagination.perPage;
     const raw = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie.id')
@@ -46,14 +70,17 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .addSelect('AVG(reviews.score)', 'score')
       .leftJoin('movie.reviews', 'reviews')
       .groupBy('movie.id')
+      .take(pagination.perPage)
+      .skip(skip)
       .orderBy(sort)
       .getRawMany();
+    const total = await this.movieEntityRepository.count();
     const ids = raw.map(({ movie_id }) => movie_id);
     const movies = await this.movieEntityRepository.find({
       where: { id: In(ids) },
       relations: ['director', 'actors', 'categories'],
     });
-    const response = movies.map((e) => {
+    const data = movies.map((e) => {
       return {
         ...e,
         score: Number(
@@ -62,14 +89,14 @@ export class DatabaseMovieRepository implements IMovieRepository {
       };
     });
 
-    return response;
+    return { data, total };
   }
   async findByCategory(
     pagination: Pagination,
     categoryID: number,
-  ): Promise<Movie[]> {
-    // FIXME not paginate
-    const result = await this.movieEntityRepository
+  ): Promise<{ data: Movie[]; total: number }> {
+    const skip = (pagination.pageNum - 1) * pagination.perPage;
+    const [result, total] = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie.id')
       .leftJoin('movie.categories', 'category')
@@ -77,32 +104,20 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .groupBy('movie.id')
       .orderBy('RANDOM()')
       .take(pagination.perPage)
-      .skip(pagination.pageNum - 1)
-      .getRawMany();
-    const resultID = result.map((e) => e.movie_id);
-    console.log(resultID);
+      .skip(skip)
+      .getManyAndCount();
+    const resultID = result.map((e) => e.id);
 
-    const moviesLists = await this.movieEntityRepository.find({
+    const data = await this.movieEntityRepository.find({
       where: {
         id: In(resultID),
       },
       relations: ['categories'],
     });
-    return moviesLists;
+    return { data, total };
   }
 
-  async findById(id: number): Promise<Movie | undefined> {
-    // const movieeee = await this.movieEntityRepository
-    //   .createQueryBuilder('movie')
-    //   .select('AVG(reviews.score)', 'score')
-    //   .addSelect('movie')
-    //   .leftJoin('movie.reviews', 'reviews')
-    //   .groupBy('movie.id')
-    //   .where('movie.id =:id', { id: id })
-    //   .getRawOne();
-    // const sd = await this.movieEntityRepository.create(movieeee);
-    // console.log(movieeee);
-    // console.log(sd);
+  async findById(id: number): Promise<Movie> {
     const movie = await this.movieEntityRepository.findOne({
       where: { id },
       relations: [
@@ -113,15 +128,14 @@ export class DatabaseMovieRepository implements IMovieRepository {
         'categories',
       ],
     });
-    // movie.score = score;
     return movie;
   }
 
   async findAllBySearch(
     searchText: string,
     pagination: Pagination,
-  ): Promise<Movie[]> {
-    const result = await this.movieEntityRepository
+  ): Promise<{ data: Movie[]; total: number }> {
+    const [data, total] = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .leftJoin('movie.director', 'director')
       .leftJoin('movie.actors', 'actors')
@@ -139,45 +153,10 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .orWhere('director.lastName LIKE :search', {
         search: `%${searchText}%`,
       })
-      // .groupBy('movie.id')
       .take(pagination.perPage)
       .skip(pagination.pageNum - 1)
-      .getMany();
-    // console.log(result);
-
-    // .getMany();
-    // const movieLists = await this.movieEntityRepository.find({
-    //   relations: ['actors', 'director'],
-    //   where: [
-    //     {
-    //       title: Like('%' + searchText + '%'),
-    //     },
-    //     // {
-    //     //   actors: {
-    //     //     firstName: Like('%' + searchText + '%'),
-    //     //   },
-    //     // },
-    //     // {
-    //     //   actors: {
-    //     //     lastName: Like('%' + searchText + '%'),
-    //     //   },
-    //     // },
-    //     {
-    //       director: {
-    //         firstName: Like('%' + searchText + '%'),
-    //       },
-    //     },
-    //     {
-    //       director: {
-    //         lastName: Like('%' + searchText + '%'),
-    //       },
-    //     },
-    //   ],
-    //   skip: pagination.pageNum - 1,
-    //   take: pagination.perPage,
-    // });
-
-    return result;
+      .getManyAndCount();
+    return { data, total };
     // return [];
   }
 
@@ -186,8 +165,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   private async dtoToMovie(
-    dto: CreateMovieDto,
-    userID: number,
+    dto: CreateMovieDto | UpdateMovieDto,
   ): Promise<Movie> {
     const director: Director = new Director();
     director.id = dto.directorID;
@@ -201,22 +179,19 @@ export class DatabaseMovieRepository implements IMovieRepository {
       category.id = id;
       return category;
     });
-    const user: User = new User();
     const randomString = dto.title + String(Date.now());
     const bannerImageUrlBlob = await this.storageService.uploadAvatar(
       dto.bannerImage,
       randomString,
     );
     const newMovie = { ...dto, bannerImageUrl: bannerImageUrlBlob };
-    user.id = userID;
     const movie: Movie = {
       ...newMovie,
       // bannerImage: dto.bannerImageUrl,
       categories: categories,
       director: director,
       actors: actors,
-      requestByUser: userID ? user : undefined,
-      approve: userID == undefined ?? true,
+      approve: true,
     };
     return movie;
   }

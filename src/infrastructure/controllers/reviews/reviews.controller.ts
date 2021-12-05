@@ -7,7 +7,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { CreateLikeDto } from 'src/infrastructure/dto/likes/createLike.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
@@ -15,12 +15,14 @@ import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
 @ApiTags('Reviews')
+@ApiBearerAuth('access-token')
 @Controller('reviews')
 export class ReviewsController {
   constructor(
     private readonly reviewsUsecases: ReviewsUseCases,
     private readonly likesUsecases: LikesUseCases,
   ) {}
+
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createReviewDto: CreateReviewDto, @Request() req: any) {

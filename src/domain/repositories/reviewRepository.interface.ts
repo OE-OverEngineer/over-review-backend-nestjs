@@ -10,6 +10,7 @@ export interface IReviewRepository {
   findAllByMovieID(movieID: number, pagination: Pagination): Promise<Review[]>;
   findAllByUserID(userID: number, pagination: Pagination): Promise<Review[]>;
   findById(id: number): Promise<Review>;
+  findByUserIDMovieID(movieID: number, userID: number): Promise<Review>;
   update(id: number, dto: UpdateReviewDto): Promise<Review>;
   deleteById(id: number): Promise<void>;
 }

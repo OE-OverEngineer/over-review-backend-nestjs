@@ -16,6 +16,20 @@ export class DatabaseReviewRepository implements IReviewRepository {
     @InjectRepository(Review)
     private readonly reviewEntityRepository: Repository<Review>,
   ) {}
+
+  async findByUserIDMovieID(movieID: number, userID: number): Promise<Review> {
+    return await this.reviewEntityRepository.findOne({
+      where: {
+        user: {
+          id: userID,
+        },
+        movie: {
+          id: movieID,
+        },
+      },
+    });
+  }
+
   async findAllByMovieID(
     movieID: number,
     pagination: Pagination,

@@ -16,5 +16,8 @@ export class CreateActorDto {
   lastName: string;
 
   @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   image: string;
 }
