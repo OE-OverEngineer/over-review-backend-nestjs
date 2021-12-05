@@ -20,9 +20,7 @@ export class AuthUseCase {
     password: string,
   ): Promise<{ access_token: string }> {
     // TODO : Add hash password , this is for simple
-    console.log(email);
     const user = await this.userRepository.findByEmail(email);
-    console.log('User = ', user);
     if (user && user.password == password) {
       return await this.signJwt(user);
     }
@@ -35,6 +33,7 @@ export class AuthUseCase {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      role: user.role.title,
     };
     return {
       access_token: this.jwtService.sign(payload),
