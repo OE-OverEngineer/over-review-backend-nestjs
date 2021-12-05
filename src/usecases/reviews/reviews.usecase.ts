@@ -9,10 +9,12 @@ export class ReviewsUseCases {
   constructor(private readonly reviewReository: IReviewRepository) {}
 
   async create(dto: CreateReviewDto, userID: number): Promise<Review> {
+    console.log(dto);
     const review = await this.reviewReository.findByUserIDMovieID(
       dto.movieID,
       userID,
     );
+    console.log(userID);
     if (review) throw new ConflictException();
     return await this.reviewReository.insert(dto, userID);
   }

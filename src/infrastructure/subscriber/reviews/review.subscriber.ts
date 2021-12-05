@@ -28,15 +28,27 @@ export class PostSubscriber implements EntitySubscriberInterface<Review> {
   }
 
   async afterInsert(event: InsertEvent<Review>) {
-    const { scores } = await this.reviewEntityRepository
+    const movieID = event.entity.movie.id;
+    const sql = await this.reviewEntityRepository
       .createQueryBuilder('review')
+      // .select('id')
       .select('AVG(score)', 'scores')
-      .where('review.movie.id = :movieID', { movieID: event.entity.movie.id })
+      .where('review.movie.id = :movieID', { movieID: movieID })
+      .groupBy('review.movie.id')
+      .getSql();
+    const result = await this.reviewEntityRepository
+      .createQueryBuilder('review')
+      // .select('id')
+      // .addSelect('score')
+      .select('AVG(score)', 'scores')
+      .where('review.movie.id = :movieID', { movieID: movieID })
       .groupBy('review.movie.id')
       .getRawOne();
-    await this.movieEntityRepository.update(event.entity.movie.id, {
-      score: scores,
-    });
+    console.log(sql);
+    console.log(result);
+    // await this.movieEntityRepository.update(event.entity.movie.id, {
+    //   score: result.scores,
+    // });
 
     console.log(`AFTER INSERTED: `, event.entity);
   }

@@ -33,7 +33,7 @@ export class AuthUseCase {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      role: user.role.title,
+      role: user.role,
     };
     return {
       access_token: this.jwtService.sign(payload),

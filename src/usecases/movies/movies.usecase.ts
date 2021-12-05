@@ -55,6 +55,7 @@ export class MoviesUseCases {
   ): Promise<{ data: Movie[]; total: number }> {
     return await this.movieRepository.findByCategory(pagintaion, categoryID);
   }
+
   async search(
     searchText: string,
     pagintaion: Pagination,

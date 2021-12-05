@@ -139,7 +139,9 @@ export class DatabaseReviewRepository implements IReviewRepository {
     // console.log(score);
     // return
 
-    return await this.reviewEntityRepository.find();
+    return await this.reviewEntityRepository.find({
+      relations: ['movie'],
+    });
     // relations: [],
   }
 
