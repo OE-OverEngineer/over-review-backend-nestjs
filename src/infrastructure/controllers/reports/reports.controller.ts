@@ -1,5 +1,14 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { CreateReportDto } from 'src/infrastructure/dto/reports/createReport.dto';
 
 import { ReportsUsecase } from 'src/usecases/reports/reports.usecase';
@@ -8,10 +17,12 @@ import { ReportsUsecase } from 'src/usecases/reports/reports.usecase';
 @Controller('reports')
 export class ReportsController {
   constructor(private readonly reportUseCases: ReportsUsecase) {}
+
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() dto: CreateReportDto) {
-    const id = 1;
-    return this.reportUseCases.create(dto, id);
+  create(@Body() dto: CreateReportDto, @Request() req: any) {
+    const userID = Number(req.user.id);
+    return this.reportUseCases.create(dto, userID);
   }
 
   @Get()

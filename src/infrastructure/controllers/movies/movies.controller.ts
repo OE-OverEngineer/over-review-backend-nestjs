@@ -1,5 +1,15 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
@@ -15,6 +25,12 @@ export class MoviesController {
   @Post()
   create(@Body() createMovieDto: CreateMovieDto) {
     return this.moviesUsecases.create(createMovieDto);
+  }
+  @UseGuards(JwtAuthGuard)
+  @Post('/request')
+  requestMovie(@Body() createMovieDto: CreateMovieDto, @Request() req: any) {
+    const userID = Number(req.user.id);
+    return this.moviesUsecases.requestByUser(createMovieDto, userID);
   }
 
   @Get()

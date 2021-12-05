@@ -1,5 +1,14 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { CreateLikeDto } from 'src/infrastructure/dto/likes/createLike.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
 import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
@@ -12,9 +21,11 @@ export class ReviewsController {
     private readonly reviewsUsecases: ReviewsUseCases,
     private readonly likesUsecases: LikesUseCases,
   ) {}
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createReviewDto: CreateReviewDto, @Param('id') id: string) {
-    return this.reviewsUsecases.create(createReviewDto, Number(id));
+  create(@Body() createReviewDto: CreateReviewDto, @Request() req: any) {
+    const userID = Number(req.user.id);
+    return this.reviewsUsecases.create(createReviewDto, userID);
   }
 
   @Get()
@@ -26,9 +37,15 @@ export class ReviewsController {
   findOne(@Param('id') id: number) {
     return this.reviewsUsecases.findOne(id);
   }
+
+  @UseGuards(JwtAuthGuard)
   @Post('/like')
-  async like(@Body() dto: CreateLikeDto) {
-    const userID = 1;
-    return this.likesUsecases.like(dto, userID);
+  async like(@Body() dto: CreateLikeDto, @Request() req: any) {
+    const userID = Number(req.user.id);
+    if (dto.isLike) {
+      return this.likesUsecases.like(dto, userID);
+    } else {
+      return this.likesUsecases.dislike(dto, userID);
+    }
   }
 }

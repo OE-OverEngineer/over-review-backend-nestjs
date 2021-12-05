@@ -38,7 +38,6 @@ export class UsersController {
   @Get('profile')
   async me(@Request() req) {
     const user = await this.userUsecases.findOne(req.user.id);
-    console.log(req.user);
     return user;
   }
 
