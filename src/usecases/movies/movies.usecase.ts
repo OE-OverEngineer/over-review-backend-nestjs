@@ -15,12 +15,6 @@ export class MoviesUseCases {
   ) {}
 
   async create(dto: CreateMovieDto): Promise<Movie> {
-    const randomString = dto.title + String(Date.now());
-    const posterUrlBlob = await this.storageService.uploadPoster(
-      dto.bannerImage,
-      randomString,
-    );
-    dto.bannerImageUrl = posterUrlBlob;
     return await this.movieRepository.insert(dto);
   }
 

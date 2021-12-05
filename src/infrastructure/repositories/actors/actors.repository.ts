@@ -30,7 +30,6 @@ export class DatabaseActorsRepository implements IActorRepository {
       randomString,
     );
     const newActor = { ...dto, imageUrl: actorUrlBlob };
-    console.log(actorUrlBlob);
     return await this.actorEntityRepository.save(newActor);
   }
 

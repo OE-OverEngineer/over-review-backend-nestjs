@@ -10,6 +10,7 @@ import { Category } from 'src/infrastructure/entities/category.entity';
 import { Director } from 'src/infrastructure/entities/director.entity';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
+import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { In, Like, Repository } from 'typeorm';
 
 @Injectable()
@@ -17,6 +18,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
   constructor(
     @InjectRepository(Movie)
     private readonly movieEntityRepository: Repository<Movie>,
+    private readonly storageService: StorageService,
   ) {}
 
   async update(id: number, dto: UpdateMovieDto): Promise<Movie> {
@@ -25,7 +27,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
   }
 
   async insert(dto: CreateMovieDto, userID?: number): Promise<Movie> {
-    const movie: Movie = this.dtoToMovie(dto, userID);
+    const movie: Movie = await this.dtoToMovie(dto, userID);
     return await this.movieEntityRepository.save(movie);
   }
 
@@ -183,7 +185,10 @@ export class DatabaseMovieRepository implements IMovieRepository {
     await this.movieEntityRepository.delete(id);
   }
 
-  private dtoToMovie(dto: CreateMovieDto, userID: number): Movie {
+  private async dtoToMovie(
+    dto: CreateMovieDto,
+    userID: number,
+  ): Promise<Movie> {
     const director: Director = new Director();
     director.id = dto.directorID;
     const actors = dto.actorsID.map((id) => {
@@ -197,10 +202,15 @@ export class DatabaseMovieRepository implements IMovieRepository {
       return category;
     });
     const user: User = new User();
-
+    const randomString = dto.title + String(Date.now());
+    const bannerImageUrlBlob = await this.storageService.uploadAvatar(
+      dto.bannerImage,
+      randomString,
+    );
+    const newMovie = { ...dto, bannerImageUrl: bannerImageUrlBlob };
     user.id = userID;
     const movie: Movie = {
-      ...dto,
+      ...newMovie,
       // bannerImage: dto.bannerImageUrl,
       categories: categories,
       director: director,
