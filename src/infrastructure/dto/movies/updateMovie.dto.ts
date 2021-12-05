@@ -7,6 +7,7 @@ import {
   IsArray,
   ArrayMinSize,
   IsDateString,
+  IsBoolean,
 } from 'class-validator';
 import { IsActorListFound } from 'src/infrastructure/validators/actors/actors.validator';
 import { IsCategoryListFound } from 'src/infrastructure/validators/categories/category.validator';
@@ -58,5 +59,9 @@ export class UpdateMovieDto {
   @IsString()
   @ApiProperty()
   trailerLinkUrl: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  approve: boolean;
 }
 // export class UpdateMovieDto extends OmitType(CreateMovieDto, []) {}
