@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform, TransformFnParams } from 'class-transformer';
 import {
   IsInt,
   IsString,
@@ -13,13 +14,17 @@ import { IsDirectorFound } from 'src/infrastructure/validators/directors/directo
 
 export class CreateMovieDto {
   @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   @ApiProperty()
   title: string;
 
   @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   @ApiProperty()
   description: string;
-  //
+
   @IsInt()
   @IsDirectorFound()
   @ApiProperty()

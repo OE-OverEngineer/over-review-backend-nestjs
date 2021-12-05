@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform, TransformFnParams } from 'class-transformer';
 import {
   IsInt,
   IsIn,
@@ -16,11 +17,14 @@ import { IsEmailAlreadyExist } from 'src/infrastructure/validators/users/user.va
 
 export class CreateUserDto {
   @IsEmail()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   @IsEmailAlreadyExist()
   @ApiProperty({ default: 'test@test.com' })
   email: string;
 
   @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   @ApiProperty({ default: 'password' })
   @MinLength(6, {
     message: 'Password must be longer than 6 characters',
@@ -32,16 +36,19 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsAlpha()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   @ApiProperty()
   firstName: string;
 
   @IsNotEmpty()
   @IsAlpha()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   @ApiProperty()
   lastName: string;
 
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
+  @Transform(({ value }: TransformFnParams) => value.trim())
   @ApiProperty()
   @MinLength(4, {
     message: 'Display name must be longer than 4 characters',
