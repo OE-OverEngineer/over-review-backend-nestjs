@@ -54,7 +54,8 @@ export class DatabaseUsersRepository implements IUsersRepository {
   async findByEmail(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({
       where: { email: email },
-      select: ['password', 'firstName', 'lastName', 'email', 'id'],
+      select: ['password', 'firstName', 'lastName', 'email', 'id', 'role'],
+      relations: ['role'],
     });
   }
 
@@ -74,7 +75,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
 
   private dtoToUser(dto: CreateUserDto): User {
     const role: Role = new Role();
-    role.id = dto.roleID;
+    role.id = dto.roleId;
     const user: User = new User();
     user.email = dto.email;
     user.password = dto.password;
@@ -84,7 +85,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
     user.dateOfBirth = dto.dateOfBirth;
     user.gender = dto.gender;
     user.avatarUrl = dto.avatarUrl;
-    // user.role = role;
+    user.role = role;
     return user;
   }
 

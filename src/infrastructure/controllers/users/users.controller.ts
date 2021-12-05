@@ -14,7 +14,7 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Users')
 @Controller('users')
@@ -35,6 +35,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Get('profile')
   async me(@Request() req) {
     const user = await this.userUsecases.findOne(req.user.id);

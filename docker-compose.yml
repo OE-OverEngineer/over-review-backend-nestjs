@@ -15,11 +15,22 @@ services:
   # backend:
   #   container_name: nestjs_api_dev
   #   build: .
-  #   command: npm run start:debug
+  #   # command: yarn start:debug
   #   ports:
   #       - 8000:8000
   #   volumes:
-  #       - .:/usr/src/app
+  #       - ./src:/usr/src/app
   #       - /usr/src/app/node_modules
+  #   environment:
+  #     - DATABASE_HOST=db
+  #     - DATABASE_PORT=${DATABASE_PORT}
+  #     - DATABASE_USER=${DATABASE_USER}
+  #     - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+  #     - DATABASE_NAME=${DATABASE_NAME}
+  #     - DATABASE_SCHEMA=${DATABASE_SCHEMA}
+  #     - DATABASE_SYNCHRONIZE=${DATABASE_SYNCHRONIZE}
+  #     - JWT_SECRET=${JWT_SECRET}
+  #     - AZURE_BLOB_CONNECTION_STRING=${AZURE_BLOB_CONNECTION_STRING}
+
   #   restart: unless-stopped
 

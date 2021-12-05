@@ -3,7 +3,7 @@ import { IsNotEmpty } from 'class-validator';
 import { CreateUserDto } from '../users/createUser.dto';
 
 export class RegisterUserDto extends OmitType(CreateUserDto, [
-  'roleID',
+  'roleId',
   'avatarUrl',
 ]) {
   @ApiProperty()

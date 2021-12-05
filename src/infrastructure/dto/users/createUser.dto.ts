@@ -72,5 +72,5 @@ export class CreateUserDto {
   @IsInt()
   @IsRoleFound()
   @ApiProperty()
-  roleID: number;
+  roleId: number;
 }
