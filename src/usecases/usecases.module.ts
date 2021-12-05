@@ -18,7 +18,6 @@ import { DatabaseMovieRepository } from 'src/infrastructure/repositories/movie/m
 import { DatabaseReportRepository } from 'src/infrastructure/repositories/reports/reports.repository';
 import { RepositoriesModule } from 'src/infrastructure/repositories/repositories.module';
 import { DatabaseReviewRepository } from 'src/infrastructure/repositories/reviews/review.repository';
-import { MockRoleRepository } from 'src/infrastructure/repositories/roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from 'src/infrastructure/repositories/users/users.repository';
 import { ActorsUseCases } from './actors/actors.usecase';
 import { CategoriesUseCases } from './categories/categories.usecase';
@@ -35,6 +34,7 @@ import { StorageModule } from 'src/infrastructure/storage/storage.module';
 import { RepliesUsecase } from './replies/replies.usecase';
 import { IReplyRepository } from 'src/domain/repositories/replyRepository.interface copy';
 import { DatabaseRepliesRepository } from 'src/infrastructure/repositories/replies/replies.repository';
+import { DatabaseRolesRepository } from 'src/infrastructure/repositories/roles/roles.repository';
 
 @Module({
   imports: [RepositoriesModule, StorageModule],
@@ -86,7 +86,7 @@ import { DatabaseRepliesRepository } from 'src/infrastructure/repositories/repli
     },
     {
       provide: RolesUseCases,
-      inject: [MockRoleRepository],
+      inject: [DatabaseRolesRepository],
       useFactory: (repository: IRoleRepository) =>
         new RolesUseCases(repository),
     },

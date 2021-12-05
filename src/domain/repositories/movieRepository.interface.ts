@@ -1,11 +1,12 @@
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
+import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
 import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Movie } from '../../infrastructure/entities/movie.entity';
 
 export interface IMovieRepository {
   insert(dto: CreateMovieDto): Promise<Movie>;
-  addRequestMovie(title: string, userID: number): Promise<void>;
+  addRequestMovie(dto: RequestMovieDto, userID: number): Promise<void>;
   findRequestMovie(
     pagination: Pagination,
   ): Promise<{ data: Movie[]; total: number }>;

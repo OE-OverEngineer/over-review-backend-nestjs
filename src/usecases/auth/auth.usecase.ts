@@ -21,6 +21,7 @@ export class AuthUseCase {
   ): Promise<{ access_token: string }> {
     // TODO : Add hash password , this is for simple
     const user = await this.userRepository.findByEmail(email);
+    console.log(user);
     if (user && user.password == password) {
       return await this.signJwt(user);
     }
@@ -46,7 +47,8 @@ export class AuthUseCase {
       dto.avatar,
       randomString,
     );
-    const newUser = { ...dto, roleID: 1, avatarUrl: avatarUrlBlob };
+    // roleId = 1 mean member
+    const newUser = { ...dto, roleId: 1, avatarUrl: avatarUrlBlob };
     return await this.usersUseCase.create(newUser);
   }
 }

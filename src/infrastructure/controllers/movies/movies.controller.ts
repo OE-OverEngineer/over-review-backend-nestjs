@@ -8,7 +8,7 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
@@ -29,10 +29,11 @@ export class MoviesController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Post('/request')
-  requestMovie(@Body() dto: RequestMovieDto, @Request() req: any) {
+  requestMovie(@Body() dto: RequestMovieDto, @Request() req) {
     const userID = Number(req.user.id);
-    return this.moviesUsecases.requestByUser(dto.title, userID);
+    return this.moviesUsecases.requestByUser(dto, userID);
   }
 
   @Get('/request')

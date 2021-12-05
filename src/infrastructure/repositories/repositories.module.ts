@@ -21,11 +21,11 @@ import { DatabaseLikesRepository } from './likes/likes.repository';
 import { DatabaseMovieRepository } from './movie/movie.repository';
 import { DatabaseReportRepository } from './reports/reports.repository';
 import { DatabaseReviewRepository } from './reviews/review.repository';
-import { MockRoleRepository } from './roles/roles.mock.repositoty';
 import { DatabaseUsersRepository } from './users/users.repository';
 import { LikesSubscriber } from '../subscriber/likes/likes.subscriber';
 import { DatabaseRepliesRepository } from './replies/replies.repository';
 import { StorageModule } from '../storage/storage.module';
+import { DatabaseRolesRepository } from './roles/roles.repository';
 
 @Module({
   imports: [
@@ -55,7 +55,7 @@ import { StorageModule } from '../storage/storage.module';
     DatabaseCategoryRepository,
     DatabaseLikesRepository,
     DatabaseRepliesRepository,
-    MockRoleRepository,
+    DatabaseRolesRepository,
     PostSubscriber,
     LikesSubscriber,
   ],
@@ -70,7 +70,7 @@ import { StorageModule } from '../storage/storage.module';
     DatabaseReviewRepository,
     DatabaseCategoryRepository,
     DatabaseRepliesRepository,
-    MockRoleRepository,
+    DatabaseRolesRepository,
     PostSubscriber,
     LikesSubscriber,
   ],

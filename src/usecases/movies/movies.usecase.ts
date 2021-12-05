@@ -2,6 +2,7 @@ import { BadRequestException } from '@nestjs/common';
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
+import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
 import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Movie } from 'src/infrastructure/entities/movie.entity';
@@ -18,10 +19,10 @@ export class MoviesUseCases {
     return await this.movieRepository.insert(dto);
   }
 
-  async requestByUser(title: string, userID: number): Promise<void> {
+  async requestByUser(dto: RequestMovieDto, userID: number): Promise<void> {
     const user = await this.userRepository.findById(userID);
     if (!user) throw new BadRequestException('User not found');
-    await this.movieRepository.addRequestMovie(title, userID);
+    await this.movieRepository.addRequestMovie(dto, user.id);
   }
 
   async update(id: number, dto: UpdateMovieDto): Promise<Movie> {

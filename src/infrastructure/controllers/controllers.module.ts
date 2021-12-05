@@ -13,6 +13,8 @@ import { CommentsController } from './comments/comments.controller';
 import { RolesController } from './roles/roles.controller';
 import { ReportsController } from './reports/reports.controller';
 import { RepliesController } from './replies/replies.controller';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from '../auth/roles.guard';
 // import { ValidatorModule } from '../validators/validator.module';
 
 @Module({

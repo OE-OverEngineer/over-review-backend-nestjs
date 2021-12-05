@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
+import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
 import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { Actor } from 'src/infrastructure/entities/actor.entity';
@@ -34,12 +35,15 @@ export class DatabaseMovieRepository implements IMovieRepository {
     return { data, total };
   }
 
-  async addRequestMovie(title: string, userID: number): Promise<void> {
+  async addRequestMovie(dto: RequestMovieDto, userID: number): Promise<void> {
     const movie = new Movie();
     const user = new User();
-    movie.title = title;
+    movie.title = dto.title;
     user.id = userID;
+    movie.description = dto.description;
+    movie.startDate = dto.startDate;
     movie.requestByUser = user;
+    movie.approve = false;
     await this.movieEntityRepository.insert(movie);
   }
 

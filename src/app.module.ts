@@ -7,6 +7,8 @@ import { RepositoriesModule } from './infrastructure/repositories/repositories.m
 import { ControllersModule } from './infrastructure/controllers/controllers.module';
 import { UsecasesModule } from './usecases/usecases.module';
 import { StorageModule } from './infrastructure/storage/storage.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './infrastructure/auth/roles.guard';
 
 @Module({
   imports: [
@@ -18,6 +20,12 @@ import { StorageModule } from './infrastructure/storage/storage.module';
     UsecasesModule,
     StorageModule,
   ],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
+  ],
 })
 export class AppModule {}

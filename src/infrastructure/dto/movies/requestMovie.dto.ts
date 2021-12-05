@@ -8,4 +8,11 @@ export class RequestMovieDto {
   @Transform(({ value }: TransformFnParams) => value.trim())
   @ApiProperty()
   title: string;
+
+  @ApiProperty()
+  startDate: Date;
+
+  @ApiProperty()
+  @Transform(({ value }: TransformFnParams) => value.trim())
+  description: string;
 }
