@@ -23,32 +23,32 @@ import { ActorsUseCases } from 'src/usecases/actors/actors.usecase';
 export class ActorsController {
   constructor(private readonly actorsUsecases: ActorsUseCases) {}
 
-  // @ApiBearerAuth('access-token')
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Post()
   create(@Body() dto: CreateActorDto) {
     return this.actorsUsecases.create(dto);
   }
 
-  // @ApiBearerAuth('access-token')
-  // @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.actorsUsecases.findAll();
   }
 
-  // @ApiBearerAuth('access-token')
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Patch('/:id')
   update(@Param('id') id: number, @Body() dto: UpdateActorDto) {
     return this.actorsUsecases.update(id, dto);
   }
 
-  // @ApiBearerAuth('access-token')
-  // @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles(Role.Admin)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Delete('/:id')
   delete(@Param('id') id: number) {
     return this.actorsUsecases.delete(id);
