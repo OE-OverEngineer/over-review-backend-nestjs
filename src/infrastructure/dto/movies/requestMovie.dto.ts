@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsDateString } from 'class-validator';
 
 export class RequestMovieDto {
   @IsString()
@@ -10,6 +10,7 @@ export class RequestMovieDto {
   title: string;
 
   @ApiProperty()
+  @IsDateString()
   startDate: Date;
 
   @ApiProperty()
