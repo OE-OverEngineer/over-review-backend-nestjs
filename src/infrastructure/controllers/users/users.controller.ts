@@ -77,4 +77,8 @@ export class UsersController {
   // remove(@Param('id') id: string) {
   //   return this.usersService.deleteById(+id);
   // }
+
+  // async reportUser() {
+
+  // }
 }

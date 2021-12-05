@@ -73,6 +73,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .addSelect('COUNT(reviews.score)', 'count')
       .addSelect('AVG(reviews.score)', 'score')
       .leftJoin('movie.reviews', 'reviews')
+      .where('approve = :approve', { approve: true })
       .groupBy('movie.id')
       .take(pagination.perPage)
       .skip(skip)
