@@ -6,8 +6,11 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
+import { Role } from 'src/infrastructure/auth/role.enum';
+import { Roles } from 'src/infrastructure/auth/roles.decorator';
+import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { CreateCommentDto } from 'src/infrastructure/dto/comments/createComment.dto';
 import { CommentsUseCases } from 'src/usecases/comments/comments.usecase';
 
@@ -16,7 +19,9 @@ import { CommentsUseCases } from 'src/usecases/comments/comments.usecase';
 export class CommentsController {
   constructor(private readonly commentUsecases: CommentsUseCases) {}
 
-  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Member)
   @Post()
   create(@Body() dto: CreateCommentDto, @Request() req: any) {
     const userID = Number(req.user.id);

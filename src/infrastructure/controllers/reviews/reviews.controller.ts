@@ -15,7 +15,6 @@ import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
 @ApiTags('Reviews')
-@ApiBearerAuth('access-token')
 @Controller('reviews')
 export class ReviewsController {
   constructor(
@@ -24,6 +23,7 @@ export class ReviewsController {
   ) {}
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Post()
   create(@Body() createReviewDto: CreateReviewDto, @Request() req: any) {
     const userID = Number(req.user.id);
@@ -41,6 +41,7 @@ export class ReviewsController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
   @Post('/like')
   async like(@Body() dto: CreateLikeDto, @Request() req: any) {
     const userID = Number(req.user.id);
