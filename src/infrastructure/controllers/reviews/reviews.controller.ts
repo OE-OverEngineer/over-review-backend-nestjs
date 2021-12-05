@@ -13,9 +13,8 @@ export class ReviewsController {
     private readonly likesUsecases: LikesUseCases,
   ) {}
   @Post()
-  create(@Body() createReviewDto: CreateReviewDto) {
-    const id = 1;
-    return this.reviewsUsecases.create(createReviewDto, id);
+  create(@Body() createReviewDto: CreateReviewDto, @Param('id') id: string) {
+    return this.reviewsUsecases.create(createReviewDto, Number(id));
   }
 
   @Get()
