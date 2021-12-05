@@ -7,6 +7,7 @@ import {
   UseGuards,
   Query,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { UsersUseCases } from 'src/usecases/users/users.usecase';
@@ -15,6 +16,7 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+// import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -49,7 +51,12 @@ export class UsersController {
   ) {
     return this.reviewsUsecases.findAllByUserID(id, pagintaion);
   }
-
+  @UseGuards(JwtAuthGuard)
+  @Patch('/edit/profile')
+  async updateByIDToken(@Request() req: any, dto: CreateUserDto) {
+    const userID = Number(req.user.id);
+    return this.userUsecases.update(userID, dto);
+  }
   @Get('/top-review/')
   async findTopReview(@Query('amount') amount: number) {
     return this.userUsecases.findTopReviewers(amount);
