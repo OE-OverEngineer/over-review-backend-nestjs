@@ -63,6 +63,13 @@ export class UsersController {
   async findTopReview(@Query('amount') amount: number) {
     return this.userUsecases.findTopReviewers(amount);
   }
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth('access-token')
+  // @Get('profile')
+  // @Get('/liked-review/')
+  // async findLikedReview(@Request() req: any) {
+  //   return this.userUsecases.findTopReviewers(amount);
+  // }
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.usersService.findById(Number.parseInt(id));

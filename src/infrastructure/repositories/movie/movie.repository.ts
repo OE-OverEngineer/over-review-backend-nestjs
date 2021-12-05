@@ -67,6 +67,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
     else if (pagination.sort == 'recent') sort = 'movie.startDate';
     else if (pagination.sort == 'score') sort = 'score';
     const skip = (pagination.pageNum - 1) * pagination.perPage;
+    /* --- Query list movies that created --- */
     const raw = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie.id')
@@ -79,7 +80,12 @@ export class DatabaseMovieRepository implements IMovieRepository {
       .skip(skip)
       .orderBy(sort)
       .getRawMany();
-    const total = await this.movieEntityRepository.count();
+    /* --- Query total again because get RawMany cannot return count --- */
+    const total = await this.movieEntityRepository.count({
+      where: {
+        approve: true,
+      },
+    });
     const ids = raw.map(({ movie_id }) => movie_id);
     const movies = await this.movieEntityRepository.find({
       where: { id: In(ids) },
