@@ -34,6 +34,7 @@ export class DatabaseReviewRepository implements IReviewRepository {
     movieID: number,
     pagination: Pagination,
   ): Promise<Review[]> {
+    const skip = (pagination.pageNum - 1) * pagination.perPage;
     let sort: string | undefined;
     if (pagination.sort == 'like') sort = 'likesCount';
     // 1. Get likes and id from pagination
@@ -46,7 +47,7 @@ export class DatabaseReviewRepository implements IReviewRepository {
       .groupBy('review.id')
       .orderBy(sort)
       .take(pagination.perPage)
-      .skip(pagination.pageNum - 1)
+      .skip(skip)
       .getRawMany();
     const ids = raw.map(({ review_id }) => review_id);
 
@@ -98,8 +99,8 @@ export class DatabaseReviewRepository implements IReviewRepository {
           'user',
           'comments',
           'comments.user',
-          'comments.reply',
-          'comments.reply.byUser',
+          'comments.replies',
+          'comments.replies.byUser',
           'movie',
           'movie.director',
           'movie.actors',
@@ -124,8 +125,9 @@ export class DatabaseReviewRepository implements IReviewRepository {
 
   async insert(dto: CreateReviewDto, id: number): Promise<Review> {
     const review: Review = this.dtoToReview(dto, id);
-    await this.reviewEntityRepository.save(review);
-    return await this.reviewEntityRepository.findOne(id);
+
+    const revieww = await this.reviewEntityRepository.save(review);
+    return revieww;
   }
 
   async findAll(): Promise<Review[]> {

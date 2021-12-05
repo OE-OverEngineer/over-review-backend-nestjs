@@ -1,4 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
+import { raw } from 'express';
 import {
   Connection,
   EntitySubscriberInterface,
@@ -26,29 +27,32 @@ export class PostSubscriber implements EntitySubscriberInterface<Review> {
   listenTo() {
     return Review;
   }
-
   async afterInsert(event: InsertEvent<Review>) {
     const movieID = event.entity.movie.id;
-    const sql = await this.reviewEntityRepository
-      .createQueryBuilder('review')
-      // .select('id')
-      .select('AVG(score)', 'scores')
-      .where('review.movie.id = :movieID', { movieID: movieID })
-      .groupBy('review.movie.id')
-      .getSql();
-    const result = await this.reviewEntityRepository
-      .createQueryBuilder('review')
-      // .select('id')
-      // .addSelect('score')
-      .select('AVG(score)', 'scores')
-      .where('review.movie.id = :movieID', { movieID: movieID })
-      .groupBy('review.movie.id')
-      .getRawOne();
-    console.log(sql);
-    console.log(result);
-    // await this.movieEntityRepository.update(event.entity.movie.id, {
-    //   score: result.scores,
-    // });
+    console.log('3');
+
+    const movie = await this.movieEntityRepository
+      .createQueryBuilder('movie')
+      .leftJoinAndSelect('movie.reviews', 'reviews')
+      .where('movie.id = :movieID', { movieID })
+      .getOne();
+    console.log(movie);
+
+    const reviewData = movie.reviews;
+    console.log(reviewData);
+    let total = 0;
+    reviewData.forEach((e) => (total += e.score));
+    total = total / reviewData.length;
+    reviewData.push(event.entity);
+    console.log(reviewData);
+
+    total = 0;
+    reviewData.forEach((e) => (total += e.score));
+    total = total / reviewData.length;
+    console.log(total);
+    await this.movieEntityRepository.update(movieID, {
+      score: total,
+    });
 
     console.log(`AFTER INSERTED: `, event.entity);
   }
