@@ -1,9 +1,9 @@
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { User } from 'src/infrastructure/entities/user.entity';
-import { validate } from 'class-validator';
 import { Service } from 'typedi';
 import { Injectable } from '@nestjs/common';
+// import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @Service('UsersUseCase')
 @Injectable()
@@ -14,11 +14,12 @@ export class UsersUseCases {
     return await this.userRepository.create(dto);
   }
 
-  async update(dto: CreateUserDto): Promise<void> {
-    await this.userRepository.create(dto);
+  async update(id: number, dto: CreateUserDto): Promise<void> {
+    await this.userRepository.update(id, dto);
   }
-  async delete(dto: CreateUserDto): Promise<void> {
-    await this.userRepository.create(dto);
+
+  async delete(id: number): Promise<void> {
+    await this.userRepository.deleteById(id);
   }
 
   async findOne(id: number): Promise<User | undefined> {
