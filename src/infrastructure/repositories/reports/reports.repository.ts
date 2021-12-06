@@ -29,7 +29,7 @@ export class DatabaseReportRepository implements IReportRepository {
   }
   async findAll(): Promise<Report[]> {
     return await this.reportEntityRepository.find({
-      relations: ['user'],
+      relations: ['targetUser', 'byUser'],
     });
   }
   async findAllByID(ids: number[]): Promise<Report[]> {
@@ -37,7 +37,7 @@ export class DatabaseReportRepository implements IReportRepository {
       where: {
         id: In(ids),
       },
-      relations: ['user'],
+      relations: ['targetUser', 'byUser'],
     });
   }
   async findById(id: number): Promise<Report> {
