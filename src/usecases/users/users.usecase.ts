@@ -3,6 +3,7 @@ import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { Service } from 'typedi';
 import { Injectable } from '@nestjs/common';
+import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @Service('UsersUseCase')
@@ -16,6 +17,9 @@ export class UsersUseCases {
 
   async update(id: number, dto: CreateUserDto): Promise<void> {
     await this.userRepository.update(id, dto);
+  }
+  async updateProfile(id: number, dto: RegisterUserDto): Promise<void> {
+    await this.userRepository.updateProfile(id, dto);
   }
 
   async delete(id: number): Promise<void> {

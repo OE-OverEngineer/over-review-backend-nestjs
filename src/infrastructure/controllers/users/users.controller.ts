@@ -16,6 +16,10 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
+import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
+import { Roles } from 'src/infrastructure/auth/roles.decorator';
+import { Role } from 'src/infrastructure/auth/role.enum';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @ApiTags('Users')
@@ -24,6 +28,7 @@ export class UsersController {
   constructor(
     private readonly userUsecases: UsersUseCases,
     private readonly reviewsUsecases: ReviewsUseCases,
+    private readonly likeUsecases: LikesUseCases,
   ) {}
 
   @Post()
@@ -63,13 +68,15 @@ export class UsersController {
   async findTopReview(@Query('amount') amount: number) {
     return this.userUsecases.findTopReviewers(amount);
   }
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth('access-token')
-  // @Get('profile')
-  // @Get('/liked-review/')
-  // async findLikedReview(@Request() req: any) {
-  //   return this.userUsecases.findTopReviewers(amount);
-  // }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth('access-token')
+  @Roles(Role.Member)
+  @Get('/liked-review/')
+  async findLikedReview(@Request() req: any) {
+    const userID = Number(req.user.id);
+    return this.likeUsecases.findLikeByUserID(userID);
+  }
   // @Get(':id')
   // findOne(@Param('id') id: string) {
   //   return this.usersService.findById(Number.parseInt(id));

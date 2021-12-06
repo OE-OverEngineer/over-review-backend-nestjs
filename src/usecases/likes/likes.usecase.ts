@@ -9,6 +9,10 @@ export class LikesUseCases {
     return await this.likeRepository.like(dto, userID);
   }
 
+  async findLikeByUserID(userID: number): Promise<number[]> {
+    return await this.likeRepository.findAllByUserID(userID);
+  }
+
   async dislike(dto: CreateLikeDto, userID: number): Promise<void> {
     const like = await this.likeRepository.findOne(dto.targetReviewID, userID);
     if (!like) throw new BadRequestException();

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
+import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
-// import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { Role } from 'src/infrastructure/entities/role.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { Service } from 'typedi';
@@ -14,6 +14,12 @@ export class DatabaseUsersRepository implements IUsersRepository {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
+  async updateProfile(
+    id: number,
+    updateUserDto: RegisterUserDto,
+  ): Promise<User> {
+    return await this.userRepository.findOne(id);
+  }
   async findTopReviewers(amount: number): Promise<User[]> {
     const { entities, raw } = await this.userRepository
       .createQueryBuilder('user')

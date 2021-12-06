@@ -67,6 +67,8 @@ export class Movie {
   @Column({ type: 'float', default: 0 })
   score?: number;
 
+  reviewCount?: number;
+
   @CreateDateColumn()
   createdAt?: Date;
 

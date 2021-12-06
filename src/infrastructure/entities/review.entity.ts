@@ -56,4 +56,7 @@ export class Review {
 
   @Column({ type: 'integer', default: 0 })
   likesCount?: number;
+
+  @Column({ type: 'integer', default: 0 })
+  commentsCount?: number;
 }
