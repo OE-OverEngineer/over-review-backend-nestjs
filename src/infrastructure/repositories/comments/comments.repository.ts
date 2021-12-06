@@ -31,7 +31,9 @@ export class DatabaseCommentsRepository implements ICommentRepository {
   }
 
   async findAll(): Promise<Comment[]> {
-    return this.categoryEntityRepository.find();
+    return this.categoryEntityRepository.find({
+      relations: ['review'],
+    });
   }
 
   async findById(id: number): Promise<Comment | undefined> {

@@ -23,7 +23,7 @@ export class IsUserFoundConstraint implements ValidatorConstraintInterface {
 }
 
 @ValidatorConstraint({ async: true })
-export class IsUserEmailAlreadyExistConstraint
+export class IsEmailAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
   constructor(private readonly userUsecases: UsersUseCases) {}
@@ -60,7 +60,7 @@ export function IsEmailAlreadyExist(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       constraints: [],
       options: validationOptions,
-      validator: IsUserEmailAlreadyExistConstraint,
+      validator: IsEmailAlreadyExistConstraint,
     });
   };
 }

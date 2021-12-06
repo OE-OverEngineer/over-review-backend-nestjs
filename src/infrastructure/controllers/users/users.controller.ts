@@ -31,18 +31,25 @@ export class UsersController {
     private readonly likeUsecases: LikesUseCases,
   ) {}
 
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userUsecases.create(createUserDto);
   }
 
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.userUsecases.findAll();
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Member)
   @Get('profile')
   async me(@Request() req) {
     const user = await this.userUsecases.findOne(req.user.id);
@@ -57,7 +64,9 @@ export class UsersController {
     return this.reviewsUsecases.findAllByUserID(id, pagintaion);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Member)
   @Patch('/edit/profile')
   async updateByIDToken(@Request() req: any, dto: CreateUserDto) {
     const userID = Number(req.user.id);

@@ -26,6 +26,7 @@ import { LikesSubscriber } from '../subscriber/likes/likes.subscriber';
 import { DatabaseRepliesRepository } from './replies/replies.repository';
 import { StorageModule } from '../storage/storage.module';
 import { DatabaseRolesRepository } from './roles/roles.repository';
+import { CommentsSubscriber } from '../subscriber/comments/comments.subscriber';
 
 @Module({
   imports: [
@@ -58,6 +59,7 @@ import { DatabaseRolesRepository } from './roles/roles.repository';
     DatabaseRolesRepository,
     PostSubscriber,
     LikesSubscriber,
+    CommentsSubscriber,
   ],
   exports: [
     DatabaseUsersRepository,
@@ -73,6 +75,7 @@ import { DatabaseRolesRepository } from './roles/roles.repository';
     DatabaseRolesRepository,
     PostSubscriber,
     LikesSubscriber,
+    CommentsSubscriber,
   ],
 })
 export class RepositoriesModule {}

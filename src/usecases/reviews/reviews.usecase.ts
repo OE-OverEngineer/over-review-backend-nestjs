@@ -32,14 +32,16 @@ export class ReviewsUseCases {
     return review;
   }
 
-  async findAll(): Promise<Review[]> {
-    return await this.reviewReository.findAll();
+  async findAll(
+    pagination: Pagination,
+  ): Promise<{ data: Review[]; total: number }> {
+    return await this.reviewReository.findAll(pagination);
   }
 
   async findAllByMovieID(
     movieID: number,
     pagination: Pagination,
-  ): Promise<Review[]> {
+  ): Promise<{ data: Review[]; total: number }> {
     // if (pagination.)
     return await this.reviewReository.findAllByMovieID(movieID, pagination);
   }
@@ -47,7 +49,7 @@ export class ReviewsUseCases {
   async findAllByUserID(
     userID: number,
     pagination: Pagination,
-  ): Promise<Review[]> {
+  ): Promise<{ data: Review[]; total: number }> {
     // if (pagination.)
     return await this.reviewReository.findAllByUserID(userID, pagination);
   }

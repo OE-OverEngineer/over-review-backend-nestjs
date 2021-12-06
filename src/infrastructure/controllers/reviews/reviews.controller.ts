@@ -6,10 +6,15 @@ import {
   Param,
   Request,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
+import { Role } from 'src/infrastructure/auth/role.enum';
+import { Roles } from 'src/infrastructure/auth/roles.decorator';
+import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { CreateLikeDto } from 'src/infrastructure/dto/likes/createLike.dto';
+import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
 import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
@@ -22,17 +27,21 @@ export class ReviewsController {
     private readonly likesUsecases: LikesUseCases,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Member)
   @Post()
   create(@Body() createReviewDto: CreateReviewDto, @Request() req: any) {
     const userID = Number(req.user.id);
     return this.reviewsUsecases.create(createReviewDto, userID);
   }
 
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Get()
-  findAll() {
-    return this.reviewsUsecases.findAll();
+  findAll(@Query() pagintaion: Pagination) {
+    return this.reviewsUsecases.findAll(pagintaion);
   }
 
   @Get(':id')
@@ -40,8 +49,9 @@ export class ReviewsController {
     return this.reviewsUsecases.findOne(id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Member)
   @Post('/like')
   async like(@Body() dto: CreateLikeDto, @Request() req: any) {
     const userID = Number(req.user.id);

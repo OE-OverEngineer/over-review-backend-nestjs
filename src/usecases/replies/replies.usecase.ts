@@ -1,4 +1,6 @@
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { IReplyRepository } from 'src/domain/repositories/replyRepository.interface copy';
+import { Role } from 'src/infrastructure/auth/role.enum';
 import { CreateReplyDto } from 'src/infrastructure/dto/replies/createReply.dto';
 import { UpdateReplyDto } from 'src/infrastructure/dto/replies/updateReply.dto';
 import { Reply } from 'src/infrastructure/entities/reply.entity';
@@ -14,8 +16,14 @@ export class RepliesUsecase {
     return await this.replyRepository.update(id, dto);
   }
 
-  async delete(id: number): Promise<void> {
-    await this.replyRepository.deleteById(id);
+  async delete(id: number, roleTitle: string, userID?: number): Promise<void> {
+    if (roleTitle === Role.Admin) {
+      await this.replyRepository.deleteById(id);
+    } else if (roleTitle === Role.Member) {
+      const reply = await this.replyRepository.findByIdUserId(id, userID);
+      if (!reply) throw new ForbiddenException();
+      else await this.replyRepository.deleteById(id);
+    }
   }
 
   async findOne(id: number): Promise<Reply> {

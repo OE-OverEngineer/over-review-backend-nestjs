@@ -5,6 +5,8 @@ import {
   Body,
   UseGuards,
   Request,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
@@ -30,8 +32,21 @@ export class RepliesController {
     return this.repliesUsecases.create(dto, userID);
   }
 
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.repliesUsecases.findAll();
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin, Role.Member)
+  @Delete('/:id')
+  delete(@Param() id: number, @Request() req: any) {
+    const userID = Number(req.user.id);
+    const role = req.user.role;
+    return this.repliesUsecases.delete(id, role.title, userID);
   }
 }

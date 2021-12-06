@@ -18,6 +18,16 @@ export class DatabaseRepliesRepository implements IReplyRepository {
     @InjectRepository(Reply)
     private readonly replyEntityRepository: Repository<Reply>,
   ) {}
+  findByIdUserId(id: number, userID: number): Promise<Reply> {
+    return this.replyEntityRepository.findOne({
+      where: {
+        id: id,
+        byUser: {
+          id: userID,
+        },
+      },
+    });
+  }
 
   async findAllByID(ids: number[]): Promise<Reply[]> {
     return this.replyEntityRepository.find({ where: { id: In(ids) } });

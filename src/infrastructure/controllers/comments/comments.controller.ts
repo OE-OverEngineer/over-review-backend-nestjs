@@ -28,6 +28,9 @@ export class CommentsController {
     return this.commentUsecases.create(dto, userID);
   }
 
+  // @ApiBearerAuth('access-token')
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles(Role.Admin)
   @Get()
   findAll() {
     return this.commentUsecases.findAll();

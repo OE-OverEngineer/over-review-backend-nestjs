@@ -10,6 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
+import { Role } from 'src/infrastructure/auth/role.enum';
+import { Roles } from 'src/infrastructure/auth/roles.decorator';
+import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
@@ -28,14 +31,17 @@ export class MoviesController {
     return this.moviesUsecases.create(createMovieDto);
   }
 
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Member)
   @Post('/request')
   requestMovie(@Body() dto: RequestMovieDto, @Request() req) {
     const userID = Number(req.user.id);
     return this.moviesUsecases.requestByUser(dto, userID);
   }
-
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Get('/request')
   findAllRequestMovie(@Query() pagintaion: Pagination) {
     return this.moviesUsecases.findRequestMovie(pagintaion);

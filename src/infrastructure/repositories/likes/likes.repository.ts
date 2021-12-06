@@ -22,6 +22,7 @@ export class DatabaseLikesRepository implements ILikeRepository {
             id: userID,
           },
         },
+        relations: ['review'],
       })
     ).map((e) => e.review.id);
   }

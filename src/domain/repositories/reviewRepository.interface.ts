@@ -6,9 +6,16 @@ import { Review } from 'src/infrastructure/entities/review.entity';
 
 export interface IReviewRepository {
   insert(dto: CreateReviewDto, userID: number): Promise<Review>;
-  findAll(): Promise<Review[]>;
-  findAllByMovieID(movieID: number, pagination: Pagination): Promise<Review[]>;
-  findAllByUserID(userID: number, pagination: Pagination): Promise<Review[]>;
+  findAll(pagination: Pagination): Promise<{ data: Review[]; total: number }>;
+  findMostLikesByMovieID(movieID: number): Promise<Review>;
+  findAllByMovieID(
+    movieID: number,
+    pagination: Pagination,
+  ): Promise<{ data: Review[]; total: number }>;
+  findAllByUserID(
+    userID: number,
+    pagination: Pagination,
+  ): Promise<{ data: Review[]; total: number }>;
   findById(id: number): Promise<Review>;
   findByUserIDMovieID(movieID: number, userID: number): Promise<Review>;
   update(id: number, dto: UpdateReviewDto): Promise<Review>;
