@@ -24,7 +24,7 @@ import { IsReviewFoundConstraint } from './reviews/review.validator';
 import { IsRoleFoundConstraint } from './roles/role.validator';
 import {
   IsUserFoundConstraint,
-  IsUserEmailAlreadyExistConstraint,
+  IsEmailAlreadyExistConstraint,
 } from './users/user.validator';
 
 @Module({
@@ -43,10 +43,10 @@ import {
         new IsUserFoundConstraint(usersUsecases),
     },
     {
-      provide: IsUserEmailAlreadyExistConstraint,
+      provide: IsEmailAlreadyExistConstraint,
       inject: [UsersUseCases],
       useFactory: (userUsercases: UsersUseCases) =>
-        new IsUserEmailAlreadyExistConstraint(userUsercases),
+        new IsEmailAlreadyExistConstraint(userUsercases),
     },
     {
       provide: IsActorFoundConstraint,

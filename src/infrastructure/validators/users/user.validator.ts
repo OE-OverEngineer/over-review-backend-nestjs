@@ -23,7 +23,8 @@ export class IsUserFoundConstraint implements ValidatorConstraintInterface {
 }
 
 @ValidatorConstraint({ async: true })
-export class IsUserEmailAlreadyExistConstraint
+@Injectable()
+export class IsEmailAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
   constructor(private readonly userUsecases: UsersUseCases) {}
@@ -39,6 +40,7 @@ export class IsUserEmailAlreadyExistConstraint
 }
 
 /**  This is for decoration validator */
+
 export function IsUserFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
@@ -60,7 +62,7 @@ export function IsEmailAlreadyExist(validationOptions?: ValidationOptions) {
       propertyName: propertyName,
       constraints: [],
       options: validationOptions,
-      validator: IsUserEmailAlreadyExistConstraint,
+      validator: IsEmailAlreadyExistConstraint,
     });
   };
 }

@@ -16,6 +16,9 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Role } from 'src/infrastructure/auth/role.enum';
+import { Roles } from 'src/infrastructure/auth/roles.decorator';
+import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @ApiTags('Users')
@@ -55,13 +58,31 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Patch('/edit/profile')
   async updateByIDToken(@Request() req: any, dto: CreateUserDto) {
-    const userID = Number(req.user.id);
-    return this.userUsecases.update(userID, dto);
+    const userId = Number(req.user.id);
+    return this.userUsecases.update(userId, dto);
   }
 
   @Get('/top-review/')
   async findTopReview(@Query('amount') amount: number) {
     return this.userUsecases.findTopReviewers(amount);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Post('/:id/banuser')
+  async banUser(@Param('id') id: string) {
+    const userId = Number(id);
+    return this.userUsecases.banUser(userId, true);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Post('/:id/unbanuser')
+  async unbanUser(@Param('id') id: string) {
+    const userId = Number(id);
+    return this.userUsecases.banUser(userId, false);
   }
   // @UseGuards(JwtAuthGuard)
   // @ApiBearerAuth('access-token')
