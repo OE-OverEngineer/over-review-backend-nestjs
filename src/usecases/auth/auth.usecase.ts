@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 import { UsersUseCases } from '../users/users.usecase';
 import { StorageService } from 'src/infrastructure/storage/storage.service';
+import { JwtData } from 'src/infrastructure/auth/jwt.interface';
 
 @Injectable()
 export class AuthUseCase {
@@ -27,7 +28,7 @@ export class AuthUseCase {
   }
 
   async signJwt(user: User) {
-    const payload = {
+    const payload: JwtData = {
       id: user.id,
       email: user.email,
       firstName: user.firstName,

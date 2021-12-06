@@ -7,6 +7,8 @@ import {
   Query,
   Request,
   UseGuards,
+  Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
@@ -62,8 +64,20 @@ export class MoviesController {
     return this.moviesUsecases.search(search, pagintaion);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.moviesUsecases.findOne(id);
+  @Get('/:id')
+  findOne(@Param('id') id: string) {
+    const movidId = Number(id);
+    return this.moviesUsecases.findOne(movidId);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Delete('/:id')
+  deleteMovie(@Param('id') id: string) {
+    const movieId = Number(id);
+    const movie = this.moviesUsecases.findOne(movieId);
+    if (!movie) throw new NotFoundException('movie not found');
+    return this.moviesUsecases.delete(movieId);
   }
 }

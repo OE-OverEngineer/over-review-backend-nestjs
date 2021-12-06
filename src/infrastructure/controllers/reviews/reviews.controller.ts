@@ -7,6 +7,7 @@ import {
   Request,
   UseGuards,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
@@ -60,5 +61,13 @@ export class ReviewsController {
     } else {
       return this.likesUsecases.dislike(dto, userID);
     }
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete('/:id')
+  deleteReview(@Param('id') id: string, @Request() req) {
+    const reviewId = Number(id);
+    return this.reviewsUsecases.delete(reviewId, req.user);
   }
 }

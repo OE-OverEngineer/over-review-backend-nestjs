@@ -8,7 +8,7 @@ import {
   Query,
   Param,
   Patch,
-  NotFoundException,
+  Delete,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { UsersUseCases } from 'src/usecases/users/users.usecase';
@@ -139,9 +139,12 @@ export class UsersController {
     return this.userUsecases.findOne(userId);
   }
 
-  @Patch('/:id')
-  updateUser(@Param('id') id: number, @Body() dto: UpdateUserDto) {
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth('access-token')
+  @Roles(Role.Admin)
+  @Delete('/:id')
+  deleteUser(@Param('id') id: number) {
     const userId = Number(id);
-    return this.userUsecases.update(userId, dto);
+    return this.userUsecases.delete(userId);
   }
 }

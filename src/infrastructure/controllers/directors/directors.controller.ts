@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { Role } from 'src/infrastructure/auth/role.enum';
@@ -22,5 +30,14 @@ export class DirectorsController {
   @Get()
   findAll() {
     return this.directorsUsecases.findAll();
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Delete('/:id')
+  deleteDirector(@Param('id') id: string) {
+    const directorId = Number(id);
+    return this.directorsUsecases.delete(directorId);
   }
 }

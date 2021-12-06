@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
@@ -75,6 +75,8 @@ export class DatabaseUsersRepository implements IUsersRepository {
   }
 
   async deleteById(id: number): Promise<void> {
+    const user = await this.findById(id);
+    if (!user) throw new NotFoundException('User not found');
     await this.userRepository.delete({ id: id });
   }
 

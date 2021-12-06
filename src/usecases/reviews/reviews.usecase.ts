@@ -1,9 +1,11 @@
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, ForbiddenException } from '@nestjs/common';
 import { IReviewRepository } from 'src/domain/repositories/reviewRepository.interface';
+import { JwtData } from 'src/infrastructure/auth/jwt.interface';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
 import { UpdateReviewDto } from 'src/infrastructure/dto/reviews/updateReview.dto';
 import { Review } from 'src/infrastructure/entities/review.entity';
+import { User } from 'src/infrastructure/entities/user.entity';
 
 export class ReviewsUseCases {
   constructor(private readonly reviewReository: IReviewRepository) {}
@@ -23,8 +25,11 @@ export class ReviewsUseCases {
     await this.reviewReository.update(id, dto);
   }
 
-  async delete(id: number): Promise<void> {
-    await this.reviewReository.deleteById(id);
+  async delete(id: number, user: JwtData): Promise<void> {
+    const review = await this.findOne(id);
+    if (user.role === 'admin' || review.user.id === user.id)
+      await this.reviewReository.deleteById(id);
+    throw new ForbiddenException();
   }
 
   async findOne(id: number): Promise<Review | undefined> {

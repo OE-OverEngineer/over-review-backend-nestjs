@@ -5,6 +5,8 @@ import {
   Body,
   Request,
   UseGuards,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
@@ -34,5 +36,13 @@ export class CommentsController {
   @Get()
   findAll() {
     return this.commentUsecases.findAll();
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Delete('/:id')
+  deleteDirector(@Param('id') id: string, @Request() req) {
+    const directorId = Number(id);
+    return this.commentUsecases.delete(directorId, req.user);
   }
 }
