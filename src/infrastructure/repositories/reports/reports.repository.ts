@@ -30,6 +30,11 @@ export class DatabaseReportRepository implements IReportRepository {
   async findAll(): Promise<Report[]> {
     return await this.reportEntityRepository.find({
       relations: ['targetUser', 'byUser'],
+      where: {
+        targetUser: {
+          banned: false,
+        },
+      },
     });
   }
   async findAllByID(ids: number[]): Promise<Report[]> {
