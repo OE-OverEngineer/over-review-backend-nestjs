@@ -65,21 +65,50 @@ export class DatabaseMovieRepository implements IMovieRepository {
     if (pagination.sort == 'random') sort = 'RANDOM()';
     else if (pagination.sort == 'popular') sort = 'count';
     else if (pagination.sort == 'recent') sort = 'movie.startDate';
-    else if (pagination.sort == 'score') sort = 'score';
+    else if (pagination.sort == 'score') sort = 'movie.score';
     const skip = (pagination.pageNum - 1) * pagination.perPage;
+
+    console.log(sort);
     /* --- Query list movies that created --- */
-    const raw = await this.movieEntityRepository
+
+    const { entities, raw } = await this.movieEntityRepository
       .createQueryBuilder('movie')
-      .select('movie.id')
-      .addSelect('COUNT(reviews.score)', 'count')
-      .addSelect('AVG(reviews.score)', 'score')
-      .leftJoin('movie.reviews', 'reviews')
+      .select('movie')
+      .addSelect('"r"."count"', 'count')
+      // .addSelect('movie')
+      // .addSelect('movie.score')
+      .leftJoin(
+        `(SELECT "review"."movieId",COUNT("review".*) FROM review GROUP BY "review"."movieId")`,
+        'r',
+        '"r"."movieId" = movie.id',
+      )
+      // .addSelect('COUNT(reviews.score)', 'count')
+      // .addSelect('AVG(reviews.score)', 'score')
+      // .leftJoin('movie.reviews', 'reviews')
+      .leftJoinAndSelect('movie.categories', 'categories')
+      // .leftJoin('movie.reviews', 'COUNT(reviews.score)' , '')
       .where('approve = :approve', { approve: true })
-      .groupBy('movie.id')
+      // .groupBy('movie.id')
+      // .limit(pagination.perPage)
       .take(pagination.perPage)
-      .skip(skip)
-      .orderBy(sort)
-      .getRawMany();
+      .offset(skip)
+      .orderBy(sort, 'DESC')
+      .getRawAndEntities();
+    console.log(entities);
+
+    // const { entities, raw } = await this.movieEntityRepository
+    //   .createQueryBuilder('movie')
+    //   .select('movie')
+    //   .addSelect('COUNT(reviews.score)', 'count')
+    //   .leftJoin('movie.reviews', 'reviews')
+    //   .where('approve = :approve', { approve: true })
+    //   .groupBy('movie.id')
+    //   .limit(pagination.perPage)
+    //   .offset(skip)
+    //   .orderBy(sort, 'DESC')
+    //   .getRawAndEntities();
+    // console.log(entities);
+    // console.log(raw);
     /* --- Query total again because get RawMany cannot return count --- */
     const total = await this.movieEntityRepository.count({
       where: {
@@ -87,15 +116,17 @@ export class DatabaseMovieRepository implements IMovieRepository {
       },
     });
     const ids = raw.map(({ movie_id }) => movie_id);
-    const movies = await this.movieEntityRepository.find({
-      where: { id: In(ids) },
-      relations: ['director', 'actors', 'categories'],
-    });
-    const data = movies.map((e) => {
+    // const movies = await this.movieEntityRepository.find({
+    //   where: { id: In(ids) },
+
+    //   // order: { sort },
+    //   // relations: ['director', 'actors', 'categories'],
+    // });
+    const data = entities.map((e) => {
       return {
         ...e,
-        score: Number(
-          Number(raw.find((i) => i.movie_id == e.id).score).toFixed(1),
+        reviewCount: Number(
+          Number(raw.find((i) => i.movie_id == e.id).count).toFixed(0),
         ),
       };
     });

@@ -5,6 +5,8 @@ import { Service } from 'typedi';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { StorageService } from 'src/infrastructure/storage/storage.service';
+import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
+// import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @Service('UsersUseCase')
 @Injectable()
@@ -28,6 +30,9 @@ export class UsersUseCases {
 
   async update(id: number, dto: UpdateUserDto): Promise<void> {
     await this.userRepository.update(id, dto);
+  }
+  async updateProfile(id: number, dto: RegisterUserDto): Promise<void> {
+    await this.userRepository.updateProfile(id, dto);
   }
 
   async delete(id: number): Promise<void> {
