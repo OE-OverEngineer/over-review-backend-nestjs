@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
+import { UpdateProfileDto } from 'src/infrastructure/dto/users/updateProfile.dto';
 import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { Role } from 'src/infrastructure/entities/role.entity';
@@ -18,12 +19,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
     @InjectRepository(User) private userRepository: Repository<User>,
     private readonly storageService: StorageService,
   ) {}
-  async updateProfile(
-    id: number,
-    updateUserDto: RegisterUserDto,
-  ): Promise<User> {
-    return await this.userRepository.findOne(id);
-  }
+
   async findTopReviewers(amount: number): Promise<User[]> {
     const { entities, raw } = await this.userRepository
       .createQueryBuilder('user')
@@ -69,9 +65,12 @@ export class DatabaseUsersRepository implements IUsersRepository {
     });
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(
+    id: number,
+    updateDto: UpdateUserDto | UpdateProfileDto,
+  ): Promise<User> {
     const user = await this.findById(id);
-    const newUser = { ...user, ...updateUserDto };
+    const newUser = { ...user, ...updateDto };
     return await this.userRepository.save(newUser);
   }
 

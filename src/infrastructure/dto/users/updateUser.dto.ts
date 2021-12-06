@@ -1,7 +1,6 @@
 import { ApiProperty, OmitType, PartialType } from '@nestjs/swagger';
 import { Transform, TransformFnParams } from 'class-transformer';
 import {
-  IsEmail,
   IsString,
   IsNotEmpty,
   MinLength,

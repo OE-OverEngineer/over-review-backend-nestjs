@@ -21,6 +21,8 @@ import { Role } from 'src/infrastructure/auth/role.enum';
 import { Roles } from 'src/infrastructure/auth/roles.decorator';
 import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
+import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
+import { UpdateProfileDto } from 'src/infrastructure/dto/users/updateProfile.dto';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @ApiTags('Users')
@@ -69,8 +71,8 @@ export class UsersController {
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Member)
-  @Patch('/edit/profile')
-  async updateByIDToken(@Request() req: any, dto: CreateUserDto) {
+  @Patch('/profile')
+  async updateByIDToken(@Request() req: any, @Body() dto: UpdateProfileDto) {
     const userId = Number(req.user.id);
     return this.userUsecases.update(userId, dto);
   }
@@ -135,5 +137,11 @@ export class UsersController {
   viewProfile(@Param('id') id: number) {
     const userId = Number(id);
     return this.userUsecases.findOne(userId);
+  }
+
+  @Patch('/:id')
+  updateUser(@Param('id') id: number, @Body() dto: UpdateUserDto) {
+    const userId = Number(id);
+    return this.userUsecases.update(userId, dto);
   }
 }

@@ -10,15 +10,13 @@ import {
 import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
+import { UpdateProfileDto } from 'src/infrastructure/dto/users/updateProfile.dto';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @Service('UsersUseCase')
 @Injectable()
 export class UsersUseCases {
-  constructor(
-    private readonly userRepository: IUsersRepository,
-    private readonly storageService: StorageService,
-  ) {}
+  constructor(private readonly userRepository: IUsersRepository) {}
 
   async create(dto: CreateUserDto): Promise<User> {
     return await this.userRepository.create(dto);
@@ -26,9 +24,6 @@ export class UsersUseCases {
 
   async update(id: number, dto: UpdateUserDto): Promise<void> {
     await this.userRepository.update(id, dto);
-  }
-  async updateProfile(id: number, dto: RegisterUserDto): Promise<void> {
-    await this.userRepository.updateProfile(id, dto);
   }
 
   async delete(id: number): Promise<void> {
