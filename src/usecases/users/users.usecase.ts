@@ -8,10 +8,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
-import { StorageService } from 'src/infrastructure/storage/storage.service';
-import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
-import { UpdateProfileDto } from 'src/infrastructure/dto/users/updateProfile.dto';
-// import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @Service('UsersUseCase')
 @Injectable()

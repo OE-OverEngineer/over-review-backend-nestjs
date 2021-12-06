@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { EnvironmentConfigService } from '../config/environment-config/environment-config.service';
 import { JwtData } from './jwt.interface';
 
+// Strategy for login with jwt in AuthHeader
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly config: EnvironmentConfigService) {

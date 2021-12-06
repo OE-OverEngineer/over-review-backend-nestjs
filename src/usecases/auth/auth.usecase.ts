@@ -16,6 +16,7 @@ export class AuthUseCase {
     private readonly storageService: StorageService,
   ) {}
 
+  // Login with email and password then get jwt
   async validateUserByPassword(
     email: string,
     password: string,
@@ -27,6 +28,7 @@ export class AuthUseCase {
     return null;
   }
 
+  // encode user data to jwt format
   async signJwt(user: User) {
     const payload: JwtData = {
       id: user.id,
@@ -40,17 +42,9 @@ export class AuthUseCase {
     };
   }
 
+  // user register to member then get jet
   async register(dto: RegisterUserDto): Promise<User> {
-    const randomString = dto.displayName + String(Date.now());
-    const avatarUrlBlob = await this.storageService.uploadAvatar(
-      dto.avatar,
-      randomString,
-    );
-    /** --- Prepare new model to insert into database ---
-
-
-      **/
-    const newUser = { ...dto, roleId: 1, avatarUrl: avatarUrlBlob };
+    const newUser = { ...dto, roleId: 1 };
     return await this.usersUseCase.create(newUser);
   }
 }

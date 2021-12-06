@@ -4,7 +4,5 @@ import { Role } from 'src/infrastructure/entities/role.entity';
 export interface IRoleRepository {
   insert(dto: CreateRoleDto): Promise<Role>;
   findAll(): Promise<Role[]>;
-  findByID(id: number): Promise<Role >;
-  // updateById(): Promise<Role>;
-  // deleteById(): Promise<Role>;
+  findByID(id: number): Promise<Role | undefined>;
 }
