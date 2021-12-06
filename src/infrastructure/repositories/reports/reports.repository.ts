@@ -28,13 +28,16 @@ export class DatabaseReportRepository implements IReportRepository {
     return await this.reportEntityRepository.save(report);
   }
   async findAll(): Promise<Report[]> {
-    return await this.reportEntityRepository.find();
+    return await this.reportEntityRepository.find({
+      relations: ['user'],
+    });
   }
   async findAllByID(ids: number[]): Promise<Report[]> {
     return await this.reportEntityRepository.find({
       where: {
         id: In(ids),
       },
+      relations: ['user'],
     });
   }
   async findById(id: number): Promise<Report> {
