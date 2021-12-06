@@ -10,6 +10,7 @@ export class LikesUseCases {
   }
 
   async findLikeByUserID(userID: number): Promise<number[]> {
+    console.log(userID);
     return await this.likeRepository.findAllByUserID(userID);
   }
 

@@ -11,6 +11,7 @@ export interface IReplyRepository {
   insert(dto: CreateReplyDto, userID: number): Promise<Reply>;
   findAll(): Promise<Reply[]>;
   findById(id: number): Promise<Reply>;
+  findByIdUserId(id: number, userID: number): Promise<Reply>;
   update(id: number, dto: UpdateReplyDto): Promise<Reply>;
   deleteById(id: number): Promise<void>;
 }
