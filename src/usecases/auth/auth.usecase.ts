@@ -38,6 +38,7 @@ export class AuthUseCase {
     };
     return {
       access_token: this.jwtService.sign(payload),
+      role: user.role.title,
     };
   }
 
