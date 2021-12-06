@@ -12,11 +12,15 @@ import { LocalAuthGuard } from 'src/infrastructure/auth/local-auth.guard';
 import { LoginEmailPasswordDto } from 'src/infrastructure/dto/auth/loginEmailPassword.dto';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 import { AuthUseCase } from 'src/usecases/auth/auth.usecase';
+import { UsersUseCases } from 'src/usecases/users/users.usecase';
 
 @ApiTags('Auths')
 @Controller('auth')
 export class AuthController {
-  constructor(private authUseCase: AuthUseCase) {}
+  constructor(
+    private authUseCase: AuthUseCase,
+    private readonly userUseCase: UsersUseCases,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @ApiOkResponse({
@@ -45,6 +49,7 @@ export class AuthController {
     @Body() dto: RegisterUserDto,
   ): Promise<{ access_token: string }> {
     const user = await this.authUseCase.register(dto);
-    return await this.authUseCase.signJwt(user);
+    const newUser = await this.userUseCase.findOne(user.id);
+    return await this.authUseCase.signJwt(newUser);
   }
 }
