@@ -141,10 +141,11 @@ export class DatabaseMovieRepository implements IMovieRepository {
     const [result, total] = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie.id')
+      .addSelect('movie.startDate')
       .leftJoin('movie.categories', 'category')
       .where('category.id = :categoryID', { categoryID: categoryID })
-      .groupBy('movie.id')
-      .orderBy('RANDOM()')
+      // .groupBy('movie.id')
+      .orderBy('movie.startDate')
       .take(pagination.perPage)
       .skip(skip)
       .getManyAndCount();
