@@ -21,12 +21,14 @@ export class MoviesUseCases {
 
   async requestByUser(dto: RequestMovieDto, userID: number): Promise<void> {
     const user = await this.userRepository.findById(userID);
-    if (!user) throw new BadRequestException('User not found');
+    if (!user) throw new NotFoundException('User not found');
     await this.movieRepository.addRequestMovie(dto, user.id);
   }
 
   async update(id: number, dto: UpdateMovieDto): Promise<Movie> {
-    return await this.movieRepository.update(id, dto);
+    const movie = await this.findOne(id);
+    if (!movie) throw new NotFoundException('movie not found');
+    else return await this.movieRepository.update(id, dto);
   }
 
   async delete(id: number): Promise<void> {
@@ -36,6 +38,7 @@ export class MoviesUseCases {
   }
 
   async findOne(id: number): Promise<Movie | undefined> {
+    if (id < 0) throw new BadRequestException();
     const movie = await this.movieRepository.findById(id);
     return movie;
   }
@@ -43,6 +46,8 @@ export class MoviesUseCases {
   async findRequestMovie(
     pagintaion: Pagination,
   ): Promise<{ data: Movie[]; total: number }> {
+    if (pagintaion.perPage < 1 || pagintaion.pageNum < 1)
+      throw new BadRequestException();
     return await this.movieRepository.findRequestMovie(pagintaion);
   }
 
