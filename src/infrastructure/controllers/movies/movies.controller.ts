@@ -9,6 +9,7 @@ import {
   UseGuards,
   Delete,
   NotFoundException,
+  Patch,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
@@ -18,6 +19,7 @@ import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { CategoryDto } from 'src/infrastructure/dto/movies/categoryMovie.dto';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
+import { UpdateMovieDto } from 'src/infrastructure/dto/movies/updateMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { MoviesUseCases } from 'src/usecases/movies/movies.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
@@ -77,11 +79,15 @@ export class MoviesController {
   @Delete('/:id')
   deleteMovie(@Param('id') id: string) {
     const movieId = Number(id);
-    const movie = this.moviesUsecases.findOne(movieId);
-    if (!movie) throw new NotFoundException('movie not found');
     return this.moviesUsecases.delete(movieId);
   }
-}
-function ApiProvider() {
-  throw new Error('Function not implemented.');
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Patch('/:id')
+  updateMovie(@Param('id') id: string, dto: UpdateMovieDto) {
+    const movieId = Number(id);
+    return this.moviesUsecases.update(movieId, dto);
+  }
 }

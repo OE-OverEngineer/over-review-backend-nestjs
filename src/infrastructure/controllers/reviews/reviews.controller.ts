@@ -8,6 +8,7 @@ import {
   UseGuards,
   Query,
   Delete,
+  Patch,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
@@ -17,6 +18,7 @@ import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { CreateLikeDto } from 'src/infrastructure/dto/likes/createLike.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { CreateReviewDto } from 'src/infrastructure/dto/reviews/createReview.dto';
+import { UpdateReviewDto } from 'src/infrastructure/dto/reviews/updateReview.dto';
 import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 
@@ -69,5 +71,17 @@ export class ReviewsController {
   deleteReview(@Param('id') id: string, @Request() req) {
     const reviewId = Number(id);
     return this.reviewsUsecases.delete(reviewId, req.user);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/:id')
+  updateReview(
+    @Param('id') id: string,
+    @Body() dto: UpdateReviewDto,
+    @Request() req,
+  ) {
+    const reviewId = Number(id);
+    return this.reviewsUsecases.update(reviewId, dto, req.user);
   }
 }

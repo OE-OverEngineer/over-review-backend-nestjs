@@ -12,7 +12,6 @@ import { UsecasesModule } from 'src/usecases/usecases.module';
 import { CommentsController } from './comments/comments.controller';
 import { ReportsController } from './reports/reports.controller';
 import { RepliesController } from './replies/replies.controller';
-// import { ValidatorModule } from '../validators/validator.module';
 
 @Module({
   imports: [AuthModule, UsecasesModule, ValidatorModule],

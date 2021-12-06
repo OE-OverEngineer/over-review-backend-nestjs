@@ -72,7 +72,16 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Member)
   @Patch('/profile')
-  async updateByIDToken(@Request() req: any, @Body() dto: UpdateProfileDto) {
+  async updateByIdToken(@Request() req: any, @Body() dto: UpdateProfileDto) {
+    const userId = Number(req.user.id);
+    return this.userUsecases.update(userId, dto);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Member)
+  @Patch('/:id')
+  async updateUser(@Request() req: any, @Body() dto: UpdateUserDto) {
     const userId = Number(req.user.id);
     return this.userUsecases.update(userId, dto);
   }

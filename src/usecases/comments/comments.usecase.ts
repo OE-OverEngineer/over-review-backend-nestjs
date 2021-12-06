@@ -11,8 +11,15 @@ export class CommentsUseCases {
   async create(dto: CreateCommentDto, userID: number): Promise<Comment> {
     return await this.commentRepositories.insert(dto, userID);
   }
-  async update(id: number, dto: UpdateCommentDto): Promise<Comment> {
-    return await this.commentRepositories.update(id, dto);
+  async update(
+    id: number,
+    dto: UpdateCommentDto,
+    user: JwtData,
+  ): Promise<Comment> {
+    const review = await this.findOne(id);
+    if (user.role === 'admin' || review.user.id === user.id)
+      await this.commentRepositories.update(id, dto);
+    throw new ForbiddenException();
   }
   async delete(id: number, user: JwtData): Promise<void> {
     const comment = await this.findOne(id);

@@ -7,6 +7,7 @@ import {
   UseGuards,
   Delete,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
@@ -14,6 +15,7 @@ import { Role } from 'src/infrastructure/auth/role.enum';
 import { Roles } from 'src/infrastructure/auth/roles.decorator';
 import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { CreateCommentDto } from 'src/infrastructure/dto/comments/createComment.dto';
+import { UpdateCommentDto } from 'src/infrastructure/dto/comments/updateComment.dto';
 import { CommentsUseCases } from 'src/usecases/comments/comments.usecase';
 
 @ApiTags('Comments')
@@ -41,8 +43,20 @@ export class CommentsController {
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete('/:id')
-  deleteDirector(@Param('id') id: string, @Request() req) {
-    const directorId = Number(id);
-    return this.commentUsecases.delete(directorId, req.user);
+  deleteComment(@Param('id') id: string, @Request() req) {
+    const commentId = Number(id);
+    return this.commentUsecases.delete(commentId, req.user);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch('/:id')
+  updateComment(
+    @Param('id') id: string,
+    @Body() dto: UpdateCommentDto,
+    @Request() req,
+  ) {
+    const reviewId = Number(id);
+    return this.commentUsecases.update(reviewId, dto, req.user);
   }
 }

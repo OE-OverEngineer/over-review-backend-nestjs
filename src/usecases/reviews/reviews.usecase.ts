@@ -21,8 +21,11 @@ export class ReviewsUseCases {
     return await this.reviewReository.insert(dto, userID);
   }
 
-  async update(id: number, dto: UpdateReviewDto): Promise<void> {
-    await this.reviewReository.update(id, dto);
+  async update(id: number, dto: UpdateReviewDto, user: JwtData): Promise<void> {
+    const review = await this.findOne(id);
+    if (user.role === 'admin' || review.user.id === user.id)
+      await this.reviewReository.update(id, dto);
+    throw new ForbiddenException();
   }
 
   async delete(id: number, user: JwtData): Promise<void> {

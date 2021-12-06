@@ -1,4 +1,4 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { IMovieRepository } from 'src/domain/repositories/movieRepository.interface';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
@@ -30,6 +30,8 @@ export class MoviesUseCases {
   }
 
   async delete(id: number): Promise<void> {
+    const movie = this.findOne(id);
+    if (!movie) throw new NotFoundException('movie not found');
     await this.movieRepository.deleteById(id);
   }
 
