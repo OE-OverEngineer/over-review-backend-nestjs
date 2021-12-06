@@ -7,6 +7,7 @@ import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { Role } from 'src/infrastructure/entities/role.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
+import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 
@@ -15,6 +16,7 @@ import { Repository } from 'typeorm';
 export class DatabaseUsersRepository implements IUsersRepository {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly storageService: StorageService,
   ) {}
   async updateProfile(
     id: number,
@@ -43,7 +45,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const dto = this.dtoToUser(createUserDto);
+    const dto = await this.dtoToUser(createUserDto);
     const user = await this.userRepository.save(dto);
     return user;
   }
@@ -77,7 +79,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
     await this.userRepository.delete({ id: id });
   }
 
-  private dtoToUser(dto: CreateUserDto): User {
+  private async dtoToUser(dto: CreateUserDto): Promise<User> {
     const role: Role = new Role();
     role.id = dto.roleId;
     const user: User = new User();
@@ -88,8 +90,16 @@ export class DatabaseUsersRepository implements IUsersRepository {
     user.displayName = dto.displayName;
     user.dateOfBirth = dto.dateOfBirth;
     user.gender = dto.gender;
-    user.avatarUrl = dto.avatarUrl;
     user.role = role;
+
+    if (dto.avatar) {
+      const randomString = dto.displayName + String(Date.now());
+      const avatarUrlBlob = await this.storageService.uploadAvatar(
+        dto.avatar,
+        randomString,
+      );
+      user.avatarUrl = avatarUrlBlob;
+    }
     return user;
   }
 

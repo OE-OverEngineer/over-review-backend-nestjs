@@ -21,7 +21,7 @@ import { StorageModule } from '../storage/storage.module';
       useFactory: async (config: EnvironmentConfigService) => ({
         secret: config.getJwtSecret(),
         signOptions: {
-          expiresIn: '1h',
+          expiresIn: '30d',
         },
       }),
       inject: [EnvironmentConfigService],

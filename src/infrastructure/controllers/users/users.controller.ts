@@ -8,6 +8,7 @@ import {
   Query,
   Param,
   Patch,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { UsersUseCases } from 'src/usecases/users/users.usecase';
@@ -30,6 +31,16 @@ export class UsersController {
     private readonly reviewsUsecases: ReviewsUseCases,
     private readonly likeUsecases: LikesUseCases,
   ) {}
+
+  @Get('/:id')
+  async viewProfile(@Param('id') id: number) {
+    const userId = Number(id);
+    const user = await this.userUsecases.findOne(userId);
+
+    if (!user) throw new NotFoundException('user not found');
+
+    return user;
+  }
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
