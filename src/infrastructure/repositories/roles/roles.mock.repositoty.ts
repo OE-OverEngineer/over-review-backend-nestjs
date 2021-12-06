@@ -16,7 +16,7 @@ export class MockRoleRepository implements IRoleRepository {
     },
   ];
 
-  async findByID(id: number): Promise<Role | undefined> {
+  async findByID(id: number): Promise<Role > {
     return this.roles.find((e) => e.id == id);
   }
   async insert(dto: CreateRoleDto): Promise<Role> {

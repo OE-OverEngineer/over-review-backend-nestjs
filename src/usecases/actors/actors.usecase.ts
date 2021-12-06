@@ -1,4 +1,8 @@
-import { BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IActorRepository } from 'src/domain/repositories/actorRepository.interface';
 import { CreateActorDto } from 'src/infrastructure/dto/actors/createActor.dto';
@@ -19,7 +23,7 @@ export class ActorsUseCases {
       dto.lastName,
     );
     /// IF actor is created throw conflict exception
-    if (actor) throw new ConflictException();
+    if (actor) throw new ConflictException('actor already existed');
     else {
       /* --- Start Uploade image part --- */
       const randomString = dto.firstName + String(Date.now());
@@ -38,8 +42,8 @@ export class ActorsUseCases {
   }
   async update(id: number, dto: UpdateActorDto): Promise<void> {
     /// CHECK If actor is already existed in database by ID
-    const actor = await this.actorRepository.findById(id);
-    if (!actor) throw new BadRequestException();
+    const actor = await this.findOne(id);
+    if (!actor) throw new NotFoundException('actor not found');
     else {
       /* --- Prepare new model to insert into database --- */
       actor.firstName = dto.firstName;
@@ -63,16 +67,20 @@ export class ActorsUseCases {
   }
 
   async delete(id: number): Promise<void> {
-    await this.actorRepository.deleteById(id);
+    const actor = await this.findOne(id);
+    if (!actor) throw new NotFoundException('actor not found');
+    else await this.actorRepository.deleteById(id);
   }
 
   async findOne(id: number): Promise<Actor> {
+    if (id < 0) throw new BadRequestException();
     return await this.actorRepository.findById(id);
   }
 
   async findAll(): Promise<Actor[]> {
     return await this.actorRepository.findAll();
   }
+
   async findAllByID(ids: number[]): Promise<Actor[]> {
     return await this.actorRepository.findAllByID(ids);
   }

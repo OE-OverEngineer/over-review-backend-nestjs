@@ -6,8 +6,8 @@ export interface ICategoryRepository {
   insert(dto: CreateCategoryDto): Promise<Category>;
   findAll(): Promise<Category[]>;
   findAllByID(ids: number[]): Promise<Category[]>;
-  findById(id: number): Promise<Category | undefined>;
-  findByTitle(title: string): Promise<Category | undefined>;
+  findById(id: number): Promise<Category>;
+  findByTitle(title: string): Promise<Category>;
   update(id: number, dto: UpdateCategoryDto): Promise<Category>;
   deleteById(id: number): Promise<void>;
 }

@@ -31,7 +31,7 @@ export class DatabaseRolesRepository implements IRoleRepository {
     return this.roleEntityRepository.find();
   }
 
-  async findByID(id: number): Promise<Role | undefined> {
+  async findByID(id: number): Promise<Role> {
     return this.roleEntityRepository.findOne({ id });
   }
 

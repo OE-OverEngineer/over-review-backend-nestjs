@@ -61,40 +61,32 @@ export class DatabaseMovieRepository implements IMovieRepository {
   async findAll(
     pagination: Pagination,
   ): Promise<{ data: Movie[]; total: number }> {
-    let sort: string | undefined;
+    let sort: string ;
     if (pagination.sort == 'random') sort = 'RANDOM()';
     else if (pagination.sort == 'popular') sort = 'count';
     else if (pagination.sort == 'recent') sort = 'movie.startDate';
     else if (pagination.sort == 'score') sort = 'movie.score';
     const skip = (pagination.pageNum - 1) * pagination.perPage;
 
-    console.log(sort);
+    // console.log(sort);
     /* --- Query list movies that created --- */
 
     const { entities, raw } = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie')
       .addSelect('"r"."count"', 'count')
-      // .addSelect('movie')
-      // .addSelect('movie.score')
       .leftJoin(
         `(SELECT "review"."movieId",COUNT("review".*) FROM review GROUP BY "review"."movieId")`,
         'r',
         '"r"."movieId" = movie.id',
       )
-      // .addSelect('COUNT(reviews.score)', 'count')
-      // .addSelect('AVG(reviews.score)', 'score')
-      // .leftJoin('movie.reviews', 'reviews')
       .leftJoinAndSelect('movie.categories', 'categories')
-      // .leftJoin('movie.reviews', 'COUNT(reviews.score)' , '')
       .where('approve = :approve', { approve: true })
-      // .groupBy('movie.id')
-      // .limit(pagination.perPage)
       .take(pagination.perPage)
       .offset(skip)
       .orderBy(sort, 'DESC')
       .getRawAndEntities();
-    console.log(entities);
+    // console.log(entities);
 
     // const { entities, raw } = await this.movieEntityRepository
     //   .createQueryBuilder('movie')

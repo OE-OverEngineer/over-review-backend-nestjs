@@ -26,13 +26,13 @@ export class UsersUseCases {
     await this.userRepository.deleteById(id);
   }
 
-  async findOne(id: number): Promise<User | undefined> {
+  async findOne(id: number): Promise<User> {
     const user = await this.userRepository.findById(id);
     if (!user) throw new NotFoundException('User not found');
     return user;
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(email: string): Promise<User> {
     return await this.userRepository.findByEmail(email);
   }
 

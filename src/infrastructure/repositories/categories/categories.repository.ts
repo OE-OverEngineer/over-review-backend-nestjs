@@ -14,7 +14,7 @@ export class DatabaseCategoryRepository implements ICategoryRepository {
     private readonly categoryEntityRepository: Repository<Category>,
   ) {}
 
-  async findByTitle(title: string): Promise<Category | undefined> {
+  async findByTitle(title: string): Promise<Category> {
     return this.categoryEntityRepository.findOne({ where: { title: title } });
   }
   async findAllByID(ids: number[]): Promise<Category[]> {
@@ -34,7 +34,7 @@ export class DatabaseCategoryRepository implements ICategoryRepository {
     return this.categoryEntityRepository.find();
   }
 
-  async findById(id: number): Promise<Category | undefined> {
+  async findById(id: number): Promise<Category> {
     return this.categoryEntityRepository.findOne({ id });
   }
 

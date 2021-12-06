@@ -56,6 +56,7 @@ export class DatabaseReviewRepository implements IReviewRepository {
     pagination: Pagination,
   ): Promise<{ data: Review[]; total: number }> {
     const skip = (pagination.pageNum - 1) * pagination.perPage;
+
     // 1. Get likes and id from pagination
     // const raw = await this.reviewEntityRepository
     //   .createQueryBuilder('review')

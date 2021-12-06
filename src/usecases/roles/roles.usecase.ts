@@ -9,7 +9,7 @@ export class RolesUseCases {
   async create(dto: CreateRoleDto): Promise<Role> {
     return await this.roleRepository.insert(dto);
   }
-  async findOne(id: number): Promise<Role | undefined> {
+  async findOne(id: number): Promise<Role> {
     return await this.roleRepository.findByID(id);
   }
   async findAll(): Promise<Role[]> {
