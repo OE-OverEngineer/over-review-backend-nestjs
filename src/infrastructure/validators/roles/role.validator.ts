@@ -19,6 +19,8 @@ export class IsRoleFoundConstraint implements ValidatorConstraintInterface {
   }
 }
 
+/**  This is for decoration validator */
+
 export function IsRoleFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({
