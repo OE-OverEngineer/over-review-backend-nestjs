@@ -104,7 +104,11 @@ import { DatabaseRolesRepository } from 'src/infrastructure/repositories/roles/r
     },
     {
       provide: LikesUseCases,
-      inject: [DatabaseLikesRepository, DatabaseUsersRepository],
+      inject: [
+        DatabaseLikesRepository,
+        DatabaseReviewRepository,
+        DatabaseUsersRepository,
+      ],
       useFactory: (
         repository: ILikeRepository,
         reviewRepositroy: IReviewRepository,

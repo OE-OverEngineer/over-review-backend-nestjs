@@ -62,8 +62,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
     pagination: Pagination,
   ): Promise<{ data: Movie[]; total: number }> {
     let sort: string;
-    if (pagination.sort == 'random') sort = 'RANDOM()';
-    else if (pagination.sort == 'popular') sort = 'count';
+    if (pagination.sort == 'popular') sort = 'count';
     else if (pagination.sort == 'recent') sort = 'movie.startDate';
     else if (pagination.sort == 'score') sort = 'movie.score';
     const skip = (pagination.pageNum - 1) * pagination.perPage;
@@ -74,40 +73,27 @@ export class DatabaseMovieRepository implements IMovieRepository {
     const { entities, raw } = await this.movieEntityRepository
       .createQueryBuilder('movie')
       .select('movie')
-      .addSelect('"r"."count"', 'count')
+      .addSelect('coalesce("r"."count",0)', 'count')
       .leftJoin(
-        `(SELECT "review"."movieId",COUNT("review".*) FROM review GROUP BY "review"."movieId")`,
+        `(SELECT "review"."movieId",COUNT("review"."id") FROM review GROUP BY "review"."movieId")`,
         'r',
         '"r"."movieId" = movie.id',
       )
-      .leftJoinAndSelect('movie.categories', 'categories')
+      // .leftJoinAndSelect('movie.categories', 'categories')
       .where('approve = :approve', { approve: true })
       .take(pagination.perPage)
       .offset(skip)
       .orderBy(sort, 'DESC')
+      .addOrderBy('movie.startDate', 'DESC')
       .getRawAndEntities();
-    // console.log(entities);
 
-    // const { entities, raw } = await this.movieEntityRepository
-    //   .createQueryBuilder('movie')
-    //   .select('movie')
-    //   .addSelect('COUNT(reviews.score)', 'count')
-    //   .leftJoin('movie.reviews', 'reviews')
-    //   .where('approve = :approve', { approve: true })
-    //   .groupBy('movie.id')
-    //   .limit(pagination.perPage)
-    //   .offset(skip)
-    //   .orderBy(sort, 'DESC')
-    //   .getRawAndEntities();
-    // console.log(entities);
-    // console.log(raw);
     /* --- Query total again because get RawMany cannot return count --- */
     const total = await this.movieEntityRepository.count({
       where: {
         approve: true,
       },
     });
-    const ids = raw.map(({ movie_id }) => movie_id);
+    // const ids = raw.map(({ movie_id }) => movie_id);
     // const movies = await this.movieEntityRepository.find({
     //   where: { id: In(ids) },
 

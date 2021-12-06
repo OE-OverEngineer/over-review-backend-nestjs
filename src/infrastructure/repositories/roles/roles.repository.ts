@@ -36,6 +36,6 @@ export class DatabaseRolesRepository implements IRoleRepository {
   }
 
   // async deleteById(id: number): Promise<void> {
-  //   await this.roleEntityRepository.delete(id);
+  //   await this.roleEntityRepository.remove(id);
   // }
 }

@@ -45,6 +45,8 @@ export class LikesSubscriber implements EntitySubscriberInterface<Like> {
   }
 
   async afterRemove(event: RemoveEvent<Like>) {
+    console.log(event.entity);
+
     const count = await this.likeEntityRepository.count({
       where: {
         review: {

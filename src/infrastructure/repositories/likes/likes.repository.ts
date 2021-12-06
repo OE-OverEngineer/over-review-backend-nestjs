@@ -14,6 +14,7 @@ export class DatabaseLikesRepository implements ILikeRepository {
     @InjectRepository(Like)
     private readonly likeEntityRepository: Repository<Like>,
   ) {}
+
   async findAllByUserID(userID: number): Promise<number[]> {
     return (
       await this.likeEntityRepository.find({
@@ -26,6 +27,7 @@ export class DatabaseLikesRepository implements ILikeRepository {
       })
     ).map((e) => e.review.id);
   }
+
   async findOne(targetReviewID: number, byUserID: number): Promise<Like> {
     return await this.likeEntityRepository.findOne({
       where: {
@@ -36,13 +38,14 @@ export class DatabaseLikesRepository implements ILikeRepository {
           id: byUserID,
         },
       },
+      relations: ['review'],
     });
   }
 
   async like(dto: CreateLikeDto, byUserID: number): Promise<void> {
     /* --- Prepare new model to insert into database --- */
     const like: Like = new Like();
-    const review: Review = new Review();
+    const review = new Review();
     review.id = dto.targetReviewID;
     const user: User = new User();
     user.id = byUserID;
@@ -53,7 +56,7 @@ export class DatabaseLikesRepository implements ILikeRepository {
   }
 
   async disLike(like: Like): Promise<void> {
-    // const like = await this.findOne(dto.targetReviewID, byUserID);
-    await this.likeEntityRepository.delete(like);
+    console.log(like);
+    await this.likeEntityRepository.remove(like);
   }
 }

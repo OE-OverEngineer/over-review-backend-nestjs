@@ -24,9 +24,10 @@ export class DatabaseUsersRepository implements IUsersRepository {
     const { entities, raw } = await this.userRepository
       .createQueryBuilder('user')
       .select('user')
-      .addSelect('COUNT (*) ', 'count')
+      .addSelect('coalesce(COUNT(reviews.id),0)', 'count')
+      .leftJoin('user.reviews', 'reviews')
       .groupBy('user.id')
-      .addOrderBy('count')
+      .addOrderBy('count', 'DESC')
       .take(amount)
       .getRawAndEntities();
     const response = entities.map((e) => {
@@ -53,7 +54,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
   async findById(id: number): Promise<User> {
     return this.userRepository.findOne({
       where: { id: id },
-      relations: ['role'],
+      relations: ['role', 'reviews'],
     });
   }
 
@@ -77,7 +78,7 @@ export class DatabaseUsersRepository implements IUsersRepository {
   async deleteById(id: number): Promise<void> {
     const user = await this.findById(id);
     if (!user) throw new NotFoundException('User not found');
-    await this.userRepository.delete({ id: id });
+    await this.userRepository.remove(user);
   }
 
   private async dtoToUser(dto: CreateUserDto): Promise<User> {

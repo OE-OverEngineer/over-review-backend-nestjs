@@ -23,7 +23,7 @@ export class ReportsUsecase {
     await this.reportRepository.deleteById(id);
   }
 
-  async findOne(id: number): Promise<Report > {
+  async findOne(id: number): Promise<Report> {
     const review = await this.reportRepository.findById(id);
     return review;
   }
