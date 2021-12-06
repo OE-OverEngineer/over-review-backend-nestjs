@@ -5,6 +5,4 @@ export interface IRoleRepository {
   insert(dto: CreateRoleDto): Promise<Role>;
   findAll(): Promise<Role[]>;
   findByID(id: number): Promise<Role | undefined>;
-  // updateById(): Promise<Role>;
-  // deleteById(): Promise<Role>;
 }

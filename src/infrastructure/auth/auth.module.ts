@@ -13,6 +13,7 @@ import { UsersUseCases } from 'src/usecases/users/users.usecase';
 import { StorageService } from '../storage/storage.service';
 import { StorageModule } from '../storage/storage.module';
 
+// Module for authentication and authorization
 @Module({
   imports: [
     PassportModule,
