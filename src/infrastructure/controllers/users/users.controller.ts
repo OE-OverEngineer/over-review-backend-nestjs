@@ -16,10 +16,10 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { ReviewsUseCases } from 'src/usecases/reviews/reviews.usecase';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
-import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
-import { Roles } from 'src/infrastructure/auth/roles.decorator';
 import { Role } from 'src/infrastructure/auth/role.enum';
+import { Roles } from 'src/infrastructure/auth/roles.decorator';
+import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
+import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @ApiTags('Users')
@@ -69,8 +69,8 @@ export class UsersController {
   @Roles(Role.Member)
   @Patch('/edit/profile')
   async updateByIDToken(@Request() req: any, dto: CreateUserDto) {
-    const userID = Number(req.user.id);
-    return this.userUsecases.update(userID, dto);
+    const userId = Number(req.user.id);
+    return this.userUsecases.update(userId, dto);
   }
 
   @Get('/top-review/')
@@ -78,6 +78,30 @@ export class UsersController {
     return this.userUsecases.findTopReviewers(amount);
   }
 
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Post('/:id/banuser')
+  async banUser(@Param('id') id: string) {
+    const userId = Number(id);
+    return this.userUsecases.banUser(userId, true);
+  }
+
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
+  @Post('/:id/unbanuser')
+  async unbanUser(@Param('id') id: string) {
+    const userId = Number(id);
+    return this.userUsecases.banUser(userId, false);
+  }
+  // @UseGuards(JwtAuthGuard)
+  // @ApiBearerAuth('access-token')
+  // @Get('profile')
+  // @Get('/liked-review/')
+  // async findLikedReview(@Request() req: any) {
+  //   return this.userUsecases.findTopReviewers(amount);
+  // }
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth('access-token')
   @Roles(Role.Member)

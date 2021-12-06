@@ -23,6 +23,7 @@ export class IsActorFoundConstraint implements ValidatorConstraintInterface {
 }
 
 @ValidatorConstraint({ async: true })
+@Injectable()
 export class IsActorListFoundConstraint
   implements ValidatorConstraintInterface
 {

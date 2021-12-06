@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IUsersRepository } from 'src/domain/repositories/userRepository.interface';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
+import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
+// import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { Role } from 'src/infrastructure/entities/role.entity';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { Service } from 'typedi';
@@ -65,14 +67,10 @@ export class DatabaseUsersRepository implements IUsersRepository {
     });
   }
 
-  async update(id: number, updateUserDto: CreateUserDto): Promise<User> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findById(id);
-    // user.avatarUrl =mo
-    // user = {
-    //   ...updateUserDto,
-    // };
-    // const user = this.userRepository.save(findUser);
-    return await this.userRepository.save(user);
+    const newUser = { ...user, ...updateUserDto };
+    return await this.userRepository.save(newUser);
   }
 
   async deleteById(id: number): Promise<void> {

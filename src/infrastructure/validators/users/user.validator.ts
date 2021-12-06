@@ -23,6 +23,7 @@ export class IsUserFoundConstraint implements ValidatorConstraintInterface {
 }
 
 @ValidatorConstraint({ async: true })
+@Injectable()
 export class IsEmailAlreadyExistConstraint
   implements ValidatorConstraintInterface
 {
@@ -39,6 +40,7 @@ export class IsEmailAlreadyExistConstraint
 }
 
 /**  This is for decoration validator */
+
 export function IsUserFound(validationOptions?: ValidationOptions) {
   return function (object: any, propertyName: string) {
     registerDecorator({

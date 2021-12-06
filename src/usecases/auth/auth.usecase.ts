@@ -45,9 +45,9 @@ export class AuthUseCase {
       dto.avatar,
       randomString,
     );
-    /** --- Prepare new model to insert into database --- 
-          
-          
+    /** --- Prepare new model to insert into database ---
+
+
       **/
     const newUser = { ...dto, roleId: 1, avatarUrl: avatarUrlBlob };
     return await this.usersUseCase.create(newUser);

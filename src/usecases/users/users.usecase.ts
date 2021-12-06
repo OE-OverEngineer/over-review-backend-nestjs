@@ -2,20 +2,33 @@ import { IUsersRepository } from 'src/domain/repositories/userRepository.interfa
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { Service } from 'typedi';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
+import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @Service('UsersUseCase')
 @Injectable()
 export class UsersUseCases {
-  constructor(private readonly userRepository: IUsersRepository) {}
+  constructor(
+    private readonly userRepository: IUsersRepository,
+    private readonly storageService: StorageService,
+  ) {}
 
   async create(dto: CreateUserDto): Promise<User> {
-    return await this.userRepository.create(dto);
+    const randomString = dto.displayName + String(Date.now());
+    const avatarUrlBlob = await this.storageService.uploadAvatar(
+      dto.avatar,
+      randomString,
+    );
+    return await this.userRepository.create({
+      ...dto,
+      avatarUrl: avatarUrlBlob,
+    });
   }
 
-  async update(id: number, dto: CreateUserDto): Promise<void> {
+  async update(id: number, dto: UpdateUserDto): Promise<void> {
     await this.userRepository.update(id, dto);
   }
   async updateProfile(id: number, dto: RegisterUserDto): Promise<void> {
@@ -40,5 +53,11 @@ export class UsersUseCases {
 
   async findTopReviewers(amount: number): Promise<User[]> {
     return await this.userRepository.findTopReviewers(amount);
+  }
+
+  async banUser(userId: number, status: boolean) {
+    const user = await this.userRepository.findById(userId);
+    if (!user) throw new BadRequestException("user doesn't exist");
+    return await this.userRepository.update(user.id, { banned: status });
   }
 }

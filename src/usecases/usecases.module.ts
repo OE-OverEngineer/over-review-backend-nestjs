@@ -41,9 +41,9 @@ import { DatabaseRolesRepository } from 'src/infrastructure/repositories/roles/r
   providers: [
     {
       provide: UsersUseCases,
-      inject: [DatabaseUsersRepository],
-      useFactory: (repository: IUsersRepository) =>
-        new UsersUseCases(repository),
+      inject: [DatabaseUsersRepository, StorageService],
+      useFactory: (repository: IUsersRepository, storage: StorageService) =>
+        new UsersUseCases(repository, storage),
     },
     {
       provide: MoviesUseCases,
