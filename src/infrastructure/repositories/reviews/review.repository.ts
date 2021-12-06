@@ -169,13 +169,18 @@ export class DatabaseReviewRepository implements IReviewRepository {
     return { data, total };
   }
 
-  async update(id: number, dto: UpdateReviewDto): Promise<Review> {
-    // await this.reviewEntityRepository.update({ id: id }, { ...dto });
-    return await this.reviewEntityRepository.findOne(id);
+  async update(
+    id: number,
+    dto: UpdateReviewDto,
+    userID?: number,
+  ): Promise<Review> {
+    const review: Review = this.dtoToReview(dto, userID);
+    review.id = id;
+    return await this.reviewEntityRepository.save(review);
   }
 
-  async insert(dto: CreateReviewDto, id: number): Promise<Review> {
-    const review: Review = this.dtoToReview(dto, id);
+  async insert(dto: CreateReviewDto, userID: number): Promise<Review> {
+    const review: Review = this.dtoToReview(dto, userID);
 
     const revieww = await this.reviewEntityRepository.save(review);
     return revieww;
@@ -217,16 +222,19 @@ export class DatabaseReviewRepository implements IReviewRepository {
     await this.reviewEntityRepository.delete(id);
   }
 
-  private dtoToReview(dto: CreateReviewDto, id: number): Review {
+  private dtoToReview(
+    dto: CreateReviewDto | UpdateReviewDto,
+    userID: number,
+  ): Review {
     const movie: Movie = new Movie();
     movie.id = dto.movieID;
     const user: User = new User();
-    user.id = id;
+    user.id = userID;
     const review: Review = new Review();
     review.message = dto.message;
     review.score = dto.score;
     review.movie = movie;
-    review.user = user;
+    if (userID) review.user = user;
     return review;
   }
 }

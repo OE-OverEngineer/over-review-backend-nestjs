@@ -18,6 +18,6 @@ export interface IReviewRepository {
   ): Promise<{ data: Review[]; total: number }>;
   findById(id: number): Promise<Review>;
   findByUserIDMovieID(movieID: number, userID: number): Promise<Review>;
-  update(id: number, dto: UpdateReviewDto): Promise<Review>;
+  update(id: number, dto: UpdateReviewDto, userID?: number): Promise<Review>;
   deleteById(id: number): Promise<void>;
 }

@@ -19,7 +19,7 @@ export class Category {
 
   @ManyToMany(() => Movie, (m) => m.categories)
   @JoinTable()
-  movies: Movie[];
+  movies?: Movie[];
 
   @CreateDateColumn()
   createdAt?: Date;

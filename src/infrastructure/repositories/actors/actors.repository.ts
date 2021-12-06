@@ -29,7 +29,6 @@ export class DatabaseActorsRepository implements IActorRepository {
   }
 
   async update(id: number, dto: UpdateActorDto): Promise<Actor> {
-    /// ANCHOR : ถ้าสมมติอัพเดทภาพ ให้ลบอันเก่าออกมั้ย แล้วลบยังไง (ฺฺฺฺBlob storage)
     await this.actorEntityRepository.update(id, { ...dto });
     return await this.actorEntityRepository.findOne(id);
   }
@@ -42,7 +41,7 @@ export class DatabaseActorsRepository implements IActorRepository {
     return this.actorEntityRepository.find();
   }
 
-  async findById(id: number): Promise<Actor > {
+  async findById(id: number): Promise<Actor> {
     return this.actorEntityRepository.findOne({ id });
   }
 

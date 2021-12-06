@@ -50,14 +50,14 @@ export class DatabaseUsersRepository implements IUsersRepository {
     return this.userRepository.find();
   }
 
-  async findById(id: number): Promise<User > {
+  async findById(id: number): Promise<User> {
     return this.userRepository.findOne({
       where: { id: id },
       relations: ['role'],
     });
   }
 
-  async findByEmail(email: string): Promise<User > {
+  async findByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({
       where: { email: email },
       select: ['password', 'firstName', 'lastName', 'email', 'id', 'role'],

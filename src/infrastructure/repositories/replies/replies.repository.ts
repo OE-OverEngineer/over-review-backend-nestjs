@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ICommentRepository } from 'src/domain/repositories/commentRepository.interface';
-import { IReplyRepository } from 'src/domain/repositories/replyRepository.interface copy';
+import { IReplyRepository } from 'src/domain/repositories/replyRepository.interface';
 import { CreateCommentDto } from 'src/infrastructure/dto/comments/createComment.dto';
 import { UpdateCommentDto } from 'src/infrastructure/dto/comments/updateComment.dto';
 import { CreateReplyDto } from 'src/infrastructure/dto/replies/createReply.dto';
@@ -33,14 +33,17 @@ export class DatabaseRepliesRepository implements IReplyRepository {
     return this.replyEntityRepository.find({ where: { id: In(ids) } });
   }
 
-  async update(id: number, dto: UpdateReplyDto): Promise<Reply> {
-    // await this.categoryEntityRepository.save({ id: id }, { ...dto });
-    return await this.replyEntityRepository.findOne(id);
+  async update(
+    id: number,
+    dto: UpdateReplyDto,
+    userID: number,
+  ): Promise<Reply> {
+    const reply = this.createDtoToReply(dto, userID);
+    return await this.replyEntityRepository.save(reply);
   }
 
   async insert(dto: CreateReplyDto, userID: number): Promise<Reply> {
     const Reply = this.createDtoToReply(dto, userID);
-    console.log(Reply);
     return await this.replyEntityRepository.save(Reply);
   }
 
@@ -48,7 +51,7 @@ export class DatabaseRepliesRepository implements IReplyRepository {
     return this.replyEntityRepository.find();
   }
 
-  async findById(id: number): Promise<Reply > {
+  async findById(id: number): Promise<Reply> {
     return this.replyEntityRepository.findOne({ id });
   }
 
@@ -56,7 +59,10 @@ export class DatabaseRepliesRepository implements IReplyRepository {
     await this.replyEntityRepository.delete(id);
   }
 
-  private createDtoToReply(dto: CreateReplyDto, userID: number): Reply {
+  private createDtoToReply(
+    dto: CreateReplyDto | UpdateReplyDto,
+    userID: number,
+  ): Reply {
     const reply = new Reply();
     const user = new User();
     user.id = userID;

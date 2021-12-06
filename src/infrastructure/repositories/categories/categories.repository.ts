@@ -22,8 +22,11 @@ export class DatabaseCategoryRepository implements ICategoryRepository {
   }
 
   async update(id: number, dto: UpdateCategoryDto): Promise<Category> {
-    // await this.categoryEntityRepository.save({ id: id }, { ...dto });
-    return await this.categoryEntityRepository.findOne(id);
+    const category: Category = {
+      id,
+      title: dto.title,
+    };
+    return await this.categoryEntityRepository.save(category);
   }
 
   async insert(dto: CreateCategoryDto): Promise<Category> {

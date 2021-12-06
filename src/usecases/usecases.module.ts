@@ -32,7 +32,7 @@ import { UsersUseCases } from './users/users.usecase';
 import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { StorageModule } from 'src/infrastructure/storage/storage.module';
 import { RepliesUsecase } from './replies/replies.usecase';
-import { IReplyRepository } from 'src/domain/repositories/replyRepository.interface copy';
+import { IReplyRepository } from 'src/domain/repositories/replyRepository.interface';
 import { DatabaseRepliesRepository } from 'src/infrastructure/repositories/replies/replies.repository';
 import { DatabaseRolesRepository } from 'src/infrastructure/repositories/roles/roles.repository';
 

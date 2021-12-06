@@ -49,8 +49,8 @@ export class DatabaseMovieRepository implements IMovieRepository {
 
   async update(id: number, dto: UpdateMovieDto): Promise<Movie> {
     const movie = await this.dtoToMovie(dto);
-    await this.movieEntityRepository.update(id, movie);
-    return this.movieEntityRepository.findOne(id);
+    movie.id = id;
+    return this.movieEntityRepository.save(movie);
   }
 
   async insert(dto: CreateMovieDto): Promise<Movie> {
@@ -61,7 +61,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
   async findAll(
     pagination: Pagination,
   ): Promise<{ data: Movie[]; total: number }> {
-    let sort: string ;
+    let sort: string;
     if (pagination.sort == 'random') sort = 'RANDOM()';
     else if (pagination.sort == 'popular') sort = 'count';
     else if (pagination.sort == 'recent') sort = 'movie.startDate';

@@ -18,7 +18,13 @@ export class CategoriesUseCases {
   }
   async update(id: number, dto: UpdateCategoryDto): Promise<void> {
     const category = await this.findOne(id);
+
+    /* TO CHECK IS CATEGORY ALREADY EXISTED */
     if (!category) throw new NotFoundException('category not found');
+    const categoryTitle = await this.findByTitle(dto.title);
+
+    /* TO CHECK IS TITLE ALREADY EXISTED */
+    if (categoryTitle) throw new ConflictException('category already existed');
     else await this.categoryRepository.update(id, dto);
   }
   async delete(id: number): Promise<void> {

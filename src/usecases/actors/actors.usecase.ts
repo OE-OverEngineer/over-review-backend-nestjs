@@ -43,7 +43,13 @@ export class ActorsUseCases {
   async update(id: number, dto: UpdateActorDto): Promise<void> {
     /// CHECK If actor is already existed in database by ID
     const actor = await this.findOne(id);
+    /// CHECK If actor is already existed in database by Name
+    const actorName = await this.actorRepository.findByName(
+      dto.firstName,
+      dto.lastName,
+    );
     if (!actor) throw new NotFoundException('actor not found');
+    else if (actorName) throw new ConflictException('actor already existed');
     else {
       /* --- Prepare new model to insert into database --- */
       actor.firstName = dto.firstName;

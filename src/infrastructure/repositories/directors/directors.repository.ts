@@ -24,7 +24,7 @@ export class DatabaseDirectorsRepository implements IDirectorRepository {
     return this.directorEntityRepository.findOne(id);
   }
   async update(id: number, dto: UpdateDirectorDto): Promise<Director> {
-    // await this.directorEntityRepository.update({ id: id }, { ...dto });
+    await this.directorEntityRepository.update(id, { ...dto });
     return this.directorEntityRepository.findOne(id);
   }
 

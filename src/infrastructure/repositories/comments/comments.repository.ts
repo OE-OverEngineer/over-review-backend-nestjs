@@ -20,13 +20,13 @@ export class DatabaseCommentsRepository implements ICommentRepository {
   }
 
   async update(id: number, dto: UpdateCommentDto): Promise<Comment> {
-    // await this.categoryEntityRepository.save({ id: id }, { ...dto });
-    return await this.categoryEntityRepository.findOne(id);
+    const comment = this.createDtoToComment(dto);
+    comment.id = id;
+    return await this.categoryEntityRepository.save(comment);
   }
 
   async insert(dto: CreateCommentDto, userID: number): Promise<Comment> {
     const comment = this.createDtoToComment(dto, userID);
-    console.log(comment);
     return await this.categoryEntityRepository.save(comment);
   }
 
@@ -36,7 +36,7 @@ export class DatabaseCommentsRepository implements ICommentRepository {
     });
   }
 
-  async findById(id: number): Promise<Comment > {
+  async findById(id: number): Promise<Comment> {
     return this.categoryEntityRepository.findOne({ id });
   }
 
@@ -44,14 +44,17 @@ export class DatabaseCommentsRepository implements ICommentRepository {
     await this.categoryEntityRepository.delete(id);
   }
 
-  private createDtoToComment(dto: CreateCommentDto, userID: number): Comment {
+  private createDtoToComment(
+    dto: CreateCommentDto | UpdateCommentDto,
+    userID?: number,
+  ): Comment {
     const comment = new Comment();
     const user = new User();
     user.id = userID;
     const review = new Review();
     review.id = dto.reviewID;
     comment.message = dto.message;
-    comment.user = user;
+    if (userID) comment.user = user;
     comment.review = review;
     return comment;
   }

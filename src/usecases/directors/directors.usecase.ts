@@ -13,6 +13,7 @@ export class DirectorsUseCases {
     director.lastName = dto.lastName;
     return await this.directorRepository.insert(director);
   }
+
   async update(id: number, dto: UpdateDirectorDto): Promise<void> {
     await this.directorRepository.update(id, dto);
   }
