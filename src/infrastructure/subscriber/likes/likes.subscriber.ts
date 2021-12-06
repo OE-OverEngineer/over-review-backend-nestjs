@@ -6,6 +6,7 @@ import {
   EntitySubscriberInterface,
   EventSubscriber,
   InsertEvent,
+  RemoveEvent,
   Repository,
 } from 'typeorm';
 import { Review } from '../../entities/review.entity';
@@ -41,5 +42,20 @@ export class LikesSubscriber implements EntitySubscriberInterface<Like> {
     });
 
     console.log(`AFTER INSERTED: `, event.entity);
+  }
+
+  async afterRemove(event: RemoveEvent<Like>) {
+    const count = await this.likeEntityRepository.count({
+      where: {
+        review: {
+          id: event.entity.review.id,
+        },
+      },
+    });
+    await this.reviewEntityRepository.update(event.entity.review.id, {
+      likesCount: count - 1,
+    });
+
+    console.log(`AFTER REMOVED: `, event.entity);
   }
 }

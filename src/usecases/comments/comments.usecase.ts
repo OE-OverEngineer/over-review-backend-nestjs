@@ -1,4 +1,4 @@
-import { ForbiddenException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { ICommentRepository } from 'src/domain/repositories/commentRepository.interface';
 import { JwtData } from 'src/infrastructure/auth/jwt.interface';
 import { CreateCommentDto } from 'src/infrastructure/dto/comments/createComment.dto';
@@ -21,6 +21,7 @@ export class CommentsUseCases {
       await this.commentRepositories.update(id, dto);
     throw new ForbiddenException();
   }
+
   async delete(id: number, user: JwtData): Promise<void> {
     const comment = await this.findOne(id);
     if (user.role === 'admin' || comment.user.id === user.id)
@@ -29,6 +30,7 @@ export class CommentsUseCases {
   }
 
   async findOne(id: number): Promise<Comment> {
+    if (id < 0) throw new BadRequestException();
     return await this.commentRepositories.findById(id);
   }
 

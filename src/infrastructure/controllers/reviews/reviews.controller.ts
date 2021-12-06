@@ -58,11 +58,12 @@ export class ReviewsController {
   @Post('/like')
   async like(@Body() dto: CreateLikeDto, @Request() req: any) {
     const userID = Number(req.user.id);
-    if (dto.isLike) {
-      return this.likesUsecases.like(dto, userID);
-    } else {
-      return this.likesUsecases.dislike(dto, userID);
-    }
+    return this.likesUsecases.likeOrDislike(dto, userID);
+    // if (dto.isLike) {
+    //   return this.likesUsecases.like(dto, userID);
+    // } else {
+    //   return this.likesUsecases.dislike(dto, userID);
+    // }
   }
 
   @ApiBearerAuth('access-token')
