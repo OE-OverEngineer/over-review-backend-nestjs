@@ -15,10 +15,7 @@ import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
 @Service('UsersUseCase')
 @Injectable()
 export class UsersUseCases {
-  constructor(
-    private readonly userRepository: IUsersRepository,
-    private readonly storageService: StorageService,
-  ) {}
+  constructor(private readonly userRepository: IUsersRepository) {}
 
   async create(dto: CreateUserDto): Promise<User> {
     return await this.userRepository.create(dto);
