@@ -13,6 +13,7 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/jwt-auth.guard';
 import { Role } from 'src/infrastructure/auth/role.enum';
 import { Roles } from 'src/infrastructure/auth/roles.decorator';
 import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
+import { CategoryDto } from 'src/infrastructure/dto/movies/categoryMovie.dto';
 import { CreateMovieDto } from 'src/infrastructure/dto/movies/createMovie.dto';
 import { RequestMovieDto } from 'src/infrastructure/dto/movies/requestMovie.dto';
 import { Pagination } from 'src/infrastructure/dto/pagination/pagination.dto';
@@ -48,8 +49,8 @@ export class MoviesController {
   }
 
   @Get()
-  findAll(@Query() pagintaion: Pagination) {
-    return this.moviesUsecases.findAll(pagintaion);
+  findAll(@Query() pagintaion: Pagination, @Query() category: CategoryDto) {
+    return this.moviesUsecases.findAll(pagintaion, category.category);
   }
 
   @Get('/:id/reviews')
@@ -66,4 +67,7 @@ export class MoviesController {
   findOne(@Param('id') id: number) {
     return this.moviesUsecases.findOne(id);
   }
+}
+function ApiProvider() {
+  throw new Error('Function not implemented.');
 }
