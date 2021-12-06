@@ -2,7 +2,11 @@ import { IUsersRepository } from 'src/domain/repositories/userRepository.interfa
 import { CreateUserDto } from 'src/infrastructure/dto/users/createUser.dto';
 import { User } from 'src/infrastructure/entities/user.entity';
 import { Service } from 'typedi';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 import { StorageService } from 'src/infrastructure/storage/storage.service';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
@@ -32,7 +36,9 @@ export class UsersUseCases {
   }
 
   async findOne(id: number): Promise<User | undefined> {
-    return await this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+    if (!user) throw new NotFoundException('User not found');
+    return user;
   }
 
   async findByEmail(email: string): Promise<User | undefined> {

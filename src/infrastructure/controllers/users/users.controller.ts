@@ -32,16 +32,6 @@ export class UsersController {
     private readonly likeUsecases: LikesUseCases,
   ) {}
 
-  @Get('/:id')
-  async viewProfile(@Param('id') id: number) {
-    const userId = Number(id);
-    const user = await this.userUsecases.findOne(userId);
-
-    if (!user) throw new NotFoundException('user not found');
-
-    return user;
-  }
-
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Admin)
@@ -140,4 +130,10 @@ export class UsersController {
   // async reportUser() {
 
   // }
+
+  @Get('/:id')
+  viewProfile(@Param('id') id: number) {
+    const userId = Number(id);
+    return this.userUsecases.findOne(userId);
+  }
 }
