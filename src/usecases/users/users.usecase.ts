@@ -17,15 +17,7 @@ export class UsersUseCases {
   ) {}
 
   async create(dto: CreateUserDto): Promise<User> {
-    const randomString = dto.displayName + String(Date.now());
-    const avatarUrlBlob = await this.storageService.uploadAvatar(
-      dto.avatar,
-      randomString,
-    );
-    return await this.userRepository.create({
-      ...dto,
-      avatarUrl: avatarUrlBlob,
-    });
+    return await this.userRepository.create(dto);
   }
 
   async update(id: number, dto: UpdateUserDto): Promise<void> {

@@ -13,12 +13,12 @@ import {
 } from 'class-validator';
 import { IsRoleFound } from 'src/infrastructure/validators/roles/role.validator';
 
-// import { IsEmailAlreadyExist } from 'src/infrastructure/validators/users/user.validator';
+import { IsEmailAlreadyExist } from 'src/infrastructure/validators/users/user.validator';
 
 export class CreateUserDto {
   @IsEmail()
   @Transform(({ value }: TransformFnParams) => value.trim())
-  // @IsEmailAlreadyExist()
+  @IsEmailAlreadyExist()
   @ApiProperty({ default: 'test@test.com' })
   email: string;
 
@@ -60,8 +60,6 @@ export class CreateUserDto {
   @ApiProperty()
   @IsString()
   avatar: string;
-
-  avatarUrl?: string;
 
   @IsDateString()
   @ApiProperty()

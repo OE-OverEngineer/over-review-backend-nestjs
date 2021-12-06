@@ -59,10 +59,11 @@ export class UsersController {
   }
 
   @ApiBearerAuth('access-token')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Member)
+  @UseGuards(JwtAuthGuard)
+  // @Roles(Role.Member)
   @Get('profile')
   async me(@Request() req) {
+    console.log(req);
     const user = await this.userUsecases.findOne(req.user.id);
     return user;
   }
