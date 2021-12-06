@@ -50,7 +50,13 @@ export class ReviewsUseCases {
     movieID: number,
     pagination: Pagination,
   ): Promise<{ data: Review[]; total: number }> {
-    // if (pagination.)
+    if (pagination.sort === 'likesCount') {
+      const d = await this.reviewReository.findMostLikesByMovieID(movieID);
+      return {
+        data: [d],
+        total: d ? 1 : 0,
+      };
+    }
     return await this.reviewReository.findAllByMovieID(movieID, pagination);
   }
 
