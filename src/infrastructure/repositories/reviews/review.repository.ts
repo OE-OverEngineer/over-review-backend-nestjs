@@ -56,35 +56,6 @@ export class DatabaseReviewRepository implements IReviewRepository {
     pagination: Pagination,
   ): Promise<{ data: Review[]; total: number }> {
     const skip = (pagination.pageNum - 1) * pagination.perPage;
-
-    // 1. Get likes and id from pagination
-    // const raw = await this.reviewEntityRepository
-    //   .createQueryBuilder('review')
-    //   .select('review.id')
-    //   .addSelect('review.likesCount')
-    //   .addSelect('review.createdAt')
-    //   .addSelect('"c"."count"', 'commentsCount')
-    //   .leftJoin(
-    //     `(SELECT "comment"."reviewId",COUNT("comment".*) FROM comment GROUP BY "comment"."reviewId")`,
-    //     'c',
-    //     '"c"."reviewId" = review.id',
-    //   )
-    //   .where('review.movie.id = :movieID', { movieID })
-    //   .orderBy(sort, 'DESC')
-    //   .addOrderBy('review.createdAt', 'DESC')
-    //   .limit(pagination.perPage)
-    //   .offset(skip)
-    //   .getRawMany();
-    // const ids = raw.map(({ review_id }) => review_id);
-    // const total = await this.reviewEntityRepository.count({
-    //   where: {
-    //     movie: {
-    //       id: movieID,
-    //     },
-    //   },
-    // });
-
-    // 2. Get all relation data
     const [data, total] = await this.reviewEntityRepository.findAndCount({
       where: {
         movie: {
@@ -104,27 +75,21 @@ export class DatabaseReviewRepository implements IReviewRepository {
         createdAt: 'DESC',
       },
     });
-    // const data = raw.map((e) => {
-    //   const reviewFilter = review.find((rev) => rev.id == e.review_id);
-    //   reviewFilter.commentsCount = !e?.commentsCount
-    //     ? Number(e.commentsCount)
-    //     : 0;
+    data.forEach((review, idx) => {
+      data[idx].comments = data[idx].comments.sort((a, b) =>
+        a.createdAt > b.createdAt ? 1 : -1,
+      );
+    });
 
-    //   return reviewFilter;
-    // });
-    // .map((e) => {
-    //   return {
-    //     ...e,
-    //     likes: raw.find((i) => i.review_id == e.id).likesCount,
-    //   };
-    // });
-    // const data = entities.map((e) => {
-    //   return {
-    //     ...e,
-    //     commentsCount:
-    //       raw.filter((i) => i.review_id == e.id).commentsCount ?? 0,
-    //   };
-    // });
+    data.forEach((review) => {
+      if (review.comments) {
+        review.comments.forEach((comment) => {
+          comment.replies = comment.replies.sort((a, b) =>
+            a.createdAt > b.createdAt ? 1 : -1,
+          );
+        });
+      }
+    });
     return { data, total };
   }
   async findAllByUserID(
@@ -210,10 +175,18 @@ export class DatabaseReviewRepository implements IReviewRepository {
         'movie',
       ],
     });
-    review.comments.sort((a, b) => (a.createdAt >= b.createdAt ? 1 : -1));
-    review.comments.map((comment) =>
-      comment.replies.sort((a, b) => (a.createdAt >= b.createdAt ? 1 : -1)),
+    //data.forEach((review, idx) => {
+    review.comments = review.comments.sort((a, b) =>
+      a.createdAt > b.createdAt ? 1 : -1,
     );
+    // });
+    if (review.comments) {
+      review.comments.forEach((comment, idx) => {
+        comment.replies = comment.replies.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : -1,
+        );
+      });
+    }
     // movie.score = score;
     return review;
   }

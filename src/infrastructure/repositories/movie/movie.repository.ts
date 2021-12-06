@@ -79,7 +79,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
         'r',
         '"r"."movieId" = movie.id',
       )
-      // .leftJoinAndSelect('movie.categories', 'categories')
+      .leftJoinAndSelect('movie.categories', 'categories')
       .where('approve = :approve', { approve: true })
       .take(pagination.perPage)
       .offset(skip)
