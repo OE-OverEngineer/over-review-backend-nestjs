@@ -3,7 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthUseCase } from 'src/usecases/auth/auth.usecase';
 
-// class for login with email and password
+// Strategy for login with email and password
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly authUseCase: AuthUseCase) {

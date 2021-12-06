@@ -1,5 +1,13 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Controller, Post, Body, UseGuards, HttpCode } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiHeader,
+  ApiOkResponse,
+  ApiResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/infrastructure/auth/local-auth.guard';
 import { LoginEmailPasswordDto } from 'src/infrastructure/dto/auth/loginEmailPassword.dto';
 import { RegisterUserDto } from 'src/infrastructure/dto/auth/registerUser.dto';
@@ -11,7 +19,12 @@ export class AuthController {
   constructor(private authUseCase: AuthUseCase) {}
 
   @UseGuards(LocalAuthGuard)
+  @ApiOkResponse({
+    description: 'Login success return access_token (JWT)',
+  })
+  @ApiUnauthorizedResponse()
   @Post('login')
+  @HttpCode(200)
   async login(
     @Body() dto: LoginEmailPasswordDto,
   ): Promise<{ access_token: string }> {
@@ -22,6 +35,12 @@ export class AuthController {
   }
 
   @Post('register')
+  @ApiCreatedResponse({
+    description: 'Create user success',
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad request',
+  })
   async register(
     @Body() dto: RegisterUserDto,
   ): Promise<{ access_token: string }> {
