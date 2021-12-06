@@ -22,7 +22,7 @@ export class DirectorsUseCases {
     await this.directorRepository.deleteById(id);
   }
 
-  async findOne(id: number): Promise<Director > {
+  async findOne(id: number): Promise<Director> {
     if (id < 0) throw new BadRequestException('Cannot find id < 0');
     const director = await this.directorRepository.findById(id);
     return director;
