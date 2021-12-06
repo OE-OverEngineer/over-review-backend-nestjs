@@ -15,7 +15,7 @@ async function bootstrap() {
   useContainer(app.select(ValidatorModule), { fallbackOnErrors: true });
   const config = new DocumentBuilder()
     .setTitle('Over review')
-    .setDescription('Over review API description')
+    .setDescription('Over review API Documents Version 1.0.0')
     .setVersion('1.0')
     .setBasePath('api')
     .addBearerAuth(

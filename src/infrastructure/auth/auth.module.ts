@@ -45,9 +45,7 @@ import { StorageModule } from '../storage/storage.module';
         repository: DatabaseUsersRepository,
         jwtService: JwtService,
         usersUseCase: UsersUseCases,
-        storageService: StorageService,
-      ) =>
-        new AuthUseCase(repository, jwtService, usersUseCase, storageService),
+      ) => new AuthUseCase(repository, jwtService, usersUseCase),
     },
     LocalStrategy,
     {

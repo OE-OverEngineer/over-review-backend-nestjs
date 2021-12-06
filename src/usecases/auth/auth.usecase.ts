@@ -13,7 +13,6 @@ export class AuthUseCase {
     private readonly userRepository: IUsersRepository,
     private readonly jwtService: JwtService,
     private readonly usersUseCase: UsersUseCases,
-    private readonly storageService: StorageService,
   ) {}
 
   // Login with email and password then get jwt
