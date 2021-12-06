@@ -22,6 +22,7 @@ import { Roles } from 'src/infrastructure/auth/roles.decorator';
 import { RolesGuard } from 'src/infrastructure/auth/roles.guard';
 import { LikesUseCases } from 'src/usecases/likes/likes.usecase';
 import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
+import { UpdateProfileDto } from 'src/infrastructure/dto/users/updateProfile.dto';
 // import { UpdateUserDto } from 'src/infrastructure/dto/users/updateUser.dto';
 
 @ApiTags('Users')
@@ -71,7 +72,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.Member)
   @Patch('/profile')
-  async updateByIDToken(@Request() req: any, @Body() dto: CreateUserDto) {
+  async updateByIDToken(@Request() req: any, @Body() dto: UpdateProfileDto) {
     const userId = Number(req.user.id);
     return this.userUsecases.update(userId, dto);
   }
