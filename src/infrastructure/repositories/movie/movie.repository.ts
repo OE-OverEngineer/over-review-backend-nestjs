@@ -61,7 +61,7 @@ export class DatabaseMovieRepository implements IMovieRepository {
   async findAll(
     pagination: Pagination,
   ): Promise<{ data: Movie[]; total: number }> {
-    let sort: string | undefined;
+    let sort: string ;
     if (pagination.sort == 'random') sort = 'RANDOM()';
     else if (pagination.sort == 'popular') sort = 'count';
     else if (pagination.sort == 'recent') sort = 'movie.startDate';

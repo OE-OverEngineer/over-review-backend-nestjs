@@ -37,7 +37,7 @@ export class MoviesUseCases {
     await this.movieRepository.deleteById(id);
   }
 
-  async findOne(id: number): Promise<Movie | undefined> {
+  async findOne(id: number): Promise<Movie> {
     if (id < 0) throw new BadRequestException();
     const movie = await this.movieRepository.findById(id);
     return movie;

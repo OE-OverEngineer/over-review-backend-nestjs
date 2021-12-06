@@ -35,7 +35,7 @@ export class ReviewsUseCases {
     throw new ForbiddenException();
   }
 
-  async findOne(id: number): Promise<Review | undefined> {
+  async findOne(id: number): Promise<Review> {
     const review = await this.reviewReository.findById(id);
     return review;
   }

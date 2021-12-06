@@ -36,7 +36,7 @@ export class DatabaseCommentsRepository implements ICommentRepository {
     });
   }
 
-  async findById(id: number): Promise<Comment | undefined> {
+  async findById(id: number): Promise<Comment > {
     return this.categoryEntityRepository.findOne({ id });
   }
 

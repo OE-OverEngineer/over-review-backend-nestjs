@@ -48,7 +48,7 @@ export class DatabaseRepliesRepository implements IReplyRepository {
     return this.replyEntityRepository.find();
   }
 
-  async findById(id: number): Promise<Reply | undefined> {
+  async findById(id: number): Promise<Reply > {
     return this.replyEntityRepository.findOne({ id });
   }
 

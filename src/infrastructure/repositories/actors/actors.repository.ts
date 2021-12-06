@@ -42,7 +42,7 @@ export class DatabaseActorsRepository implements IActorRepository {
     return this.actorEntityRepository.find();
   }
 
-  async findById(id: number): Promise<Actor | undefined> {
+  async findById(id: number): Promise<Actor > {
     return this.actorEntityRepository.findOne({ id });
   }
 
