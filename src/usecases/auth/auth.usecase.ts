@@ -21,7 +21,7 @@ export class AuthUseCase {
     password: string,
   ): Promise<{ access_token: string }> {
     const user = await this.userRepository.findByEmail(email);
-    if (user && user.password == password) {
+    if (user && user.password == password && user.banned !== true) {
       return await this.signJwt(user);
     }
     return null;
